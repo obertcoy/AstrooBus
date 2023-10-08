@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">AstrooBus</string>
+    <string name="back_arrow">back_arrow</string>
+    <string name="create_new">Create new</string>
+    <string name="account">Account</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="email_address">Email address</string>
+    <string name="enter_your_email_address">Enter your email address</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="confirm_your_password">Confirm your password</string>
+    <string name="phone_number">Phone number</string>
+    <string name="enter_your_phone_number">Enter your phone number</string>
+    <string name="register">Register</string>
+    <string name="full_name">Full name</string>
+    <string name="password">Password</string>
+    <string name="welcome">Welcome</string>
+    <string name="back">Back!</string>
+    <string name="login">Login</string>
+    <string name="remember_me">Remember me</string>
+</resources>

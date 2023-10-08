@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="default_primary">#4C12C9</color>
+    <color name="default_secondary">#672DD2</color>
+    <color name="default_primary_button">#492682</color>
+    <color name="default_primary_background">#1B1464</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="placeholder">#808E8E8E</color>
+    <color name="transparent">#00000000</color>
+</resources>
