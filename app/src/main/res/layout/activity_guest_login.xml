@@ -9,7 +9,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/register_back_arrow"
+            android:id="@+id/login_back_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -24,8 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:orientation="vertical"
-            app:layout_constraintStart_toEndOf="@id/register_back_arrow"
-            app:layout_constraintTop_toBottomOf="@id/register_back_arrow">
+            app:layout_constraintStart_toEndOf="@id/login_back_arrow"
+            app:layout_constraintTop_toBottomOf="@id/login_back_arrow">
 
 
             <TextView
@@ -104,7 +104,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp">
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -125,7 +125,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-
+                    android:padding="16dp"
                     />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -144,14 +144,11 @@
 
             <Button
                 android:id="@+id/login_btn_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:text="Login"
+                android:textSize="22sp"
+                style="@style/button_primary"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/button_primary_rounded"
-                android:maxWidth="300dp"
-                android:text="@string/login"
-                android:textSize="22sp" />
+                />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
