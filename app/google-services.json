@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "173928257353",
+    "project_id": "astroobus",
+    "storage_bucket": "astroobus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173928257353:android:703fa3b7ee362a7d39ec98",
+        "android_client_info": {
+          "package_name": "com.sroo.astroobus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWQCvvprT1KKLJOMckJMkadyELyDs41_s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
