@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".GuestRegisterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -181,14 +181,11 @@
 
             <Button
                 android:id="@+id/register_btn_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/button_primary_rounded"
-                android:maxWidth="300dp"
                 android:text="@string/register"
-                android:textSize="22sp" />
+                android:textSize="22sp"
+                style="@style/button_primary"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"/>
 
         </LinearLayout>
 

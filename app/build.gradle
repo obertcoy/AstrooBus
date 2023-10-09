@@ -7,6 +7,10 @@ android {
     namespace 'com.sroo.astroobus'
     compileSdk 33
 
+    viewBinding{
+        enabled=true
+    }
+
     defaultConfig {
         applicationId "com.sroo.astroobus"
         minSdk 33
