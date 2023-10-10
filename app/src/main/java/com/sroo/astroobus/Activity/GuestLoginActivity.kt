@@ -1,9 +1,10 @@
-package com.sroo.astroobus
+package com.sroo.astroobus.Activity
 
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.sroo.astroobus.interfaces.IBackable
+import com.sroo.astroobus.R
+import com.sroo.astroobus.Interfaces.IBackable
 
 class GuestLoginActivity: AppCompatActivity(), IBackable {
 

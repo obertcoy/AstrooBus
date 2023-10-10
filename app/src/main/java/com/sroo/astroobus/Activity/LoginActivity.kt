@@ -1,10 +1,11 @@
-package com.sroo.astroobus
+package com.sroo.astroobus.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.sroo.astroobus.R
 
 class LoginActivity : AppCompatActivity() {
 
