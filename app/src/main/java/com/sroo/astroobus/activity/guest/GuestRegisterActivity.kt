@@ -1,4 +1,4 @@
-package com.sroo.astroobus.guest
+package com.sroo.astroobus.activity.guest
 
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import com.sroo.astroobus.R
 import com.sroo.astroobus.interfaces.IBackable
+import com.sroo.astroobus.R
 
 class GuestRegisterActivity : AppCompatActivity(), IBackable {
 

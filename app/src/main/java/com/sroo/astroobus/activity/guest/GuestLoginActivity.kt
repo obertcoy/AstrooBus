@@ -1,4 +1,4 @@
-package com.sroo.astroobus.guest
+package com.sroo.astroobus.activity.guest
 
 import android.app.Dialog
 import android.media.Image
