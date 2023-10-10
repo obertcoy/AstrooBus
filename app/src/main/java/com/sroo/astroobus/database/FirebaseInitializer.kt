@@ -1,4 +1,4 @@
-package com.sroo.astroobus.Database
+package com.sroo.astroobus.database
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -15,7 +15,7 @@ class FirebaseInitializer private constructor(){
     }
 
     companion object{
-        private var instance: FirebaseInitializer? = null
+        var instance: FirebaseInitializer? = null
 
         fun initialize(){
             if(instance == null){
@@ -25,10 +25,10 @@ class FirebaseInitializer private constructor(){
     }
 
     fun getDatabaseRef(): DatabaseReference{
-        return database
+        return database;
     }
 
     fun getAuth(): FirebaseAuth{
-        return auth
+        return auth;
     }
 }
