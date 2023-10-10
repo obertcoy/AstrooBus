@@ -13,7 +13,7 @@
         android:theme="@style/Theme.AstrooBus"
         tools:targetApi="31">
         <activity
-            android:name=".GuestLandingActivity"
+            android:name=".guest.GuestLandingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,8 +22,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".GuestLoginActivity"></activity>
-        <activity android:name=".GuestRegisterActivity"></activity>
+        <activity android:name=".guest.GuestLoginActivity"></activity>
+        <activity android:name=".guest.GuestRegisterActivity"></activity>
     </application>
 
 </manifest>
