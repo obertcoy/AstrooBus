@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".guest.GuestRegisterActivity">
+    tools:context=".Activity.GuestRegisterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -77,8 +76,7 @@
                 android:paddingBottom="10dp"
                 android:textColorHint="@color/placeholder"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:paddingStart="5dp"/>
+                android:textStyle="bold" />
 
             <!--        email -->
             <TextView
@@ -103,8 +101,7 @@
                 android:paddingBottom="10dp"
                 android:textColorHint="@color/placeholder"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:paddingStart="5dp"/>
+                android:textStyle="bold" />
 
             <!--        password -->
             <TextView
@@ -129,8 +126,7 @@
                 android:paddingBottom="10dp"
                 android:textColorHint="@color/placeholder"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:paddingStart="5dp"/>
+                android:textStyle="bold" />
 
             <!--        confirm password -->
             <TextView
@@ -155,8 +151,7 @@
                 android:paddingBottom="10dp"
                 android:textColorHint="@color/placeholder"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:paddingStart="5dp"/>
+                android:textStyle="bold" />
 
             <!--        phone number -->
             <TextView
@@ -181,8 +176,7 @@
                 android:paddingBottom="10dp"
                 android:textColorHint="@color/placeholder"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:paddingStart="5dp"/>
+                android:textStyle="bold" />
 
 
             <Button
@@ -191,7 +185,7 @@
                 android:textSize="22sp"
                 style="@style/button_primary"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="40dp"/>
+                android:layout_marginBottom="20dp"/>
 
         </LinearLayout>
 
