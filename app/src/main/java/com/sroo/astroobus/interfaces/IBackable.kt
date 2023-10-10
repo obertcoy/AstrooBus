@@ -1,4 +1,4 @@
-package com.sroo.astroobus.Interfaces
+package com.sroo.astroobus.interfaces
 
 import android.widget.ImageView
 

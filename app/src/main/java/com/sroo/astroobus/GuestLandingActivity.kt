@@ -1,10 +1,9 @@
-package com.sroo.astroobus.Activity
+package com.sroo.astroobus
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.sroo.astroobus.R
 
 class GuestLandingActivity: AppCompatActivity()  {
 
