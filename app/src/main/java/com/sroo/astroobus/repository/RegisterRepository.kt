@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.sroo.astroobus.database.FirebaseInitializer
+import com.sroo.astroobus.helper.AdapterHelper
 import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.model.User
 import kotlinx.coroutines.tasks.await
@@ -24,23 +25,22 @@ class RegisterRepository (){
     }
 
 
-      fun registerUser(user: User, context: Context, TAG: String){
+      fun registerUser(user: User, context: Context){
         auth?.createUserWithEmailAndPassword(user.email, user.password)
             ?.addOnCompleteListener(context as Activity) { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG,"create user with email:success")
+                    Log.d("Register Repository","create user with email:success")
                     var id = auth?.currentUser?.uid.toString()
                     if(id == null){
-                        Log.d("qqq", "id kosong")
+                        Log.d("Register Repository", "ID NULL")
                         var UIhelper = UIHelper()
                         UIhelper.createToast(context, "Email is not valid")
                     }else{
-                        Log.d("qqqq", id)
                         user.uid = id
                         addUserToDatabase(user, context)
                     }
                 } else {
-                    Log.w(TAG,"create user with email:failure", task.exception)
+                    Log.w("Register Repository","create user with email:failure", task.exception)
                     Toast.makeText(
                         context,
                         "Authentication failed.",
@@ -53,22 +53,17 @@ class RegisterRepository (){
     }
 
     fun addUserToDatabase(user: User, context: Context) {
-        Log.d("wwwwww", "addUserToDatabase")
-
-        val userMap = hashMapOf(
-            "name" to user.name,
-            "email" to user.email,
-            "phoneNum" to user.phoneNum,
-
-        )
+        //change to hashmap
+        val adapter = AdapterHelper()
+        val userMap = adapter.UserToHashmap(user)
 
         user!!.uid?.let {
             databaseReference.child(it).setValue(userMap)
                 .addOnSuccessListener {
-                    Log.d("qqqqq", "Success")
+                    Log.d("Register Repository", "Success")
                 }
                 .addOnFailureListener { error ->
-                    Log.e("qqqqq", "Fail: ${error.message}", error)
+                    Log.e("Register Repository", "Fail: ${error.message}", error)
                 }
         }
     }

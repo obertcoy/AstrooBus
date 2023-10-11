@@ -1,26 +1,66 @@
 package com.sroo.astroobus.activity.guest
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import com.sroo.astroobus.interfaces.INavigable
 import com.sroo.astroobus.R
+import com.sroo.astroobus.helper.SMSHelper
+import com.sroo.astroobus.model.User
+import com.sroo.astroobus.`view-model`.RegisterViewModel
 
 class GuestRegisterActivity : AppCompatActivity(), INavigable {
 
     private lateinit var dialog: Dialog
+    private lateinit var nameEt: EditText
+    private lateinit var emailEt: EditText
+    private lateinit var passwordEt: EditText
+    private lateinit var confPasswordEt: EditText
+    private lateinit var phoneNumberEt: EditText
+    private lateinit var registerBtn: Button
+    private lateinit var registerViewModel: RegisterViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guest_register)
+        nameEt = findViewById(R.id.register_et_name)
+        emailEt = findViewById(R.id.register_et_email)
+        passwordEt = findViewById(R.id.register_et_password)
+        confPasswordEt = findViewById(R.id.register_et_conf_password)
+        phoneNumberEt = findViewById(R.id.register_et_phone)
+        registerBtn = findViewById(R.id.register_btn_register)
+        registerViewModel = RegisterViewModel()
 
         back(findViewById(R.id.register_back_arrow))
         verifyRegister(findViewById(R.id.register_btn_register))
+        registerBtn.setOnClickListener{
+            val phoneNumber = phoneNumberEt.text.toString()
+            val smsHelper = SMSHelper()
+
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.SEND_SMS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.SEND_SMS),
+                    131
+                )
+            } else {
+                smsHelper.sendSMS(code, phoneNumber)
+            }
+
+        }
     }
 
     private fun verifyRegister(registerBtn: Button){
@@ -51,6 +91,22 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable {
         }
 
         dialog.show()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 131) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                val phoneNumber = phoneNumberEt.text.toString()
+                val smsHelper = SMSHelper()
+
+                smsHelper.sendSMS("", phoneNumber)
+            }
+        }
     }
 
     override fun next(nextBtn: View) {
