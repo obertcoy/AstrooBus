@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import com.sroo.astroobus.interfaces.INavigable
 import com.sroo.astroobus.R
 import com.sroo.astroobus.helper.SMSHelper
+import com.sroo.astroobus.helper.VerificationCodeHelper
 import com.sroo.astroobus.model.User
 import com.sroo.astroobus.`view-model`.RegisterViewModel
 
@@ -29,6 +30,7 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable {
     private lateinit var phoneNumberEt: EditText
     private lateinit var registerBtn: Button
     private lateinit var registerViewModel: RegisterViewModel
+    private val codeGenerator: VerificationCodeHelper = VerificationCodeHelper()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guest_register)
@@ -45,21 +47,8 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable {
         registerBtn.setOnClickListener{
             val phoneNumber = phoneNumberEt.text.toString()
             val smsHelper = SMSHelper()
-
-            if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.SEND_SMS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.SEND_SMS),
-                    131
-                )
-            } else {
-                smsHelper.sendSMS(code, phoneNumber)
-            }
-
+            val code = codeGenerator.generateCode()
+            smsHelper.sendSMSWithPermission(this,code,phoneNumber)
         }
     }
 
@@ -103,8 +92,8 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 val phoneNumber = phoneNumberEt.text.toString()
                 val smsHelper = SMSHelper()
-
-                smsHelper.sendSMS("", phoneNumber)
+                val code = codeGenerator.generateCode()
+                smsHelper.sendSMS(code, phoneNumber)
             }
         }
     }

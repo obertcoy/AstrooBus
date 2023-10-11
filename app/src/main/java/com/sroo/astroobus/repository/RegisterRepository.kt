@@ -68,5 +68,9 @@ class RegisterRepository (){
         }
     }
 
+    fun addTempUserToDatabase(phoneNum :String, code: String){
+
+    }
+
 
 }

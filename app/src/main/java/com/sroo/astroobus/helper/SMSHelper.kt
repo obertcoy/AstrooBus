@@ -10,7 +10,7 @@ import androidx.core.app.ActivityCompat
 class SMSHelper {
     fun sendSMS(code: String, phoneNum: String) {
         val smsManager = SmsManager.getDefault()
-        val message = "This is your verification code $code - AstrooBus"
+        val message = "This is your verification code $code for AstrooBus"
 
         smsManager.sendTextMessage(phoneNum, null, message, null, null)
     }

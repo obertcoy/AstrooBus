@@ -16,4 +16,13 @@ class AdapterHelper() {
 
         return userMap
     }
+
+    fun phoneHashMap(phoneNum:String, code:String): HashMap<String, String> {
+        val phoneMap = hashMapOf(
+            "phoneNum" to phoneNum,
+            "code" to code
+        )
+
+        return phoneMap
+    }
 }

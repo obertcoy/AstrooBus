@@ -14,7 +14,7 @@ class RegisterViewModel() {
         if(user.name == null|| user.password == null|| user.email == null|| user.phoneNum == null){
             UIHelper.createToast(context, "All fields must be filled")
         }else{
-            repository.registerUser(user,context)
+
         }
     }
 }
