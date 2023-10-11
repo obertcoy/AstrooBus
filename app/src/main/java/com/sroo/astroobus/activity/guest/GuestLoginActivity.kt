@@ -1,25 +1,29 @@
 package com.sroo.astroobus.activity.guest
 
 import android.app.Dialog
-import android.media.Image
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.sroo.astroobus.R
-import com.sroo.astroobus.interfaces.IBackable
+import com.sroo.astroobus.activity.user.UserMainActivity
 
-class GuestLoginActivity: AppCompatActivity(), IBackable {
+import com.sroo.astroobus.interfaces.INavigable
+
+class GuestLoginActivity: AppCompatActivity(), INavigable {
 
     private lateinit var dialog: Dialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guest_login)
 
+        next(findViewById(R.id.login_btn_login))
         back(findViewById(R.id.login_back_arrow))
-        forgotPassword(findViewById(R.id.login_forgot_password))
+//        forgotPassword(findViewById(R.id.login_forgot_password))
     }
 
     private fun forgotPassword(forgotPassword : TextView){
@@ -61,7 +65,15 @@ class GuestLoginActivity: AppCompatActivity(), IBackable {
         dialog.show()
     }
 
-    override fun back(backBtn: ImageView) {
+    override fun next(nextBtn: View) {
+
+        nextBtn.setOnClickListener{
+            val userMainIntent = Intent(this, UserMainActivity::class.java)
+            startActivity(userMainIntent)
+        }
+    }
+
+    override fun back(backBtn: View) {
         backBtn.setOnClickListener{
             this.finish()
         }

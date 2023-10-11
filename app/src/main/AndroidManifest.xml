@@ -24,6 +24,7 @@
 
         <activity android:name=".activity.guest.GuestLoginActivity"></activity>
         <activity android:name=".activity.guest.GuestRegisterActivity"></activity>
+        <activity android:name=".activity.user.UserMainActivity"></activity>
     </application>
 
 </manifest>

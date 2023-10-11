@@ -1,6 +1,7 @@
 package com.sroo.astroobus.activity.guest
 
 import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,10 +9,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import com.sroo.astroobus.interfaces.IBackable
+import com.sroo.astroobus.interfaces.INavigable
 import com.sroo.astroobus.R
 
-class GuestRegisterActivity : AppCompatActivity(), IBackable {
+class GuestRegisterActivity : AppCompatActivity(), INavigable {
 
     private lateinit var dialog: Dialog
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,15 +40,27 @@ class GuestRegisterActivity : AppCompatActivity(), IBackable {
 
         val backBtn = dialog.findViewById<ImageView>(R.id.verification_back_arrow)
         val infoTv = dialog.findViewById<TextView>(R.id.verification_tv_info)
+        val submitBtn = dialog.findViewById<Button>(R.id.verification_submit)
 
         infoTv.text = infoText
 //        backBtn.setOnClickListener{ dialog.dismiss() }
         backBtn.visibility = View.GONE
 
+        submitBtn.setOnClickListener{
+            next(submitBtn)
+        }
+
         dialog.show()
     }
 
-    override fun back(backBtn: ImageView) {
+    override fun next(nextBtn: View) {
+
+        val loginIntent = Intent(this, GuestLoginActivity::class.java)
+        startActivity(loginIntent)
+
+    }
+
+    override fun back(backBtn: View) {
         backBtn.setOnClickListener{
             this.finish()
         }

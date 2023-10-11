@@ -8,10 +8,6 @@ android {
     namespace 'com.sroo.astroobus'
     compileSdk 33
 
-    viewBinding{
-        enabled=true
-    }
-
     defaultConfig {
         applicationId "com.sroo.astroobus"
         minSdk 33
@@ -28,6 +24,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildFeatures{
+        viewBinding true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

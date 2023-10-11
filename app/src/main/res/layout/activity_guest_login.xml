@@ -133,17 +133,17 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/login_forgot_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:clickable="true"
-                android:padding="15dp"
-                android:text="Forgot your password?"
-                android:textColor="@color/default_primary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+<!--            <TextView-->
+<!--                android:id="@+id/login_forgot_password"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:clickable="true"-->
+<!--                android:padding="15dp"-->
+<!--                android:text="Forgot your password?"-->
+<!--                android:textColor="@color/default_primary"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold" />-->
 
             <Button
                 android:id="@+id/login_btn_login"
