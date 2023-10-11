@@ -3,14 +3,16 @@ package com.sroo.astroobus.database
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ktx.database
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 
 class FirebaseInitializer private constructor(){
-    private lateinit var database: DatabaseReference
-    private lateinit var auth: FirebaseAuth
+    private var database: FirebaseDatabase
+
+    private var auth: FirebaseAuth
     init{
-        database = Firebase.database.reference
+        database = FirebaseDatabase.getInstance()
+
         auth = Firebase.auth
     }
 
@@ -24,11 +26,11 @@ class FirebaseInitializer private constructor(){
         }
     }
 
-    fun getDatabaseRef(): DatabaseReference{
-        return database;
+    fun getDatabase(): FirebaseDatabase{
+        return database
     }
 
     fun getAuth(): FirebaseAuth{
-        return auth;
+        return auth
     }
 }

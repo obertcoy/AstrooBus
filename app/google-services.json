@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "173928257353",
+    "firebase_url": "https://astroobus-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "astroobus",
     "storage_bucket": "astroobus.appspot.com"
   },
