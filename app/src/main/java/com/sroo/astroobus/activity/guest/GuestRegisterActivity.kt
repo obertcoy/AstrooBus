@@ -35,21 +35,20 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guest_register)
+        dialog = Dialog(this)
         nameEt = findViewById(R.id.register_et_name)
         emailEt = findViewById(R.id.register_et_email)
         passwordEt = findViewById(R.id.register_et_password)
         confPasswordEt = findViewById(R.id.register_et_conf_password)
         phoneNumberEt = findViewById(R.id.register_et_phone)
         registerBtn = findViewById(R.id.register_btn_register)
-        registerViewModel = RegisterViewModel()
+        registerViewModel = RegisterViewModel(this)
 
         back(findViewById(R.id.register_back_arrow))
         verifyRegister(findViewById(R.id.register_btn_register))
     }
 
     private fun verifyRegister(registerBtn: Button){
-
-        dialog = Dialog(this)
         registerBtn.setOnClickListener{
             val phoneNumber = phoneNumberEt.text.toString()
             val email = emailEt.text.toString()
@@ -57,13 +56,12 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable {
             val password = passwordEt.text.toString()
             val name = nameEt.text.toString()
 
-            val regisVM = RegisterViewModel()
+            val regisVM = RegisterViewModel(this)
             regisVM.registerTempUser(name, email, password, confPass,phoneNumber, this)
         }
     }
 
      fun showVerificationDialog(infoText: String) {
-
         dialog.setContentView(R.layout.dialog_verification)
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog.window?.attributes?.windowAnimations = R.style.dialog_animation

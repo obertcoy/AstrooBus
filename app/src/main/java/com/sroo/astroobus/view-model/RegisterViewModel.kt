@@ -10,7 +10,7 @@ import com.sroo.astroobus.helper.VerificationCodeHelper
 import com.sroo.astroobus.model.User
 import com.sroo.astroobus.repository.RegisterRepository
 
-class RegisterViewModel() {
+class RegisterViewModel(private val view: GuestRegisterActivity) {
     private val repository = RegisterRepository()
     val emailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$"
     val UIHelper = UIHelper()
@@ -43,7 +43,7 @@ class RegisterViewModel() {
                             repository.addTempUserToDatabase(phoneNum, code)
                             val smsHelper = SMSHelper()
                             smsHelper.sendSMSWithPermission(activity, code, phoneNum)
-                            registerView.showVerificationDialog("Check your messages")
+                            view.showVerificationDialog("Check your messages")
                         }
                     }
                 }
