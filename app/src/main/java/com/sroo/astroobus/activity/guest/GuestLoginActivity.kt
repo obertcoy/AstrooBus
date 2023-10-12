@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,13 +14,20 @@ import com.sroo.astroobus.R
 import com.sroo.astroobus.activity.user.UserMainActivity
 
 import com.sroo.astroobus.interfaces.INavigable
+import com.sroo.astroobus.`view-model`.LoginViewModel
 
 class GuestLoginActivity: AppCompatActivity(), INavigable {
 
     private lateinit var dialog: Dialog
+    private val viewModel = LoginViewModel(this)
+    private lateinit var password: EditText
+    private lateinit var email: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guest_login)
+
+        password = findViewById(R.id.login_et_password)
+        email = findViewById(R.id.login_et_email)
 
         next(findViewById(R.id.login_btn_login))
         back(findViewById(R.id.login_back_arrow))
@@ -68,8 +76,9 @@ class GuestLoginActivity: AppCompatActivity(), INavigable {
     override fun next(nextBtn: View) {
 
         nextBtn.setOnClickListener{
-            val userMainIntent = Intent(this, UserMainActivity::class.java)
-            startActivity(userMainIntent)
+            val pass = password.text.toString()
+            val mail = email.text.toString()
+            viewModel.login(pass, mail, this)
         }
     }
 
