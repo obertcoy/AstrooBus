@@ -52,14 +52,18 @@ class RegisterViewModel(private val view: GuestRegisterActivity) {
      }
 
     fun verifyCode(activity: Activity, code:String, user: User, callback: (Boolean) -> Unit){
-        repository.findTempUserCode(user.phoneNum, activity){
-            result->
-            if(code == result){
-                repository.registerUser(user, activity)
-                callback(true)
-            }else{
-                UIHelper.createToast(activity,"Invalid code")
-                callback(false)
+        if(code == ""){
+            UIHelper.createToast(activity, "All fields must be filled")
+        }else{
+            repository.findTempUserCode(user.phoneNum, activity){
+                    result->
+                if(code == result){
+                    repository.registerUser(user, activity)
+                    callback(true)
+                }else{
+                    UIHelper.createToast(activity,"Invalid code")
+                    callback(false)
+                }
             }
         }
     }
