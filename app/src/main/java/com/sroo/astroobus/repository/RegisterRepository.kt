@@ -86,20 +86,18 @@ class RegisterRepository (){
             }
     }
 
-    fun findTempUserByPhoneNum(phoneNum: String, context: Context):Int{
+    fun findTempUserCode(phoneNum: String, context: Context, callback: (String) -> Unit){
         val ref = db.collection("TempUsers").document(phoneNum)
-        var flag = 0
         ref.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    flag = 1
+                    val code = document.get("code").toString()
+                    callback(code)
                 }
             }
             .addOnFailureListener { exception ->
-                flag = 1
+                Log.e("Firestore Query", "Error: ${exception.message}", exception)
             }
-
-        return flag
     }
 
     fun findUsedEmail(email: String, context: Context, callback: (Int) -> Unit) {

@@ -65,18 +65,26 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable {
         dialog.setContentView(R.layout.dialog_verification)
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog.window?.attributes?.windowAnimations = R.style.dialog_animation
-        dialog.setCancelable(false)
+        dialog.setCancelable(true)
 
-        val backBtn = dialog.findViewById<ImageView>(R.id.verification_back_arrow)
-        val infoTv = dialog.findViewById<TextView>(R.id.verification_tv_info)
-        val submitBtn = dialog.findViewById<Button>(R.id.verification_submit)
+         val backBtn = dialog.findViewById<ImageView>(R.id.verification_back_arrow)
+         val infoTv = dialog.findViewById<TextView>(R.id.verification_tv_info)
+         val submitBtn = dialog.findViewById<Button>(R.id.verification_submit)
+         val inputText = dialog.findViewById<EditText>(R.id.verification_et)
 
         infoTv.text = infoText
-//        backBtn.setOnClickListener{ dialog.dismiss() }
-        backBtn.visibility = View.GONE
+        backBtn.setOnClickListener{ dialog.dismiss() }
+//        backBtn.visibility = View.GONE
 
         submitBtn.setOnClickListener{
-            next(submitBtn)
+//            next(submitBtn)
+            val phoneNumber = phoneNumberEt.text.toString()
+            val email = emailEt.text.toString()
+            val password = passwordEt.text.toString()
+            val name = nameEt.text.toString()
+            val code = inputText.text.toString()
+            registerViewModel.verifyCode(this,code, User("",name,email,phoneNumber,password) )
+
         }
 
         dialog.show()

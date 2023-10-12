@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.telephony.SmsManager
 import androidx.core.app.ActivityCompat
+import com.sroo.astroobus.repository.RegisterRepository
 
 class SMSHelper {
     fun sendSMS(code: String, phoneNum: String) {
@@ -14,7 +15,9 @@ class SMSHelper {
 
         try {
             val smsManager = SmsManager.getDefault()
+            val repo = RegisterRepository()
             smsManager.sendTextMessage(phoneNum, null, message, null, null)
+            repo.addTempUserToDatabase(phoneNum,code)
         } catch (e: Exception) {
             e.printStackTrace()
         }
