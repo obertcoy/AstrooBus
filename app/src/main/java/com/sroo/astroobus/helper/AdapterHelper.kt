@@ -10,8 +10,8 @@ class AdapterHelper() {
             "email" to user.email,
             "phoneNum" to user.phoneNum,
             "uid" to user.uid,
-            "password" to user.password
-
+            "password" to user.password,
+            "role" to "user"
         )
 
         return userMap

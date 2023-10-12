@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import com.sroo.astroobus.interfaces.INavigable
 import com.sroo.astroobus.R
+import com.sroo.astroobus.activity.user.UserMainActivity
 import com.sroo.astroobus.helper.SMSHelper
 import com.sroo.astroobus.helper.VerificationCodeHelper
 import com.sroo.astroobus.model.User
@@ -83,7 +84,14 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable {
             val password = passwordEt.text.toString()
             val name = nameEt.text.toString()
             val code = inputText.text.toString()
-            registerViewModel.verifyCode(this,code, User("",name,email,phoneNumber,password) )
+            registerViewModel.verifyCode(this,code, User("",name,email,phoneNumber,password) ){
+                result->
+                if(result == true){
+                    val homeIntent = Intent(this, UserMainActivity::class.java)
+                    homeIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(homeIntent)
+                }
+            }
 
         }
 
