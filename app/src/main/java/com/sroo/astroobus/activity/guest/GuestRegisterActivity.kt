@@ -18,6 +18,7 @@ import com.sroo.astroobus.R
 import com.sroo.astroobus.helper.SMSHelper
 import com.sroo.astroobus.helper.VerificationCodeHelper
 import com.sroo.astroobus.model.User
+import com.sroo.astroobus.repository.RegisterRepository
 import com.sroo.astroobus.`view-model`.RegisterViewModel
 
 class GuestRegisterActivity : AppCompatActivity(), INavigable {
@@ -44,23 +45,24 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable {
 
         back(findViewById(R.id.register_back_arrow))
         verifyRegister(findViewById(R.id.register_btn_register))
-        registerBtn.setOnClickListener{
-            val phoneNumber = phoneNumberEt.text.toString()
-            val smsHelper = SMSHelper()
-            val code = codeGenerator.generateCode()
-            smsHelper.sendSMSWithPermission(this,code,phoneNumber)
-        }
     }
 
     private fun verifyRegister(registerBtn: Button){
 
         dialog = Dialog(this)
         registerBtn.setOnClickListener{
-            showVerificationDialog("Check your messages")
+            val phoneNumber = phoneNumberEt.text.toString()
+            val email = emailEt.text.toString()
+            val confPass = confPasswordEt.text.toString()
+            val password = passwordEt.text.toString()
+            val name = nameEt.text.toString()
+
+            val regisVM = RegisterViewModel()
+            regisVM.registerTempUser(name, email, password, confPass,phoneNumber, this)
         }
     }
 
-    private fun showVerificationDialog(infoText: String) {
+     fun showVerificationDialog(infoText: String) {
 
         dialog.setContentView(R.layout.dialog_verification)
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

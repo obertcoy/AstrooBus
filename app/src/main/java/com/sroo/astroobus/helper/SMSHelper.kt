@@ -12,7 +12,12 @@ class SMSHelper {
         val smsManager = SmsManager.getDefault()
         val message = "This is your verification code $code for AstrooBus"
 
-        smsManager.sendTextMessage(phoneNum, null, message, null, null)
+        try {
+            val smsManager = SmsManager.getDefault()
+            smsManager.sendTextMessage(phoneNum, null, message, null, null)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun sendSMSWithPermission(activity: Activity, code: String, phoneNum: String){
