@@ -26,7 +26,7 @@
 
         <activity android:name=".activity.guest.GuestLoginActivity"/>
         <activity android:name=".activity.guest.GuestRegisterActivity"/>
-        <activity android:name=".activity.user.UserMainActivity"/>
+        <activity android:name=".activity.user.UserMainActivity" android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".activity.user.UserTicketActivity"/>
     </application>
 

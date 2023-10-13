@@ -94,7 +94,7 @@ class UserHomeFragment : Fragment() {
 
         val calendar = Calendar.getInstance()
         val datePickerDialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener{_, year, month, dayOfMonth ->
-            val dateFormat = SimpleDateFormat("EEE dd MMM yyyy", Locale.US)
+            val dateFormat = SimpleDateFormat("EEE, dd MMM yyyy", Locale.US)
             calendar.set(year, month, dayOfMonth)
             val formattedDate = dateFormat.format(calendar.time)
             binding.homeMenuDateTv.text = formattedDate
