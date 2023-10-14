@@ -44,12 +44,21 @@ class RegisterViewModel(private val view: GuestRegisterActivity) {
                             val smsHelper = SMSHelper()
                             smsHelper.sendSMSWithPermission(activity, code, phoneNum)
                             view.showVerificationDialog("Check your messages")
+                            view.startTimer()
                         }
                     }
                 }
             }
         }
      }
+
+    fun resendCode(phoneNum: String, activity: Activity){
+        val codeGenerator = VerificationCodeHelper()
+        val code = codeGenerator.generateCode()
+        repository.addTempUserToDatabase(phoneNum, code)
+        val smsHelper = SMSHelper()
+        smsHelper.sendSMSWithPermission(activity, code, phoneNum)
+    }
 
     fun verifyCode(activity: Activity, code:String, user: User, callback: (Boolean) -> Unit){
         if(code == ""){

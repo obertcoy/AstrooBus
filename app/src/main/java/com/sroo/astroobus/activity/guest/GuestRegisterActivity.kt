@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -15,13 +16,17 @@ import androidx.appcompat.app.AppCompatActivity
 import com.sroo.astroobus.R
 import com.sroo.astroobus.activity.user.UserMainActivity
 import com.sroo.astroobus.helper.SMSHelper
+import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.helper.VerificationCodeHelper
+import com.sroo.astroobus.interfaces.ICounterable
 import com.sroo.astroobus.interfaces.INavigable
 import com.sroo.astroobus.model.User
 import com.sroo.astroobus.`view-model`.RegisterViewModel
+import java.time.chrono.ChronoLocalDate
+import java.util.Locale
 
 
-class GuestRegisterActivity : AppCompatActivity(), INavigable {
+class GuestRegisterActivity : AppCompatActivity(), INavigable, ICounterable {
 
     private lateinit var dialog: Dialog
     private lateinit var nameEt: EditText
@@ -31,7 +36,11 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable {
     private lateinit var phoneNumberEt: EditText
     private lateinit var registerBtn: Button
     private lateinit var registerViewModel: RegisterViewModel
+    private var timerRunning: Boolean = false
     private val codeGenerator: VerificationCodeHelper = VerificationCodeHelper()
+    private lateinit var countDownTimer: CountDownTimer
+    private var timeLeft: Long = 60000
+    private lateinit var counterText: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guest_register)
@@ -55,6 +64,7 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable {
             val confPass = confPasswordEt.text.toString()
             val password = passwordEt.text.toString()
             val name = nameEt.text.toString()
+            timeLeft = 60000
 
             val regisVM = RegisterViewModel(this)
             regisVM.registerTempUser(name, email, password, confPass,phoneNumber, this)
@@ -71,10 +81,26 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable {
          val infoTv = dialog.findViewById<TextView>(R.id.verification_tv_info)
          val submitBtn = dialog.findViewById<Button>(R.id.verification_submit)
          val inputText = dialog.findViewById<EditText>(R.id.verification_et)
+         counterText = dialog.findViewById<TextView>(R.id.verification_counter)
 
         infoTv.text = infoText
-        backBtn.setOnClickListener{ dialog.dismiss() }
+        backBtn.setOnClickListener{
+            countDownTimer.cancel()
+            dialog.dismiss()
+        }
 //        backBtn.visibility = View.GONE
+
+         counterText.setOnClickListener{
+             if(timerRunning == false){
+                 resetTimer()
+                 val num = phoneNumberEt.text.toString()
+                 registerViewModel.resendCode(num, this)
+             }else{
+                 val uiHelper = UIHelper()
+                 uiHelper.createToast(this, "Resend code when the timer is done")
+             }
+         }
+
 
         submitBtn.setOnClickListener{
 //            next(submitBtn)
@@ -114,15 +140,42 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable {
     }
 
     override fun next(nextBtn: View) {
-
         val loginIntent = Intent(this, GuestLoginActivity::class.java)
         startActivity(loginIntent)
-
     }
 
     override fun back(backBtn: View) {
         backBtn.setOnClickListener{
             this.finish()
         }
+    }
+
+    override fun startTimer() {
+        timerRunning = true
+         this.countDownTimer = object : CountDownTimer(timeLeft, 1000){
+            override fun onTick(millisUntilFinished: Long) {
+                timeLeft = millisUntilFinished
+                updateTimer()
+            }
+
+            override fun onFinish() {
+                timerRunning = false
+//                updateTimer()
+            }
+        }
+        countDownTimer.start()
+    }
+
+    override fun resetTimer() {
+        timeLeft = 60000
+        updateTimer()
+    }
+
+    override fun updateTimer() {
+        var seconds:Int = (timeLeft / 1000).toInt()
+
+        var str = String.format(Locale.getDefault(),"Resend code in %d", seconds)
+        counterText.setText(str)
+
     }
 }
