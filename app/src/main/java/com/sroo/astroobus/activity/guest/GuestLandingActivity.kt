@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.sroo.astroobus.R
 import com.sroo.astroobus.activity.guest.GuestLoginActivity
 import com.sroo.astroobus.activity.guest.GuestRegisterActivity
+import com.sroo.astroobus.activity.user.UserMainActivity
+import com.sroo.astroobus.utils.SessionManager
 
 class GuestLandingActivity: AppCompatActivity()  {
 
@@ -25,6 +27,12 @@ class GuestLandingActivity: AppCompatActivity()  {
         registerBtn.setOnClickListener {
             val registerIntent = Intent(this, GuestRegisterActivity::class.java)
             startActivity(registerIntent)
+        }
+
+        val sessionManager = SessionManager(this)
+        if(sessionManager.getCurrUser() != ""){
+            val userMainIntent = Intent(this, UserMainActivity::class.java)
+            startActivity(userMainIntent)
         }
     }
 }

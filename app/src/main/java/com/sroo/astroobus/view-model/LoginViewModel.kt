@@ -9,6 +9,7 @@ import com.sroo.astroobus.activity.guest.GuestLoginActivity
 import com.sroo.astroobus.activity.user.UserMainActivity
 import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.repository.LoginRepository
+import com.sroo.astroobus.utils.SessionManager
 
 class LoginViewModel(private val view: GuestLoginActivity) {
     private val repository = LoginRepository()
@@ -23,6 +24,10 @@ class LoginViewModel(private val view: GuestLoginActivity) {
                 if(result != ""){
                     val userMainIntent = Intent(activity, UserMainActivity::class.java)
                     activity.startActivity(userMainIntent)
+                    if(view.getIsChecked()){
+                        val sessionManager = SessionManager(activity)
+                        sessionManager.setCurrUser(result)
+                    }
                 }else{
                     UIHelper.createToast(activity, "Invalid Credentials")
                 }
