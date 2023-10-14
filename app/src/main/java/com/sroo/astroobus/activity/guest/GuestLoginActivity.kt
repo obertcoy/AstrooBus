@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.sroo.astroobus.R
 import com.sroo.astroobus.activity.user.UserMainActivity
 
@@ -23,7 +24,7 @@ class GuestLoginActivity: AppCompatActivity(), INavigable {
     private val viewModel = LoginViewModel(this)
     private lateinit var password: EditText
     private lateinit var email: EditText
-    private lateinit var toggleRememberMe: ToggleButton
+    private lateinit var toggleRememberMe: SwitchMaterial
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guest_login)
