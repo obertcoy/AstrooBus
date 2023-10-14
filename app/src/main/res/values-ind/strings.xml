@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AstrooBus</string>
+    <string name="back_arrow">panah_balik</string>
+    <string name="create_new">Buat baru</string>
+    <string name="account">Akun</string>
+    <string name="enter_your_name">Masukkan namamu</string>
+    <string name="email_address">Alamat Email</string>
+    <string name="enter_your_email_address">Masukkan alamat emailmu</string>
+    <string name="enter_your_password">Masukkan passwordmu</string>
+    <string name="confirm_password">Konfirmasi password</string>
+    <string name="confirm_your_password">Masukkan konfirmasi passwordmu</string>
+    <string name="phone_number">Nomor Telepon</string>
+    <string name="enter_your_phone_number">Masukkan nomor teleponmu</string>
+    <string name="register">Register</string>
+    <string name="full_name">Nama Lengkap</string>
+    <string name="password">Password</string>
+    <string name="welcome">Selamat</string>
+    <string name="back">Datang!</string>
+    <string name="login">Login</string>
+    <string name="remember_me">Remember me</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Halo fragment kosong</string>
+</resources>

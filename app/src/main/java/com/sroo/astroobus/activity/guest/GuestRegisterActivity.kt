@@ -1,10 +1,8 @@
 package com.sroo.astroobus.activity.guest
 
-import android.Manifest
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +10,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.app.ActivityCompat
-import com.sroo.astroobus.interfaces.INavigable
+import androidx.appcompat.app.AppCompatActivity
 import com.sroo.astroobus.R
 import com.sroo.astroobus.activity.user.UserMainActivity
 import com.sroo.astroobus.helper.SMSHelper
 import com.sroo.astroobus.helper.VerificationCodeHelper
+import com.sroo.astroobus.interfaces.INavigable
 import com.sroo.astroobus.model.User
-import com.sroo.astroobus.repository.RegisterRepository
 import com.sroo.astroobus.`view-model`.RegisterViewModel
+
 
 class GuestRegisterActivity : AppCompatActivity(), INavigable {
 

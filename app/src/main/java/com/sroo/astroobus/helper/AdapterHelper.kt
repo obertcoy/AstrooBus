@@ -20,7 +20,8 @@ class AdapterHelper() {
     fun phoneHashMap(phoneNum:String, code:String): HashMap<String, String> {
         val phoneMap = hashMapOf(
             "phoneNum" to phoneNum,
-            "code" to code
+            "code" to code,
+            "status" to "unverified"
         )
 
         return phoneMap

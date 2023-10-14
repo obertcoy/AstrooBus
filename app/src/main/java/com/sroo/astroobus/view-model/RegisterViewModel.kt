@@ -58,8 +58,15 @@ class RegisterViewModel(private val view: GuestRegisterActivity) {
             repository.findTempUserCode(user.phoneNum, activity){
                     result->
                 if(code == result){
-                    repository.registerUser(user, activity)
-                    callback(true)
+                    repository.updateAccountStatus(user.phoneNum, activity)
+                    repository.registerUser(user, activity){
+                        result ->
+                        if(result == 1){
+                            callback(true)
+                        }else{
+                            callback(false)
+                        }
+                    }
                 }else{
                     UIHelper.createToast(activity,"Invalid code")
                     callback(false)

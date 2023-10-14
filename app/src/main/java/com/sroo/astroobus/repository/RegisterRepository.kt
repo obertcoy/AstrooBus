@@ -32,7 +32,7 @@ class RegisterRepository (){
     }
 
 
-      fun registerUser(user: User, context: Context){
+      fun registerUser(user: User, context: Context, callback: (Int) -> Unit){
         auth?.createUserWithEmailAndPassword(user.email, user.password)
             ?.addOnCompleteListener(context as Activity) { task ->
                 if (task.isSuccessful) {
@@ -44,7 +44,14 @@ class RegisterRepository (){
                         UIhelper.createToast(context, "Email is not valid")
                     }else{
                         user.uid = id
-                        addUserToDatabase(user, context)
+                        addUserToDatabase(user, context){
+                            result->
+                            if(result == 1){
+                                callback(1)
+                            }else{
+                                callback(0)
+                            }
+                        }
                     }
                 } else {
                     Log.w("Register Repository","create user with email:failure", task.exception)
@@ -59,7 +66,7 @@ class RegisterRepository (){
 
     }
 
-    fun addUserToDatabase(user: User, context: Context) {
+    fun addUserToDatabase(user: User, context: Context, callback: (Int) -> Unit) {
         //change to hashmap
         val userMap = adapter.UserToHashmap(user)
         val ref = user.uid?.let { db.collection("Users").document(it) }
@@ -67,9 +74,11 @@ class RegisterRepository (){
             ref.set(userMap)
                 .addOnSuccessListener {
                     Log.d("Register Repository", "Success Adding User")
+                    callback(1)
                 }
                 .addOnFailureListener { error ->
                     Log.e("Register Repository", "Fail Adding User: ${error.message}", error)
+                    callback(0)
                 }
         }
     }
@@ -116,6 +125,14 @@ class RegisterRepository (){
                 Log.e("Firestore Query", "Error: ${exception.message}", exception)
                 callback(0)
             }
+    }
+
+    fun updateAccountStatus(phoneNum: String, context: Context){
+        val docRef = db.collection("TempUsers").document(phoneNum)
+        val update = hashMapOf(
+            "status" to "verified"
+        )
+        docRef.update(update as Map<String, Any>)
     }
 
     fun findUsedPhone(phoneNum: String, context: Context, callback: (Int) -> Unit) {
