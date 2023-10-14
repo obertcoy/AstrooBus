@@ -20,7 +20,6 @@ const val channelName = "com.sroo.astroobus"
 
 class MyFirebaseMessagingService: FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        Log.d("TES", "KEPANGGIL")
         super.onMessageReceived(remoteMessage)
         val deviceToken = remoteMessage.from
         if (deviceToken != null) {
