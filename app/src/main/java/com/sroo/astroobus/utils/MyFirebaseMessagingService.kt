@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -19,8 +20,13 @@ const val channelName = "com.sroo.astroobus"
 
 class MyFirebaseMessagingService: FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        Log.d("TES", "KEPANGGIL")
         super.onMessageReceived(remoteMessage)
         val deviceToken = remoteMessage.from
+        if (deviceToken != null) {
+            Log.d("FCM_TOKEN", deviceToken)
+        }
+
         if(remoteMessage.notification != null){
             generateNotification(remoteMessage.notification!!.title!!, remoteMessage.notification!!.body!!)
         }
