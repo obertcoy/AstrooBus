@@ -1,5 +1,6 @@
 package com.sroo.astroobus.fragment.user
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
@@ -11,8 +12,10 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import com.google.android.material.snackbar.Snackbar
+import com.sroo.astroobus.activity.user.UserMainActivity
 import com.sroo.astroobus.activity.user.UserTicketActivity
 import com.sroo.astroobus.databinding.FragmentUserHomeBinding
+import com.sroo.astroobus.helper.UIHelper
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -28,6 +31,8 @@ class UserHomeFragment : Fragment() {
     private lateinit var fromSelect: AutoCompleteTextView
     private lateinit var destinationSelect: AutoCompleteTextView
     private lateinit var searchBtn: ImageView
+    private val uiHelper = UIHelper()
+    private lateinit var currActivity: Activity
 
     private lateinit var locations: ArrayList<String>
 
@@ -48,6 +53,7 @@ class UserHomeFragment : Fragment() {
         }
 
         selectDate()
+        currActivity = requireActivity()
 
         return binding.root
     }
@@ -67,8 +73,12 @@ class UserHomeFragment : Fragment() {
 
     private fun search(){
 
-        val fromLocation = fromSelect.text.toString()
-        val destinationLocation = destinationSelect.text.toString()
+//        val fromLocation = fromSelect.text.toString()
+//        val destinationLocation = destinationSelect.text.toString()
+//        val selectedDate = binding.homeMenuDateTv.text.toString()
+
+        val fromLocation = "Binus Anggrek"
+        val destinationLocation = "Binus Alam Sutra"
         val selectedDate = binding.homeMenuDateTv.text.toString()
 
 //        if(!(checkLocation(fromLocation) && checkLocation(destinationLocation))){
@@ -81,13 +91,19 @@ class UserHomeFragment : Fragment() {
 //            return
 //        }
 
-        val ticketIntent = Intent(requireContext(), UserTicketActivity::class.java)
+        if(fromLocation == "" || destinationLocation == "" || selectedDate == "Date"){
+            uiHelper.createToast(currActivity, "All Fields Must Not Be Empty")
+        }else if(fromLocation == destinationLocation){
+            uiHelper.createToast(currActivity, "Invalid route")
+        }else{
+            val ticketIntent = Intent(requireContext(), UserTicketActivity::class.java)
 
-        ticketIntent.putExtra("FROM_LOCATION", fromLocation)
-        ticketIntent.putExtra("DESTINATION_LOCATION", destinationLocation)
-        ticketIntent.putExtra("SELECTED_DATE", selectedDate)
+            ticketIntent.putExtra("FROM_LOCATION", fromLocation)
+            ticketIntent.putExtra("DESTINATION_LOCATION", destinationLocation)
+            ticketIntent.putExtra("SELECTED_DATE", selectedDate)
 
-        startActivity(ticketIntent)
+            startActivity(ticketIntent)
+        }
     }
 
     private fun selectDate(){
