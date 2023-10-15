@@ -1,16 +1,13 @@
 package com.sroo.astroobus.repository
 
-import android.util.Log
 import com.google.android.gms.tasks.Task
-import com.google.api.Billing.BillingDestination
 import com.google.firebase.Timestamp
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sroo.astroobus.database.FirebaseInitializer
 import com.sroo.astroobus.helper.AdapterHelper
 import com.sroo.astroobus.model.BusTransaction
 
-class TicketRepository (){
+class BusRepository (){
     private lateinit var db: FirebaseFirestore
     private val adapter = AdapterHelper()
     init {
@@ -18,10 +15,9 @@ class TicketRepository (){
         db = FirebaseInitializer.instance?.getDatabase()!!
     }
 
-    fun getAllBusByRoute(destination: String, startingPoint: String, date: String): Task<List<BusTransaction>> {
-        val ref = db.collection("BusTransaction")
-        val query = ref.whereEqualTo("startingPoint", startingPoint)
-            .whereEqualTo("destinationPoint", destination).whereEqualTo("dateString", date)
+    fun getAllSeats(busId: String): Task<List<BusTransaction>> {
+        val ref = db.collection("Bus")
+        val query = ref.whereEqualTo("busId", busId)
         return query.get().continueWith { task ->
             if (task.isSuccessful) {
                 val documents = task.result?.documents
