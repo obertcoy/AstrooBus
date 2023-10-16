@@ -138,20 +138,17 @@
                     app:tint="@color/default_primary" />
             </LinearLayout>
 
-            <com.sroo.astroobus.components.CardTicketBus
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ticket_RV"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content"/>
 
             <com.sroo.astroobus.components.CardTicketBus
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
 
-            <com.sroo.astroobus.components.CardTicketBus
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+
 
         </LinearLayout>
 

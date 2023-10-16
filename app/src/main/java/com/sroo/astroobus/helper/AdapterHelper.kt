@@ -1,10 +1,12 @@
 package com.sroo.astroobus.helper
 
 import com.sroo.astroobus.model.User
+import java.text.NumberFormat
+import java.util.Locale
 
 class AdapterHelper() {
 
-    fun UserToHashmap(user: User): HashMap<String, String?>{
+    fun UserToHashmap(user: User): HashMap<String, String?> {
         val userMap = hashMapOf(
             "name" to user.name,
             "email" to user.email,
@@ -17,7 +19,7 @@ class AdapterHelper() {
         return userMap
     }
 
-    fun phoneHashMap(phoneNum:String, code:String): HashMap<String, String> {
+    fun phoneHashMap(phoneNum: String, code: String): HashMap<String, String> {
         val phoneMap = hashMapOf(
             "phoneNum" to phoneNum,
             "code" to code,
@@ -26,4 +28,12 @@ class AdapterHelper() {
 
         return phoneMap
     }
+
+    companion object {
+        fun convertToRupiah(amount: Int): String {
+            val format = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+            return format.format(amount)
+        }
+    }
+
 }
