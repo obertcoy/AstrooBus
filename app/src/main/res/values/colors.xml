@@ -10,4 +10,5 @@
     <color name="placeholder">#808E8E8E</color>
     <color name="transparent">#00000000</color>
     <color name="default_navbar">#736084C9</color>
+    <color name="default_green">#17CF56</color>
 </resources>

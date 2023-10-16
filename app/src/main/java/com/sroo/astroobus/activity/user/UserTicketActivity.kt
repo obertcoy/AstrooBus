@@ -27,9 +27,9 @@ class UserTicketActivity: AppCompatActivity(), INavigable {
 
     private fun initData(){
 
-        binding.ticketFromTv.text = intent.getStringExtra("FROM_LOCATION")
-        binding.ticketDestinationTv.text = intent.getStringExtra("DESTINATION_LOCATION")
-        binding.ticketDateTv.text = intent.getStringExtra("SELECTED_DATE")
+        binding.ticketFromTv.text = intent.getStringExtra("STARTING_POINT")
+        binding.ticketDestinationTv.text = intent.getStringExtra("DESTINATION_POINT")
+        binding.ticketDateTv.text = intent.getStringExtra("DATE")
     }
 
 

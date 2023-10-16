@@ -35,8 +35,10 @@ class TicketRepository (){
                     val price = data?.get("price") as Number
                     val transactionId = data?.get("transactionId") as String
                     val timeString = data?.get("timeString") as String
-                    val time = data?.get("time") as Timestamp
+                    val startTime = data?.get("time") as Timestamp
                     val dateString = data?.get("dateString") as String
+                    val endTimeString = data?.get("endTimeString") as String
+                    val endTime = data?.get("endTime") as Timestamp
                     BusTransaction(
                         transactionId,
                         busId,
@@ -44,7 +46,9 @@ class TicketRepository (){
                         startingPoint,
                         dateString,
                         timeString,
-                        time,
+                        endTimeString,
+                        startTime,
+                        endTime,
                         price,
                         availableSeats
                     )

@@ -6,10 +6,8 @@ import android.content.Intent
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import androidx.cardview.widget.CardView
 import com.sroo.astroobus.R
-import com.sroo.astroobus.activity.guest.GuestRegisterActivity
 import com.sroo.astroobus.activity.user.UserBusActivity
 import com.sroo.astroobus.databinding.CardTicketBusBinding
 
@@ -19,27 +17,32 @@ class CardTicketBus @JvmOverloads constructor(
 
     private lateinit var binding: CardTicketBusBinding
     private lateinit var currActivity: Activity
-    private lateinit var  button:CardView
 
     init {
+
         LayoutInflater.from(context).inflate(R.layout.card_ticket_bus, this, true)
         binding = CardTicketBusBinding.inflate(LayoutInflater.from(context), this, true)
-        button = binding.ticketBusCardBtn
+
         if (context is Activity) {
             currActivity = context
-            button.setOnClickListener{
-                val registerIntent = Intent(currActivity, UserBusActivity::class.java)
-                currActivity.startActivity(registerIntent)
-            }
+            toBusPage(binding.ticketBusCardBtn)
         }
 
     }
 
-    private fun toSeatPage(btn: View){
+    private fun toBusPage(btn: View){
 
         btn.setOnClickListener{
-            val registerIntent = Intent(currActivity, UserBusActivity::class.java)
-            currActivity.startActivity(registerIntent)
+
+            val busIntent = Intent(currActivity, UserBusActivity::class.java)
+
+            busIntent.putExtra("STARTING_POINT", currActivity.intent.getStringExtra("STARTING_POINT"))
+            busIntent.putExtra("DESTINATION_POINT", currActivity.intent.getStringExtra("DESTINATION_POINT"))
+            busIntent.putExtra("DATE", currActivity.intent.getStringExtra("DATE"))
+            busIntent.putExtra("TIME", binding.ticketBusCardTimeTv.text)
+            busIntent.putExtra("PRICE", binding.ticketBusCardPriceTv.text)
+
+            currActivity.startActivity(busIntent)
         }
     }
 

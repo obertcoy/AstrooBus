@@ -37,6 +37,7 @@
         <activity android:name=".activity.user.UserMainActivity" android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".activity.user.UserTicketActivity"/>
         <activity android:name=".activity.user.UserBusActivity"/>
+        <activity android:name=".activity.user.UserBookActivity"/>
 
         <service
             android:name=".utils.MyFirebaseMessagingService"

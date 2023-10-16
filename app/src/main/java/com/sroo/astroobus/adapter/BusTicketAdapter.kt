@@ -6,11 +6,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sroo.astroobus.databinding.CardTicketBusBinding
 import com.sroo.astroobus.helper.AdapterHelper
-import com.sroo.astroobus.model.BusTicket
+import com.sroo.astroobus.model.BusTransaction
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
-class BusTicketAdapter (private var ticketList: ArrayList<BusTicket>):
+class BusTicketAdapter (private var transactionList: ArrayList<BusTransaction>):
     RecyclerView.Adapter<BusTicketAdapter.ViewHolder>()
 {
     class ViewHolder(binding: CardTicketBusBinding):
@@ -22,18 +22,18 @@ class BusTicketAdapter (private var ticketList: ArrayList<BusTicket>):
         private val seatTv: TextView = binding.ticketBusCardSeatTv
         private val priceTv: TextView = binding.ticketBusCardPriceTv
 
-        fun bind(ticket: BusTicket) {
-            locationTv.text = "${ticket.fromLocation} - ${ticket.destinationLocation}"
-            timeTv.text = ticket.startTime
+        fun bind(transaction: BusTransaction) {
+            locationTv.text = "${transaction.startingPoint} - ${transaction.destinationPoint}"
+            timeTv.text = transaction.startTimeString
 
-            val start = LocalTime.parse(ticket.startTime)
-            val end = LocalTime.parse(ticket.endTime)
+            val start = LocalTime.parse(transaction.startTimeString)
+            val end = LocalTime.parse(transaction.endTimeString)
             val hoursDiff = ChronoUnit.HOURS.between(start, end)
             val minutesDiff = ChronoUnit.MINUTES.between(start, end) % 60
 
             estimateTv.text = String.format("Estimated travel time %d hour(s)", hoursDiff)
-            seatTv.text = ticket.seats.toString()
-            priceTv.text = AdapterHelper.convertToRupiah(ticket.price)
+            seatTv.text = transaction.availableSeats.toString()
+            priceTv.text = AdapterHelper.convertToRupiah(transaction.price.toInt())
         }
 
     }
@@ -45,11 +45,11 @@ class BusTicketAdapter (private var ticketList: ArrayList<BusTicket>):
     }
 
     override fun getItemCount(): Int {
-        return ticketList.size
+        return transactionList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(ticketList[position])
+        holder.bind(transactionList[position])
     }
 
 }

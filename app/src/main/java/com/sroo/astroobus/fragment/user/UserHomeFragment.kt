@@ -99,9 +99,9 @@ class UserHomeFragment : Fragment() {
         }else{
             val ticketIntent = Intent(requireContext(), UserTicketActivity::class.java)
 
-            ticketIntent.putExtra("FROM_LOCATION", fromLocation)
-            ticketIntent.putExtra("DESTINATION_LOCATION", destinationLocation)
-            ticketIntent.putExtra("SELECTED_DATE", selectedDate)
+            ticketIntent.putExtra("STARTING_POINT", fromLocation)
+            ticketIntent.putExtra("DESTINATION_POINT", destinationLocation)
+            ticketIntent.putExtra("DATE", selectedDate)
 
             startActivity(ticketIntent)
         }

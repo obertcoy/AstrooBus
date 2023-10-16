@@ -13,8 +13,10 @@ class BusTransaction(
     var destinationPoint: String,
     var startingPoint: String,
     var dateString: String,
-    var timeString:String,
-    var time:Timestamp,
+    var startTimeString:String,
+    var endTimeString: String,
+    var startTime:Timestamp,
+    var endTime: Timestamp,
     var price: Number,
     var availableSeats: Number
 ) :IListener{
