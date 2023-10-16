@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import com.google.android.material.snackbar.Snackbar
+import com.sroo.astroobus.activity.user.UserBusActivity
 import com.sroo.astroobus.activity.user.UserMainActivity
 import com.sroo.astroobus.activity.user.UserTicketActivity
 import com.sroo.astroobus.databinding.FragmentUserHomeBinding
@@ -107,18 +108,26 @@ class UserHomeFragment : Fragment() {
     }
 
     private fun selectDate(){
-
         val calendar = Calendar.getInstance()
-        val datePickerDialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener{_, year, month, dayOfMonth ->
-            val dateFormat = SimpleDateFormat("EEE, dd MMM yyyy", Locale.US)
-            calendar.set(year, month, dayOfMonth)
-            val formattedDate = dateFormat.format(calendar.time)
-            binding.homeMenuDateTv.text = formattedDate
+
+        val datePickerDialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            val selectedCalendar = Calendar.getInstance()
+            selectedCalendar.set(year, month, dayOfMonth)
+
+            if (selectedCalendar.before(calendar)) {
+                uiHelper.createToast(requireContext(), "Please select a future date.")
+            } else {
+                val dateFormat = SimpleDateFormat("EEE, dd MMM yyyy", Locale.US)
+                val formattedDate = dateFormat.format(selectedCalendar.time)
+                binding.homeMenuDateTv.text = formattedDate
+            }
         },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         )
+
+        datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
 
         binding.homeMenuDate.setOnClickListener{
             datePickerDialog.show()
