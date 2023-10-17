@@ -32,7 +32,6 @@ class UserHomeFragment : Fragment() {
     private lateinit var fromSelect: AutoCompleteTextView
     private lateinit var destinationSelect: AutoCompleteTextView
     private lateinit var searchBtn: ImageView
-    private val uiHelper = UIHelper()
     private lateinit var currActivity: Activity
 
     private lateinit var locations: ArrayList<String>
@@ -93,9 +92,9 @@ class UserHomeFragment : Fragment() {
 //        }
 
         if(fromLocation == "" || destinationLocation == "" || selectedDate == "Date"){
-            uiHelper.createToast(currActivity, "All Fields Must Not Be Empty")
+            UIHelper.createToast(currActivity, "All Fields Must Not Be Empty")
         }else if(fromLocation == destinationLocation){
-            uiHelper.createToast(currActivity, "Invalid route")
+            UIHelper.createToast(currActivity, "Invalid route")
         }else{
             val ticketIntent = Intent(requireContext(), UserTicketActivity::class.java)
 
@@ -115,7 +114,7 @@ class UserHomeFragment : Fragment() {
             selectedCalendar.set(year, month, dayOfMonth)
 
             if (selectedCalendar.before(calendar)) {
-                uiHelper.createToast(requireContext(), "Please select a future date.")
+                UIHelper.createToast(requireContext(), "Please select a future date.")
             } else {
                 val dateFormat = SimpleDateFormat("EEE, dd MMM yyyy", Locale.US)
                 val formattedDate = dateFormat.format(selectedCalendar.time)

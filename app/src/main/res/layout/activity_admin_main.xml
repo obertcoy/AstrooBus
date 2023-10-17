@@ -70,7 +70,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/user_nav_home"
+            android:id="@+id/admin_nav_dashboard"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -101,7 +101,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/user_nav_history"
+            android:id="@+id/admin_nav_bus"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"

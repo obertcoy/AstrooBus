@@ -9,39 +9,40 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.sroo.astroobus.R
 import com.sroo.astroobus.activity.universal.AccountActivity
-import com.sroo.astroobus.databinding.ActivityUserMainBinding
+import com.sroo.astroobus.databinding.ActivityAdminMainBinding
+import com.sroo.astroobus.fragment.admin.AdminDashboardFragment
 import com.sroo.astroobus.fragment.user.UserHistoryFragment
 import com.sroo.astroobus.fragment.user.UserHomeFragment
 import com.sroo.astroobus.interfaces.IFragmentable
 
-class UserMainActivity: AppCompatActivity(), IFragmentable {
+class AdminMainActivity: AppCompatActivity(), IFragmentable {
 
-    private lateinit var binding: ActivityUserMainBinding
+    private lateinit var binding: ActivityAdminMainBinding
     lateinit var currIndicator: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUserMainBinding.inflate(layoutInflater)
+        binding = ActivityAdminMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        currIndicator = binding.userNavHomeIndicator
+        currIndicator = binding.adminNavDashboardIndicator
         currIndicator.visibility = View.VISIBLE
 
-        changeFragment(UserHomeFragment(), binding.userNavHomeIndicator)
+        changeFragment(AdminDashboardFragment(), binding.adminNavBusIndicator)
         navigate()
     }
 
     override fun navigate() {
 
-        binding.userNavHome.setOnClickListener {
-            changeFragment(UserHomeFragment(), binding.userNavHomeIndicator)
+        binding.adminNavDashboard.setOnClickListener {
+            changeFragment(UserHomeFragment(), binding.adminNavDashboardIndicator)
         }
 
-        binding.userNavHistory.setOnClickListener {
-            changeFragment(UserHistoryFragment(), binding.userNavHistoryIndicator)
+        binding.adminNavBus.setOnClickListener {
+            changeFragment(UserHistoryFragment(), binding.adminNavBusIndicator)
         }
 
-        binding.userMainAccountIcon.setOnClickListener{
+        binding.adminMainAccountIcon.setOnClickListener{
             val accountIntent = Intent(this, AccountActivity::class.java)
             startActivity(accountIntent)
         }
@@ -52,7 +53,7 @@ class UserMainActivity: AppCompatActivity(), IFragmentable {
 
         val fragmentManager: FragmentManager = supportFragmentManager
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.user_main_frame_layout, fragment)
+        fragmentTransaction.replace(R.id.admin_main_frame_layout, fragment)
         fragmentTransaction.commit()
 
         currIndicator?.visibility = View.INVISIBLE
