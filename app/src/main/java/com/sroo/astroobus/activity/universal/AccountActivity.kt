@@ -1,4 +1,4 @@
-package com.sroo.astroobus.activity.user
+package com.sroo.astroobus.activity.universal
 
 import android.app.Dialog
 import android.os.Bundle
@@ -10,18 +10,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.sroo.astroobus.R
-import com.sroo.astroobus.databinding.ActivityUserAccountBinding
+import com.sroo.astroobus.databinding.ActivityAccountBinding
 import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.interfaces.INavigable
 
-class UserAccountActivity : AppCompatActivity(), INavigable {
+class AccountActivity : AppCompatActivity(), INavigable {
 
-    private lateinit var binding: ActivityUserAccountBinding
+    private lateinit var binding: ActivityAccountBinding
     private lateinit var dialog: Dialog;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUserAccountBinding.inflate(layoutInflater)
+        binding = ActivityAccountBinding.inflate(layoutInflater)
         setContentView(binding.root)
         dialog = Dialog(this)
 

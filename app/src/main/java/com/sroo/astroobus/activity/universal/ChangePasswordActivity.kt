@@ -1,20 +1,21 @@
-package com.sroo.astroobus.activity.user
+package com.sroo.astroobus.activity.universal
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.sroo.astroobus.databinding.ActivityUserChangePasswordBinding
+import com.sroo.astroobus.activity.user.UserMainActivity
+import com.sroo.astroobus.databinding.ActivityChangePasswordBinding
 import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.interfaces.INavigable
 
-class UserChangePasswordActivity: AppCompatActivity(), INavigable {
+class ChangePasswordActivity: AppCompatActivity(), INavigable {
 
-    private lateinit var binding: ActivityUserChangePasswordBinding
+    private lateinit var binding: ActivityChangePasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUserChangePasswordBinding.inflate(layoutInflater)
+        binding = ActivityChangePasswordBinding.inflate(layoutInflater)
 
 
 
