@@ -105,6 +105,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/admin_dashboard_active_bus_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="230"
@@ -146,6 +147,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/admin_dashboard_nonactive_bus_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="12"
@@ -220,6 +222,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/admin_dashboard_ongoing_reservations_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="14"
@@ -261,6 +264,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/admin_dashboard_reservations_today_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="172"
