@@ -96,8 +96,7 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable, ICounterable {
                  val num = phoneNumberEt.text.toString()
                  registerViewModel.resendCode(num, this)
              }else{
-                 val uiHelper = UIHelper()
-                 uiHelper.createToast(this, "Resend code when the timer is done")
+                 UIHelper.createToast(this, "Resend code when the timer is done")
              }
          }
 

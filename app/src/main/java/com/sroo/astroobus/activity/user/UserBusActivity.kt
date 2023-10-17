@@ -2,13 +2,16 @@ package com.sroo.astroobus.activity.user
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.sroo.astroobus.databinding.ActivityUserBusBinding
+import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.interfaces.INavigable
 import dev.jahidhasanco.seatbookview.SeatBookView
+import dev.jahidhasanco.seatbookview.SeatClickListener
 
-class UserBusActivity: AppCompatActivity(), INavigable {
+class UserBusActivity: AppCompatActivity(), INavigable, SeatClickListener {
 
     private lateinit var binding : ActivityUserBusBinding
     private lateinit var intent: Intent
@@ -40,6 +43,7 @@ class UserBusActivity: AppCompatActivity(), INavigable {
 
 
         seatBookView.show()
+        seatBookView.setSeatClickListener(this)
         initData()
         back(binding.busBackArrow)
         next(binding.busSubmitBtn)
@@ -74,5 +78,17 @@ class UserBusActivity: AppCompatActivity(), INavigable {
         backBtn.setOnClickListener{
             this.finish()
         }
+    }
+
+    override fun onAvailableSeatClick(selectedIdList: List<Int>, view: View) {
+        UIHelper.createToast(this , "LIST" + selectedIdList.toString())
+    }
+
+    override fun onBookedSeatClick(view: View) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onReservedSeatClick(view: View) {
+        TODO("Not yet implemented")
     }
 }
