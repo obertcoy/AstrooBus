@@ -1,9 +1,8 @@
 package com.sroo.astroobus.activity.user
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -40,6 +39,11 @@ class UserMainActivity: AppCompatActivity(), IFragmentable {
         binding.userNavHistory.setOnClickListener {
             changeFragment(UserHistoryFragment(), binding.userNavHistoryIndicator)
         }
+
+        binding.userMainAccountIcon.setOnClickListener{
+            val accountIntent = Intent(this, UserAccountActivity::class.java)
+            startActivity(accountIntent)
+        }
     }
 
 
@@ -54,5 +58,6 @@ class UserMainActivity: AppCompatActivity(), IFragmentable {
         currIndicator = indicator
         currIndicator?.visibility = View.VISIBLE
     }
+
 
 }

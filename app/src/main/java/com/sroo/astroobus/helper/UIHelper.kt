@@ -5,12 +5,15 @@ import android.widget.Toast
 
 class UIHelper() {
 
-    fun createToast(context:Context, string: String){
-        Toast.makeText(
-            context,
-            string,
-            Toast.LENGTH_SHORT,
-        ).show()
+    companion object {
+        fun createToast(context: Context, string: String) {
+            Toast.makeText(
+                context,
+                string,
+                Toast.LENGTH_SHORT,
+            ).show()
+        }
     }
+
 
 }
