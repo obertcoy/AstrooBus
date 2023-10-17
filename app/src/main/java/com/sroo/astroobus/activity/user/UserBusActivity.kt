@@ -7,8 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.sroo.astroobus.databinding.ActivityUserBusBinding
 import com.sroo.astroobus.interfaces.INavigable
 import dev.jahidhasanco.seatbookview.SeatBookView
+import dev.jahidhasanco.seatbookview.SeatClickListener
 
-class UserBusActivity: AppCompatActivity(), INavigable {
+class UserBusActivity: AppCompatActivity(), INavigable, SeatClickListener {
 
     private lateinit var binding : ActivityUserBusBinding
     private lateinit var intent: Intent
@@ -33,6 +34,15 @@ class UserBusActivity: AppCompatActivity(), INavigable {
         binding = ActivityUserBusBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initData()
+    }
+    private fun initData(){
+        binding.busFromTv.text = intent.getStringExtra("STARTING_POINT")
+        binding.busDestinationTv.text = intent.getStringExtra("DESTINATION_POINT")
+        binding.busDateTv.text = intent.getStringExtra("DATE")
+        binding.busTimeTv.text = intent.getStringExtra("TIME")
+        binding.busPriceTv.text = intent.getStringExtra("PRICE")
+
         seatBookView = binding.layoutSeat
         seatBookView.setSeatsLayoutString(seats)
             .setSeatLayoutPadding(2)
@@ -40,17 +50,8 @@ class UserBusActivity: AppCompatActivity(), INavigable {
 
 
         seatBookView.show()
-        initData()
         back(binding.busBackArrow)
         next(binding.busSubmitBtn)
-    }
-
-    private fun initData(){
-        binding.busFromTv.text = intent.getStringExtra("STARTING_POINT")
-        binding.busDestinationTv.text = intent.getStringExtra("DESTINATION_POINT")
-        binding.busDateTv.text = intent.getStringExtra("DATE")
-        binding.busTimeTv.text = intent.getStringExtra("TIME")
-        binding.busPriceTv.text = intent.getStringExtra("PRICE")
     }
 
     override fun next(nextBtn: View) {
@@ -66,11 +67,24 @@ class UserBusActivity: AppCompatActivity(), INavigable {
 
         this.startActivity(bookIntent)
 
+        seatBookView.setSeatClickListener(this)
     }
 
     override fun back(backBtn: View) {
         backBtn.setOnClickListener{
             this.finish()
         }
+    }
+
+    override fun onAvailableSeatClick(selectedIdList: List<Int>, view: View) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onBookedSeatClick(view: View) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onReservedSeatClick(view: View) {
+        TODO("Not yet implemented")
     }
 }
