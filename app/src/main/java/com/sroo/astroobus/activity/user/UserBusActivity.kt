@@ -55,17 +55,19 @@ class UserBusActivity: AppCompatActivity(), INavigable {
 
     override fun next(nextBtn: View) {
 
-        val bookIntent = Intent(this, UserBusActivity::class.java)
+        nextBtn.setOnClickListener{
 
-        bookIntent.putExtra("STARTING_POINT", binding.busFromTv.text)
-        bookIntent.putExtra("DESTINATION_POINT", binding.busDestinationTv.text)
-        bookIntent.putExtra("DATE", binding.busDateTv.text)
-        bookIntent.putExtra("TIME", binding.busTimeTv.text)
-        bookIntent.putExtra("PRICE", binding.busPriceTv.text)
-        bookIntent.putExtra("SEAT", binding.busSeatSelectedTv.text)
+            val bookIntent = Intent(this, UserBookActivity::class.java)
 
-        this.startActivity(bookIntent)
+            bookIntent.putExtra("STARTING_POINT", binding.busFromTv.text)
+            bookIntent.putExtra("DESTINATION_POINT", binding.busDestinationTv.text)
+            bookIntent.putExtra("DATE", binding.busDateTv.text)
+            bookIntent.putExtra("TIME", binding.busTimeTv.text)
+            bookIntent.putExtra("PRICE", binding.busPriceTv.text)
+            bookIntent.putExtra("SEAT", binding.busSeatSelectedTv.text)
 
+            this.startActivity(bookIntent)
+        }
     }
 
     override fun back(backBtn: View) {

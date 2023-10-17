@@ -6,8 +6,6 @@ import android.os.PersistableBundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.sroo.astroobus.databinding.ActivityUserBookBinding
-import com.sroo.astroobus.databinding.ActivityUserTicketBinding
-import com.sroo.astroobus.interfaces.INavigable
 
 class UserBookActivity: AppCompatActivity() {
 
