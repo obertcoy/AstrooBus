@@ -41,7 +41,7 @@ class RegisterRepository (){
                     if(id == null){
                         Log.d("Register Repository", "ID NULL")
                         var UIhelper = UIHelper()
-                        UIhelper.createToast(context, "Email is not valid")
+                        UIHelper.createToast(context, "Email is not valid")
                     }else{
                         user.uid = id
                         addUserToDatabase(user, context){

@@ -191,7 +191,7 @@
                 app:seat_gaping="10dp"
                 app:seat_text_size="15sp"
                 app:available_seats_text_color="#59575C"
-                app:seat_select_limit="2"
+                app:seat_select_limit="5"
                 app:layout_constraintTop_toTopOf="parent"
                 />
 

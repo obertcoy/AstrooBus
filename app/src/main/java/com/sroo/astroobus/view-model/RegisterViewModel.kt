@@ -13,7 +13,6 @@ import com.sroo.astroobus.repository.RegisterRepository
 class RegisterViewModel(private val view: GuestRegisterActivity) {
     private val repository = RegisterRepository()
     val emailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$"
-    val UIHelper = UIHelper()
 
      fun registerTempUser(name:String, email:String, password:String, confPass:String, phoneNum:String, activity: Activity){
         if(name == ""|| email == "" || password == ""|| confPass == ""|| phoneNum == ""){

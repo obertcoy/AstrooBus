@@ -13,7 +13,6 @@ import com.sroo.astroobus.utils.SessionManager
 
 class LoginViewModel(private val view: GuestLoginActivity) {
     private val repository = LoginRepository()
-    private val UIHelper = UIHelper()
 
     fun login(password:String, email:String, activity: Activity){
         if(password == "" || email == ""){
