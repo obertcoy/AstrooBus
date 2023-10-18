@@ -8,8 +8,8 @@ import com.sroo.astroobus.repository.TicketRepository
 class TicketViewModel (){
 
     private var ticketRepository = TicketRepository()
-    fun getAllBusByRoute(destination: String, startingPoint: String, date: String, callback: (ArrayList<BusTransaction>) -> Unit) {
-        ticketRepository.getAllBusByRoute(destination, startingPoint, date)
+    fun getAllBusByRoute(startingPoint: String,destination: String,  date: String, callback: (ArrayList<BusTransaction>) -> Unit) {
+        ticketRepository.getAllBusByRoute(startingPoint, destination, date)
             { result ->
                 if (result != null) {
                     val busTransactions = result

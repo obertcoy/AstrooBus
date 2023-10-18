@@ -73,23 +73,23 @@ class UserHomeFragment : Fragment() {
 
     private fun search(){
 
-//        val fromLocation = fromSelect.text.toString()
-//        val destinationLocation = destinationSelect.text.toString()
-//        val selectedDate = binding.homeMenuDateTv.text.toString()
-
-        val fromLocation = "Binus Anggrek"
-        val destinationLocation = "Binus Alam Sutra"
+        val fromLocation = fromSelect.text.toString()
+        val destinationLocation = destinationSelect.text.toString()
         val selectedDate = binding.homeMenuDateTv.text.toString()
 
-//        if(!(checkLocation(fromLocation) && checkLocation(destinationLocation))){
-//            Snackbar.make(binding.root, "Invalid location", Snackbar.LENGTH_LONG).show()
-//            return
-//        }
+//        val fromLocation = "Binus Anggrek"
+//        val destinationLocation = "Binus Alam Sutra"
+//        val selectedDate = binding.homeMenuDateTv.text.toString()
+
+        if(!(checkLocation(fromLocation) && checkLocation(destinationLocation))){
+            Snackbar.make(binding.root, "Invalid location", Snackbar.LENGTH_LONG).show()
+            return
+        }
 //
-//        if(selectedDate.isEmpty()){
-//            Snackbar.make(binding.root, "Select a date", Snackbar.LENGTH_LONG).show()
-//            return
-//        }
+        if(selectedDate.isEmpty()){
+            Snackbar.make(binding.root, "Select a date", Snackbar.LENGTH_LONG).show()
+            return
+        }
 
         if(fromLocation == "" || destinationLocation == "" || selectedDate == "Date"){
             UIHelper.createToast(currActivity, "All Fields Must Not Be Empty")

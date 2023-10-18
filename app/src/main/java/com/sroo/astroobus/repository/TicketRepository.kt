@@ -18,11 +18,12 @@ class TicketRepository (){
         db = FirebaseInitializer.instance?.getDatabase()!!
     }
 
-    fun getAllBusByRoute(destination: String, startingPoint: String, date: String, callback: (ArrayList<BusTransaction>) -> Unit) {
+    fun getAllBusByRoute(startingPoint: String, destination: String, date: String, callback: (ArrayList<BusTransaction>) -> Unit) {
+       Log.d("TicketRepository", startingPoint + destination + date)
         val ref = db.collection("BusTransaction")
-        val query = ref.whereEqualTo("startingPoint", "Binus Anggrek")
-            .whereEqualTo("destinationPoint", "Binus Alam Sutra")
-            .whereEqualTo("dateString", "Wed, 18 Oct 2023")
+        val query = ref.whereEqualTo("startingPoint", startingPoint)
+            .whereEqualTo("destinationPoint", destination)
+            .whereEqualTo("dateString", date)
 
         query.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {

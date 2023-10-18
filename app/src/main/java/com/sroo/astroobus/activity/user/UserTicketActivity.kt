@@ -56,7 +56,17 @@ class UserTicketActivity: AppCompatActivity(), INavigable {
     }
 
     fun setUpRecycler(busList: ArrayList<BusTransaction>){
-        ticketAdapter = BusTicketAdapter(busList)
+        ticketAdapter = BusTicketAdapter(busList) { busTransaction ->
+            val intent = Intent(this, UserBusActivity::class.java)
+            intent.putExtra("STARTING_POINT", busTransaction.startingPoint)
+            intent.putExtra("DESTINATION_POINT", busTransaction.destinationPoint)
+            intent.putExtra("DATE", busTransaction.dateString)
+            intent.putExtra("TIME", busTransaction.timeString)
+            intent.putExtra("PRICE", busTransaction.price)
+            intent.putExtra("BUS_ID", busTransaction.busId)
+            intent.putExtra("TRANSACTION_ID", busTransaction.busId)
+            startActivity(intent)
+        }
         ticketRv.layoutManager = LinearLayoutManager(this)
         ticketRv.adapter = ticketAdapter
     }

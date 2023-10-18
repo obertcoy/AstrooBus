@@ -2,6 +2,7 @@ package com.sroo.astroobus.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sroo.astroobus.databinding.CardTicketBusBinding
@@ -10,10 +11,13 @@ import com.sroo.astroobus.model.BusTransaction
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
-class BusTicketAdapter (private var transactionList: ArrayList<BusTransaction>):
+class BusTicketAdapter (
+    private var transactionList: ArrayList<BusTransaction>,
+    private val onItemClickListener: (BusTransaction) -> Unit
+):
     RecyclerView.Adapter<BusTicketAdapter.ViewHolder>()
 {
-    class ViewHolder(binding: CardTicketBusBinding):
+    inner class ViewHolder(binding: CardTicketBusBinding):
     RecyclerView.ViewHolder(binding.root){
 
         private val locationTv: TextView = binding.ticketBusCardLocationTv
@@ -25,15 +29,19 @@ class BusTicketAdapter (private var transactionList: ArrayList<BusTransaction>):
         fun bind(transaction: BusTransaction) {
             locationTv.text = "${transaction.startingPoint} - ${transaction.destinationPoint}"
             timeTv.text = transaction.timeString
-
-//            val start = LocalTime.parse(transaction.startTimeString)
-//            val end = LocalTime.parse(transaction.endTimeString)
-//            val hoursDiff = ChronoUnit.HOURS.between(start, end)
-//            val minutesDiff = ChronoUnit.MINUTES.between(start, end) % 60
-
             estimateTv.text = String.format("Estimated travel time %d hour(s)", 3)
             seatTv.text = transaction.availableSeats.toString()
             priceTv.text = AdapterHelper.convertToRupiah(transaction.price.toInt())
+        }
+
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val transaction = transactionList[position]
+                    onItemClickListener.invoke(transaction)
+                }
+            }
         }
 
     }
