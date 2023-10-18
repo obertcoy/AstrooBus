@@ -35,7 +35,7 @@ class CardManageBus @JvmOverloads constructor(
 
     }
 
-    private fun changeBusStatus(switch: SwitchMaterial{
+    private fun changeBusStatus(switch: SwitchMaterial){
 
         switch.setOnCheckedChangeListener { _, isChecked ->
             val statusTv = binding.manageBusStatusTv
@@ -61,7 +61,7 @@ class CardManageBus @JvmOverloads constructor(
 
         btn.setOnClickListener{
 
-            
+
         }
     }
 
