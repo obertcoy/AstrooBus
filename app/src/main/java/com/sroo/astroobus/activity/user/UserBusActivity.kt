@@ -15,18 +15,9 @@ class UserBusActivity: AppCompatActivity(), INavigable, SeatClickListener {
 
     private lateinit var binding : ActivityUserBusBinding
     private lateinit var intent: Intent
-
-    private var seats = (
-                    "/_____" +
-                    "/AA_AA" +
-                    "/UA_AR" +
-                    "/AA_AA" +
-                    "/RU_AA" +
-                    "/AA_AR" +
-                    "/AU_AA" +
-                    "/AA_AA" +
-                    "/AAAAA"
-            )
+    private lateinit var busId: String
+    private lateinit var transactionId: String
+    private lateinit var seats: String
     private lateinit var seatBookView: SeatBookView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +46,8 @@ class UserBusActivity: AppCompatActivity(), INavigable, SeatClickListener {
         binding.busDateTv.text = intent.getStringExtra("DATE")
         binding.busTimeTv.text = intent.getStringExtra("TIME")
         binding.busPriceTv.text = intent.getStringExtra("PRICE")
+        busId = intent.getStringExtra("BUS_ID").toString()
+        transactionId = intent.getStringExtra("TRANSACTION_ID").toString()
     }
 
     override fun next(nextBtn: View) {
