@@ -42,4 +42,9 @@ class ManageBusAdapter (private var busList: ArrayList<Bus>):
         holder.bind(busList[position])
     }
 
+    public fun updateData(newBusList: ArrayList<Bus>) {
+        busList = newBusList
+        notifyDataSetChanged()
+    }
+
 }
