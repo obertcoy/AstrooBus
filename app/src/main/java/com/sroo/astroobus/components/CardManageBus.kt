@@ -7,6 +7,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.sroo.astroobus.R
 import com.sroo.astroobus.activity.user.UserBusActivity
 import com.sroo.astroobus.databinding.CardManageBusBinding
@@ -28,13 +30,38 @@ class CardManageBus @JvmOverloads constructor(
             currActivity = context
         }
 
+        changeBusStatus(binding.manageBusSwitch)
+        displayDeployDialog(binding.manageBusBtn)
+
+    }
+
+    private fun changeBusStatus(switch: SwitchMaterial{
+
+        switch.setOnCheckedChangeListener { _, isChecked ->
+            val statusTv = binding.manageBusStatusTv
+
+            if (isChecked) {
+
+                statusTv.text = "Available"
+                statusTv.setTextColor(ContextCompat.getColor(context, R.color.default_green))
+                // ubah di db
+
+            } else {
+
+                statusTv.text = "Unavailable"
+                statusTv.setTextColor(ContextCompat.getColor(context, R.color.red))
+                // ubah di db
+
+
+            }
+        }
     }
 
     private fun displayDeployDialog(btn: View){
 
         btn.setOnClickListener{
 
-
+            
         }
     }
 
