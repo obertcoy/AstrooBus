@@ -10,10 +10,11 @@ import androidx.cardview.widget.CardView
 import com.sroo.astroobus.R
 import com.sroo.astroobus.activity.user.UserBusActivity
 import com.sroo.astroobus.databinding.CardTicketBusBinding
+import com.sroo.astroobus.model.BusTransaction
 
 class CardTicketBus @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
-) : CardView(context, attrs) {
+) : CardView(context, attrs){
 
     private lateinit var binding: CardTicketBusBinding
     private lateinit var currActivity: Activity
@@ -45,5 +46,7 @@ class CardTicketBus @JvmOverloads constructor(
             currActivity.startActivity(busIntent)
         }
     }
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.sroo.astroobus.repository
 
+import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,23 +32,9 @@ class BusRepository (){
                     val price = data?.get("price") as Number
                     val transactionId = data?.get("transactionId") as String
                     val timeString = data?.get("timeString") as String
-                    val startTime = data?.get("time") as Timestamp
                     val dateString = data?.get("dateString") as String
-                    val endTimeString = data?.get("endTimeString") as String
-                    val endTime = data?.get("endTime") as Timestamp
-                    BusTransaction(
-                        transactionId,
-                        busId,
-                        destinationPoint,
-                        startingPoint,
-                        dateString,
-                        timeString,
-                        endTimeString,
-                        startTime,
-                        endTime,
-                        price,
-                        availableSeats
-                    )
+                    val timestamp = data?.get("time") as Timestamp
+                    BusTransaction(transactionId,busId,destinationPoint,startingPoint,dateString,timeString,price,availableSeats,timestamp)
                 }
 
 

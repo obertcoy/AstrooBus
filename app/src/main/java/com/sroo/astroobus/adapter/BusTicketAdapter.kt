@@ -24,14 +24,14 @@ class BusTicketAdapter (private var transactionList: ArrayList<BusTransaction>):
 
         fun bind(transaction: BusTransaction) {
             locationTv.text = "${transaction.startingPoint} - ${transaction.destinationPoint}"
-            timeTv.text = transaction.startTimeString
+            timeTv.text = transaction.timeString
 
-            val start = LocalTime.parse(transaction.startTimeString)
-            val end = LocalTime.parse(transaction.endTimeString)
-            val hoursDiff = ChronoUnit.HOURS.between(start, end)
-            val minutesDiff = ChronoUnit.MINUTES.between(start, end) % 60
+//            val start = LocalTime.parse(transaction.startTimeString)
+//            val end = LocalTime.parse(transaction.endTimeString)
+//            val hoursDiff = ChronoUnit.HOURS.between(start, end)
+//            val minutesDiff = ChronoUnit.MINUTES.between(start, end) % 60
 
-            estimateTv.text = String.format("Estimated travel time %d hour(s)", hoursDiff)
+            estimateTv.text = String.format("Estimated travel time %d hour(s)", 3)
             seatTv.text = transaction.availableSeats.toString()
             priceTv.text = AdapterHelper.convertToRupiah(transaction.price.toInt())
         }

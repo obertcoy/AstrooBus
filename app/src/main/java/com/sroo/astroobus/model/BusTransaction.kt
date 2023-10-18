@@ -1,5 +1,6 @@
 package com.sroo.astroobus.model
 
+import android.util.Log
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
@@ -13,12 +14,10 @@ class BusTransaction(
     var destinationPoint: String,
     var startingPoint: String,
     var dateString: String,
-    var startTimeString:String,
-    var endTimeString: String,
-    var startTime:Timestamp,
-    var endTime: Timestamp,
+    var timeString:String,
     var price: Number,
-    var availableSeats: Number
+    var availableSeats: Number,
+    var time: Timestamp
 ) :IListener{
     private var listener: ListenerRegistration? = null
     private lateinit var db: FirebaseFirestore
@@ -26,6 +25,9 @@ class BusTransaction(
 
     interface BusTransactionUpdateListener {
         fun onUpdate(availableSeats: Number)
+    }
+    init {
+        startListening()
     }
     fun setUpdateListener(listener: BusTransactionUpdateListener) {
         busTransactionUpdateListener = listener
@@ -45,6 +47,7 @@ class BusTransaction(
                 for (document in snapshot.documents) {
                     val newAvailableSeats = document.getLong("availableSeats") ?: 0 as Number
                     availableSeats = newAvailableSeats
+                    Log.d("BusTransaction", availableSeats.toString())
 
                     busTransactionUpdateListener?.onUpdate(availableSeats)
                 }

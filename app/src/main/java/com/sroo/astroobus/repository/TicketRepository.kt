@@ -18,16 +18,22 @@ class TicketRepository (){
         db = FirebaseInitializer.instance?.getDatabase()!!
     }
 
-    fun getAllBusByRoute(destination: String, startingPoint: String, date: String): Task<List<BusTransaction>> {
+    fun getAllBusByRoute(destination: String, startingPoint: String, date: String, callback: (ArrayList<BusTransaction>) -> Unit) {
         val ref = db.collection("BusTransaction")
-        val query = ref.whereEqualTo("startingPoint", startingPoint)
-            .whereEqualTo("destinationPoint", destination).whereEqualTo("dateString", date)
-        return query.get().continueWith { task ->
-            if (task.isSuccessful) {
-                val documents = task.result?.documents
+        val query = ref.whereEqualTo("startingPoint", "Binus Anggrek")
+            .whereEqualTo("destinationPoint", "Binus Alam Sutra")
+            .whereEqualTo("dateString", "Wed, 18 Oct 2023")
 
+        query.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("TicketRepository", "Successful")
+                val documents = task.result?.documents
+                if (documents != null) {
+                    Log.d("TicketRepository", documents.size.toString())
+                }
                 val busTransactions = documents?.map { document ->
                     val data = document.data
+                    Log.d("TicketRepository", data?.get("busId").toString())
                     val busId = data?.get("busId") as String
                     val availableSeats = data?.get("availableSeats") as Number
                     val destinationPoint = data?.get("destinationPoint") as String
@@ -35,29 +41,19 @@ class TicketRepository (){
                     val price = data?.get("price") as Number
                     val transactionId = data?.get("transactionId") as String
                     val timeString = data?.get("timeString") as String
-                    val startTime = data?.get("time") as Timestamp
                     val dateString = data?.get("dateString") as String
-                    val endTimeString = data?.get("endTimeString") as String
-                    val endTime = data?.get("endTime") as Timestamp
-                    BusTransaction(
-                        transactionId,
-                        busId,
-                        destinationPoint,
-                        startingPoint,
-                        dateString,
-                        timeString,
-                        endTimeString,
-                        startTime,
-                        endTime,
-                        price,
-                        availableSeats
-                    )
+                    val timestamp = data?.get("time") as Timestamp
+                    BusTransaction(transactionId,busId,destinationPoint,startingPoint,dateString,timeString,price,availableSeats,timestamp)
                 }
-
-                busTransactions ?: emptyList()
+                val busTransactionList = ArrayList(busTransactions ?: emptyList())
+                Log.d("TicketRepository", busTransactionList.size.toString())
+                callback(busTransactionList)
             } else {
-                emptyList()
+                // Handle query error
+                Log.e("TicketRepository", "Firestore query failed", task.exception)
+                callback(ArrayList())
             }
         }
     }
+
 }
