@@ -16,9 +16,9 @@ class BusRepository (){
         db = FirebaseInitializer.instance?.getDatabase()!!
     }
 
-    fun getAllSeats(busId: String): Task<List<BusTransaction>> {
+    fun getSeatsNominal(busId: String, transactionId:String ): Task<List<BusTransaction>> {
         val ref = db.collection("Bus")
-        val query = ref.whereEqualTo("busId", busId)
+        val query = ref.whereEqualTo("busId", busId).whereEqualTo("transactionId", transactionId)
         return query.get().continueWith { task ->
             if (task.isSuccessful) {
                 val documents = task.result?.documents
