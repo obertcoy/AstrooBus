@@ -1,5 +1,6 @@
 package com.sroo.astroobus.fragment.user
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import com.sroo.astroobus.model.Bus
 class AdminManageBusFragment: Fragment() {
 
     private lateinit var binding: FragmentAdminManageBusBinding
+    private lateinit var dialog: Dialog
 
     private lateinit var allBuses: ArrayList<Bus>
     private lateinit var activeBuses: ArrayList<Bus>
@@ -37,9 +39,11 @@ class AdminManageBusFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAdminManageBusBinding.inflate(inflater, container, false)
+        dialog = Dialog(requireContext())
 
         initData()
         filter(binding.manageBusSpinner)
+        displayAddDialog(binding.manageBusAddBtn)
 
         return binding.root
     }
@@ -93,6 +97,19 @@ class AdminManageBusFragment: Fragment() {
             }
         }
 
+    }
+
+    private fun displayAddDialog(btn: View){
+
+        btn.setOnClickListener{
+
+            dialog.setContentView(R.layout.dialog_deploy_bus)
+            dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            dialog.window?.attributes?.windowAnimations = R.style.dialog_animation
+            dialog.setCancelable(true)
+
+            dialog.show()
+        }
     }
 
 }

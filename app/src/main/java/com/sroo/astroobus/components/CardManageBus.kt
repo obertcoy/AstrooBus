@@ -1,11 +1,13 @@
 package com.sroo.astroobus.components
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.google.android.material.switchmaterial.SwitchMaterial
@@ -20,6 +22,7 @@ class CardManageBus @JvmOverloads constructor(
 
     private lateinit var binding: CardManageBusBinding
     private lateinit var currActivity: Activity
+    private lateinit var dialog: Dialog
 
     init {
 
@@ -28,6 +31,7 @@ class CardManageBus @JvmOverloads constructor(
 
         if (context is Activity) {
             currActivity = context
+            dialog = Dialog(currActivity)
         }
 
         changeBusStatus(binding.manageBusSwitch)
@@ -61,8 +65,15 @@ class CardManageBus @JvmOverloads constructor(
 
         btn.setOnClickListener{
 
+            dialog.setContentView(R.layout.dialog_deploy_bus)
+            dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            dialog.window?.attributes?.windowAnimations = R.style.dialog_animation
+            dialog.setCancelable(true)
 
+            dialog.show()
         }
     }
+
+
 
 }
