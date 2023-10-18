@@ -17,7 +17,7 @@ import com.sroo.astroobus.interfaces.IFragmentable
 class UserMainActivity: AppCompatActivity(), IFragmentable {
 
     private lateinit var binding: ActivityUserMainBinding
-    lateinit var currIndicator: View
+    private lateinit var currIndicator: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
