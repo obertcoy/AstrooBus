@@ -64,7 +64,7 @@ class UserTicketActivity: AppCompatActivity(), INavigable {
             intent.putExtra("TIME", busTransaction.timeString)
             intent.putExtra("PRICE", busTransaction.price)
             intent.putExtra("BUS_ID", busTransaction.busId)
-            intent.putExtra("TRANSACTION_ID", busTransaction.busId)
+            intent.putExtra("TRANSACTION_ID", busTransaction.transactionId)
             startActivity(intent)
         }
         ticketRv.layoutManager = LinearLayoutManager(this)

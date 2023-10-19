@@ -22,7 +22,7 @@ class ManageBusAdapter (private var busList: ArrayList<Bus>):
         fun bind(bus: Bus) {
             idTv.text = bus.busId
             plateTv.text = bus.busPlate
-            seatTv.text = bus.busSeats
+            seatTv.text = bus.busSeats.toString()
             statusTv.text = bus.busStatus
         }
 
