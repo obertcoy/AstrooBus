@@ -20,10 +20,13 @@ import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.interfaces.IDropdownable
 import com.sroo.astroobus.utils.LocationUtils
 import com.sroo.astroobus.utils.TimeUtils
+import com.sroo.astroobus.`view-model`.DeployBusViewModel
 
 class CardManageBus @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : CardView(context, attrs), IDropdownable {
+
+    private lateinit var deployViewModel: DeployBusViewModel
 
     private lateinit var binding: CardManageBusBinding
     private lateinit var currActivity: Activity
@@ -38,6 +41,7 @@ class CardManageBus @JvmOverloads constructor(
 
         LayoutInflater.from(context).inflate(R.layout.card_manage_bus, this, true)
         binding = CardManageBusBinding.inflate(LayoutInflater.from(context), this, true)
+        deployViewModel = DeployBusViewModel(this)
 
         if (context is Activity) {
             currActivity = context
@@ -132,28 +136,8 @@ class CardManageBus @JvmOverloads constructor(
             }
         }
 
-
-        if (!(LocationUtils.checkLocation(startingPoint) && LocationUtils.checkLocation(
-                destinationPoint
-            ))
-        ) {
-            UIHelper.createToast(currActivity, "Invalid location")
-            return
-        }
-
-        if (startingPoint == "" || destinationPoint == "" || startTime == "" || endTime == "") {
-            UIHelper.createToast(currActivity, "All Fields Must Not Be Empty")
-            return
-        }
-
-        if (startingPoint == destinationPoint) {
-            UIHelper.createToast(currActivity, "Invalid route")
-            return
-        }
-
-        if(startTime >= endTime){
-            UIHelper.createToast(currActivity, "Invalid time")
-            return
+        dialog.findViewById<Button>(R.id.deploy_bus_btn).setOnClickListener{
+            deployViewModel.deployBus(startingPoint, destinationPoint, startTime, endTime, currActivity)
         }
 
         // deploy bus here
