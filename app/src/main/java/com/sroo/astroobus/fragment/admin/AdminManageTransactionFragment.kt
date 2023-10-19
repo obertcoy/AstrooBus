@@ -1,4 +1,4 @@
-package com.sroo.astroobus.fragment.user
+package com.sroo.astroobus.fragment.admin
 
 import android.os.Bundle
 import android.view.LayoutInflater

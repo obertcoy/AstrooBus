@@ -2,7 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    >
 
     <ImageView
         android:id="@+id/deploy_bus_back_arrow"
@@ -32,7 +34,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="45dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,20 +48,19 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/deploy_bus_plate_et"
-            android:layout_width="wrap_content"
+        <AutoCompleteTextView
+            android:id="@+id/deploy_bus_from_dropdown"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:width="300dp"
-            android:autofillHints="name"
-            android:background="@drawable/input_border"
-            android:hint="Enter starting location"
-            android:inputType="text"
+            android:hint="Enter Starting Point"
             android:paddingTop="15dp"
             android:paddingBottom="10dp"
+            android:paddingStart="18dp"
             android:textColorHint="@color/placeholder"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@drawable/input_border"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -71,45 +72,58 @@
             android:layout_marginTop="20dp"
             />
 
-        <EditText
-            android:id="@+id/deploy_bus_destination_et"
-            android:layout_width="wrap_content"
+        <AutoCompleteTextView
+            android:id="@+id/deploy_bus_to_dropdown"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:width="300dp"
-            android:autofillHints="name"
-            android:background="@drawable/input_border"
-            android:hint="Enter destination location"
-            android:inputType="number"
+            android:hint="Enter Destination Point"
             android:paddingTop="15dp"
             android:paddingBottom="10dp"
-            android:textColorHint="@color/placeholder"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:paddingStart="18dp"            android:textColorHint="@color/placeholder"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@drawable/input_border"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Seats"
+            android:text="Start Time"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginTop="20dp"
             />
 
-        <EditText
-            android:id="@+id/deploy_bus__et"
-            android:layout_width="wrap_content"
+        <Spinner
+            android:id="@+id/deploy_start_time_dropdown"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:width="300dp"
-            android:autofillHints="name"
-            android:background="@drawable/input_border"
-            android:hint="Enter seats"
-            android:inputType="number"
             android:paddingTop="15dp"
             android:paddingBottom="10dp"
-            android:textColorHint="@color/placeholder"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:paddingStart="18dp"
+            android:spinnerMode="dropdown"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End Time"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            />
+
+        <Spinner
+            android:id="@+id/deploy_end_time_dropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="18dp"
+            android:spinnerMode="dropdown"
+            android:layout_gravity="center_horizontal" />
 
         <Button
             android:id="@+id/deploy_bus_btn"

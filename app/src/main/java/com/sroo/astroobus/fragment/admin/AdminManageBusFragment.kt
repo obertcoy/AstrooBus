@@ -1,23 +1,32 @@
-package com.sroo.astroobus.fragment.user
+package com.sroo.astroobus.fragment.admin
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.sroo.astroobus.R
+import com.sroo.astroobus.activity.user.UserTicketActivity
 import com.sroo.astroobus.adapter.ManageBusAdapter
 import com.sroo.astroobus.databinding.FragmentAdminManageBusBinding
+import com.sroo.astroobus.helper.UIHelper
+import com.sroo.astroobus.interfaces.IDropdownable
+import com.sroo.astroobus.interfaces.INavigable
 import com.sroo.astroobus.model.Bus
+import com.sroo.astroobus.utils.LocationUtils
 
 
-class AdminManageBusFragment: Fragment() {
+class AdminManageBusFragment : Fragment(), INavigable{
 
     private lateinit var binding: FragmentAdminManageBusBinding
     private lateinit var dialog: Dialog
@@ -28,6 +37,8 @@ class AdminManageBusFragment: Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var recylerViewAdapter: ManageBusAdapter
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +59,7 @@ class AdminManageBusFragment: Fragment() {
         return binding.root
     }
 
-    private fun initData(){
+    private fun initData() {
 
         recyclerView = binding.manageBusRv
         recylerViewAdapter = ManageBusAdapter(allBuses)
@@ -59,7 +70,7 @@ class AdminManageBusFragment: Fragment() {
 
     }
 
-    private fun filter(spinner: Spinner){
+    private fun filter(spinner: Spinner) {
 
         val adapter = ArrayAdapter.createFromResource(
             requireContext(),
@@ -82,11 +93,11 @@ class AdminManageBusFragment: Fragment() {
             ) {
                 val selectedOption = parentView.getItemAtPosition(position).toString()
 
-                if(selectedOption == "All"){
+                if (selectedOption == "All") {
                     recylerViewAdapter.updateData(allBuses)
-                } else if(selectedOption == "Active"){
+                } else if (selectedOption == "Active") {
                     recylerViewAdapter.updateData(activeBuses)
-                } else if(selectedOption == "Non-Active"){
+                } else if (selectedOption == "Non-Active") {
                     recylerViewAdapter.updateData(nonActiveBuses)
 
                 }
@@ -101,15 +112,36 @@ class AdminManageBusFragment: Fragment() {
 
     private fun displayAddDialog(btn: View){
 
-        btn.setOnClickListener{
+        dialog.setContentView(R.layout.dialog_deploy_bus)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.window?.attributes?.windowAnimations = R.style.dialog_animation
+        dialog.setCancelable(true)
 
-            dialog.setContentView(R.layout.dialog_deploy_bus)
-            dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            dialog.window?.attributes?.windowAnimations = R.style.dialog_animation
-            dialog.setCancelable(true)
+        next(dialog.findViewById(R.id.add_bus_btn))
+        back(dialog.findViewById(R.id.add_bus_back_arrow))
 
-            dialog.show()
+        dialog.show()
+    }
+
+    override fun next(nextBtn: View) {
+
+        val plateEt = dialog.findViewById<EditText>(R.id.add_bus_plate_et)
+
+        nextBtn.setOnClickListener{
+
+            // add bus
+        }
+
+    }
+
+    override fun back(backBtn: View) {
+        backBtn.setOnClickListener{
+            dialog.dismiss()
         }
     }
+
 
 }

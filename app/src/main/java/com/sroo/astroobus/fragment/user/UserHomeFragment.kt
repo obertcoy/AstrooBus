@@ -17,6 +17,8 @@ import com.sroo.astroobus.activity.user.UserMainActivity
 import com.sroo.astroobus.activity.user.UserTicketActivity
 import com.sroo.astroobus.databinding.FragmentUserHomeBinding
 import com.sroo.astroobus.helper.UIHelper
+import com.sroo.astroobus.interfaces.IDropdownable
+import com.sroo.astroobus.utils.LocationUtils
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -26,7 +28,7 @@ import java.util.Locale
  * Use the [UserHomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class UserHomeFragment : Fragment() {
+class UserHomeFragment : Fragment(), IDropdownable {
 
     private lateinit var binding: FragmentUserHomeBinding
     private lateinit var fromSelect: AutoCompleteTextView
@@ -46,10 +48,10 @@ class UserHomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentUserHomeBinding.inflate(inflater, container, false)
-        initData()
+        initDropdownData()
 
-        searchBtn.setOnClickListener{
-            search()
+        searchBtn.setOnClickListener {
+            submit()
         }
 
         selectDate()
@@ -58,69 +60,23 @@ class UserHomeFragment : Fragment() {
         return binding.root
     }
 
-    private fun initData(){
 
-        locations = arrayListOf<String>("Bina Nusantara", "Citywalk Lippo", "Blok M")
-        locations.sort()
-
-        fromSelect = binding.homeFromDropdown
-        destinationSelect = binding.homeToDropdown
-        searchBtn = binding.homeMenuSearch
-
-        fromSelect.setAdapter(getSuggestions())
-        destinationSelect.setAdapter(getSuggestions())
-    }
-
-    private fun search(){
-
-        val fromLocation = fromSelect.text.toString()
-        val destinationLocation = destinationSelect.text.toString()
-        val selectedDate = binding.homeMenuDateTv.text.toString()
-
-//        val fromLocation = "Binus Anggrek"
-//        val destinationLocation = "Binus Alam Sutra"
-//        val selectedDate = binding.homeMenuDateTv.text.toString()
-
-        if(!(checkLocation(fromLocation) && checkLocation(destinationLocation))){
-            Snackbar.make(binding.root, "Invalid location", Snackbar.LENGTH_LONG).show()
-            return
-        }
-//
-        if(selectedDate.isEmpty()){
-            Snackbar.make(binding.root, "Select a date", Snackbar.LENGTH_LONG).show()
-            return
-        }
-
-        if(fromLocation == "" || destinationLocation == "" || selectedDate == "Date"){
-            UIHelper.createToast(currActivity, "All Fields Must Not Be Empty")
-        }else if(fromLocation == destinationLocation){
-            UIHelper.createToast(currActivity, "Invalid route")
-        }else{
-            val ticketIntent = Intent(requireContext(), UserTicketActivity::class.java)
-
-            ticketIntent.putExtra("STARTING_POINT", fromLocation)
-            ticketIntent.putExtra("DESTINATION_POINT", destinationLocation)
-            ticketIntent.putExtra("DATE", selectedDate)
-
-            startActivity(ticketIntent)
-        }
-    }
-
-    private fun selectDate(){
+    private fun selectDate() {
         val calendar = Calendar.getInstance()
 
-        val datePickerDialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-            val selectedCalendar = Calendar.getInstance()
-            selectedCalendar.set(year, month, dayOfMonth)
+        val datePickerDialog = DatePickerDialog(
+            requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                val selectedCalendar = Calendar.getInstance()
+                selectedCalendar.set(year, month, dayOfMonth)
 
-            if (selectedCalendar.before(calendar)) {
-                UIHelper.createToast(requireContext(), "Please select a future date.")
-            } else {
-                val dateFormat = SimpleDateFormat("EEE, dd MMM yyyy", Locale.US)
-                val formattedDate = dateFormat.format(selectedCalendar.time)
-                binding.homeMenuDateTv.text = formattedDate
-            }
-        },
+                if (selectedCalendar.before(calendar)) {
+                    UIHelper.createToast(requireContext(), "Please select a future date.")
+                } else {
+                    val dateFormat = SimpleDateFormat("EEE, dd MMM yyyy", Locale.US)
+                    val formattedDate = dateFormat.format(selectedCalendar.time)
+                    binding.homeMenuDateTv.text = formattedDate
+                }
+            },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
@@ -128,22 +84,59 @@ class UserHomeFragment : Fragment() {
 
         datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
 
-        binding.homeMenuDate.setOnClickListener{
+        binding.homeMenuDate.setOnClickListener {
             datePickerDialog.show()
         }
     }
 
-    private fun getSuggestions(): ArrayAdapter<String>{
-        return ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, locations)
+
+    override fun initDropdownData() {
+        fromSelect = binding.homeFromDropdown
+        destinationSelect = binding.homeToDropdown
+        searchBtn = binding.homeMenuSearch
+
+        fromSelect.setAdapter(LocationUtils.getLocationsAdapter(requireContext()))
+        destinationSelect.setAdapter(LocationUtils.getLocationsAdapter(requireContext()))
     }
 
-    private fun checkLocation(location: String): Boolean{
-        return locations.contains(location)
+    override fun submit() {
+
+        val startingPoint = fromSelect.text.toString()
+        val destinationPoint = destinationSelect.text.toString()
+        val selectedDate = binding.homeMenuDateTv.text.toString()
+
+
+        if (!(LocationUtils.checkLocation(startingPoint) && LocationUtils.checkLocation(
+                destinationPoint
+            ))
+        ) {
+            UIHelper.createToast(requireContext(), "Invalid location")
+            return
+        }
+
+        if (selectedDate.isEmpty()) {
+            UIHelper.createToast(requireContext(), "Select a date")
+            return
+        }
+
+        if (startingPoint == "" || destinationPoint == "" || selectedDate == "Date") {
+            UIHelper.createToast(requireContext(), "All Fields Must Not Be Empty")
+            return
+        }
+
+        if (startingPoint == destinationPoint) {
+            UIHelper.createToast(requireContext(), "Invalid route")
+            return
+        }
+
+        val ticketIntent = Intent(requireContext(), UserTicketActivity::class.java)
+
+        ticketIntent.putExtra("STARTING_POINT", startingPoint)
+        ticketIntent.putExtra("DESTINATION_POINT", destinationPoint)
+        ticketIntent.putExtra("DATE", selectedDate)
+
+        startActivity(ticketIntent)
+
     }
-
-
-
-
-
 
 }
