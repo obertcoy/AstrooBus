@@ -16,17 +16,16 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.sroo.astroobus.R
 import com.sroo.astroobus.databinding.CardManageBusBinding
-import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.interfaces.IDropdownable
 import com.sroo.astroobus.utils.LocationUtils
 import com.sroo.astroobus.utils.TimeUtils
-import com.sroo.astroobus.`view-model`.DeployBusViewModel
+import com.sroo.astroobus.`view-model`.BusViewModel
 
 class CardManageBus @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : CardView(context, attrs), IDropdownable {
 
-    private lateinit var deployViewModel: DeployBusViewModel
+    private lateinit var viewModel: BusViewModel
 
     private lateinit var binding: CardManageBusBinding
     private lateinit var currActivity: Activity
@@ -41,7 +40,7 @@ class CardManageBus @JvmOverloads constructor(
 
         LayoutInflater.from(context).inflate(R.layout.card_manage_bus, this, true)
         binding = CardManageBusBinding.inflate(LayoutInflater.from(context), this, true)
-        deployViewModel = DeployBusViewModel(this)
+        viewModel = BusViewModel()
 
         if (context is Activity) {
             currActivity = context
@@ -137,7 +136,7 @@ class CardManageBus @JvmOverloads constructor(
         }
 
         dialog.findViewById<Button>(R.id.deploy_bus_btn).setOnClickListener{
-            deployViewModel.deployBus(startingPoint, destinationPoint, startTime, endTime, currActivity)
+            viewModel.deployBus(startingPoint, destinationPoint, startTime, endTime, currActivity)
         }
 
         // deploy bus here

@@ -24,9 +24,12 @@ import com.sroo.astroobus.interfaces.IDropdownable
 import com.sroo.astroobus.interfaces.INavigable
 import com.sroo.astroobus.model.Bus
 import com.sroo.astroobus.utils.LocationUtils
+import com.sroo.astroobus.`view-model`.BusViewModel
 
 
 class AdminManageBusFragment : Fragment(), INavigable{
+
+    private lateinit var viewModel: BusViewModel
 
     private lateinit var binding: FragmentAdminManageBusBinding
     private lateinit var dialog: Dialog
@@ -50,6 +53,7 @@ class AdminManageBusFragment : Fragment(), INavigable{
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAdminManageBusBinding.inflate(inflater, container, false)
+        viewModel = BusViewModel()
         dialog = Dialog(requireContext())
 
         initData()
@@ -93,7 +97,7 @@ class AdminManageBusFragment : Fragment(), INavigable{
             ) {
                 val selectedOption = parentView.getItemAtPosition(position).toString()
 
-                if (selectedOption == "All") {
+                if(selectedOption == "All") {
                     recylerViewAdapter.updateData(allBuses)
                 } else if (selectedOption == "Active") {
                     recylerViewAdapter.updateData(activeBuses)
@@ -129,10 +133,8 @@ class AdminManageBusFragment : Fragment(), INavigable{
     override fun next(nextBtn: View) {
 
         val plateEt = dialog.findViewById<EditText>(R.id.add_bus_plate_et)
-
         nextBtn.setOnClickListener{
-
-            // add bus
+            viewModel.addBus(plateEt.text.toString(), requireContext())
         }
 
     }
