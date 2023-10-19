@@ -29,6 +29,16 @@ class AdapterHelper() {
         return phoneMap
     }
 
+    fun userTransactionHashMap(transactionId:String, seatsNumber:ArrayList<String>,totalPrice:Number, userId:String): HashMap<String, String>{
+        val userTransactionHashMap = hashMapOf(
+            "transactionId" to transactionId,
+            "seatsNumber" to seatsNumber,
+            "totalPrice" to totalPrice,
+            "userId" to userId
+        )
+        return userTransactionHashMap
+    }
+
     companion object {
         fun convertToRupiah(amount: Int): String {
             val format = NumberFormat.getCurrencyInstance(Locale("in", "ID"))

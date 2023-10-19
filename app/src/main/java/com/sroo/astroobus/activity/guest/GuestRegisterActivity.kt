@@ -108,14 +108,7 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable, ICounterable {
             val password = passwordEt.text.toString()
             val name = nameEt.text.toString()
             val code = inputText.text.toString()
-            registerViewModel.verifyCode(this,code, User("",name,email,phoneNumber,password) ){
-                result->
-                if(result == true){
-                    val homeIntent = Intent(this, UserMainActivity::class.java)
-                    homeIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(homeIntent)
-                }
-            }
+            registerViewModel.verifyCode(this,code, User("",name,email,phoneNumber,password))
 
         }
 

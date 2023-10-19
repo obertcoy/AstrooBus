@@ -2,8 +2,10 @@ package com.sroo.astroobus.`view-model`
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import com.sroo.astroobus.activity.guest.GuestRegisterActivity
+import com.sroo.astroobus.activity.user.UserMainActivity
 import com.sroo.astroobus.helper.SMSHelper
 import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.helper.VerificationCodeHelper
@@ -59,7 +61,7 @@ class RegisterViewModel(private val view: GuestRegisterActivity) {
         smsHelper.sendSMSWithPermission(activity, code, phoneNum)
     }
 
-    fun verifyCode(activity: Activity, code:String, user: User, callback: (Boolean) -> Unit){
+    fun verifyCode(activity: Activity, code:String, user: User){
         if(code == ""){
             UIHelper.createToast(activity, "All fields must be filled")
         }else{
@@ -70,14 +72,16 @@ class RegisterViewModel(private val view: GuestRegisterActivity) {
                     repository.registerUser(user, activity){
                         result ->
                         if(result == 1){
-                            callback(true)
+                            val homeIntent = Intent(view, UserMainActivity::class.java)
+                            homeIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            view.startActivity(homeIntent)
                         }else{
-                            callback(false)
+                            UIHelper.createToast(activity,"Failed to register")
                         }
                     }
                 }else{
                     UIHelper.createToast(activity,"Invalid code")
-                    callback(false)
+
                 }
             }
         }

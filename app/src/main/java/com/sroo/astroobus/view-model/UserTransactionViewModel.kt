@@ -6,6 +6,6 @@ class UserTransactionViewModel() {
     private var repository = UserTransactionRepository()
 
     fun addUserTransaction(transactionId:String, seatsNumber:ArrayList<String>,totalPrice:Number, userId:String){
-
+        repository.addUserTransaction(transactionId, seatsNumber, totalPrice, userId)
     }
 }
