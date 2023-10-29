@@ -62,7 +62,7 @@ class UserTicketActivity: AppCompatActivity(), INavigable {
             intent.putExtra("DESTINATION_POINT", busTransaction.destinationPoint)
             intent.putExtra("DATE", busTransaction.dateString)
             intent.putExtra("TIME", busTransaction.timeString)
-            intent.putExtra("PRICE", busTransaction.price)
+            intent.putExtra("PRICE", busTransaction.price.toString())
             intent.putExtra("BUS_ID", busTransaction.busId)
             intent.putExtra("TRANSACTION_ID", busTransaction.transactionId)
             startActivity(intent)

@@ -12,6 +12,7 @@ import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.interfaces.INavigable
 import com.sroo.astroobus.model.Bus
 import com.sroo.astroobus.utils.SessionManager
+import com.sroo.astroobus.`view-model`.BusTransactionViewModel
 import com.sroo.astroobus.`view-model`.BusViewModel
 import com.sroo.astroobus.`view-model`.UserTransactionViewModel
 import dev.jahidhasanco.seatbookview.SeatBookView
@@ -26,8 +27,10 @@ class UserBusActivity: AppCompatActivity(), INavigable, SeatClickListener, Bus.B
     private lateinit var seats: String
     private lateinit var seatsText: TextView
     private lateinit var seatBookView: SeatBookView
+    private lateinit var seatString: String
     private var adapter = AdapterHelper()
     private var busViewModel =  BusViewModel()
+    private var busTransactionViewModel = BusTransactionViewModel()
     private var viewModel = UserTransactionViewModel()
     private var price = 0
 
@@ -59,6 +62,7 @@ class UserBusActivity: AppCompatActivity(), INavigable, SeatClickListener, Bus.B
             result->
             if(result != null){
                 seats = result.seatString
+                seatString = seats
                 Log.d("UserBusActivity", result.seatString)
 
                 seatBookView = binding.layoutSeat
@@ -82,17 +86,24 @@ class UserBusActivity: AppCompatActivity(), INavigable, SeatClickListener, Bus.B
             if(seatBookView.getSelectedIdList().size > 0){
                 val bookIntent = Intent(this, UserBookActivity::class.java)
                 val seats =  adapter.arrayListToString(seatBookView.getSelectedIdList())
+                val seatArr = seatBookView.getSelectedIdList()
                 val total = seatBookView.getSelectedIdList().size * price
                 bookIntent.putExtra("STARTING_POINT", binding.busFromTv.text)
                 bookIntent.putExtra("DESTINATION_POINT", binding.busDestinationTv.text)
                 bookIntent.putExtra("DATE", binding.busDateTv.text)
                 bookIntent.putExtra("TIME", binding.busTimeTv.text)
-                bookIntent.putExtra("PRICE", binding.busPriceTv.text)
+                bookIntent.putExtra("PRICE", total.toString())
                 bookIntent.putExtra("SEAT_TOTAL", binding.busSeatSelectedTv.text)
                 bookIntent.putExtra("SEAT",seats)
                 val sessionManager = SessionManager(this)
-                sessionManager.getCurrUser()
-                    ?.let { it1 -> viewModel.addUserTransaction(transactionId,seats,total, it1) }
+                val currUser = sessionManager.getCurrUser()
+                if(currUser != null){
+                    viewModel.addUserTransaction(transactionId,seats,total, currUser)
+                    busViewModel.updateBusSeats(seatString,seatArr,busId)
+                    busTransactionViewModel.updateAvailableSeatNum(transactionId, seatArr.size)
+
+                }
+
                 this.startActivity(bookIntent)
             }else{
                 UIHelper.createToast(this, "You must select a seat")
@@ -108,7 +119,7 @@ class UserBusActivity: AppCompatActivity(), INavigable, SeatClickListener, Bus.B
     }
 
     override fun onAvailableSeatClick(selectedIdList: List<Int>, view: View) {
-        UIHelper.createToast(this , "LIST" + selectedIdList.toString())
+//        UIHelper.createToast(this , "LIST" + selectedIdList.toString())
         seatsText.text = seatBookView.getSelectedIdList().size.toString()
     }
 

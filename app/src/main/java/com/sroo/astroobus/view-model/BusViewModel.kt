@@ -21,6 +21,10 @@ class BusViewModel() {
         }
     }
 
+    fun updateBusSeats(seatString: String, seatNumber: List<Int>, busId: String){
+        repository.updateBusSeats(seatString, seatNumber, busId)
+    }
+
     fun deployBus(startingPoint: String, destinationPoint: String, startTime: String, endTime: String, ctx: Context){
         if (!(LocationUtils.checkLocation(startingPoint) && LocationUtils.checkLocation(
                 destinationPoint
