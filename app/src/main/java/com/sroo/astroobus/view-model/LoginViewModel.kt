@@ -6,6 +6,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.core.content.ContextCompat.startActivity
 import com.sroo.astroobus.activity.guest.GuestLoginActivity
+import com.sroo.astroobus.activity.admin.AdminMainActivity
 import com.sroo.astroobus.activity.user.UserMainActivity
 import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.repository.LoginRepository
@@ -20,13 +21,21 @@ class LoginViewModel(private val view: GuestLoginActivity) {
         }else{
             repository.login(password,email, activity){
                     result->
-                if(result != ""){
-                    val userMainIntent = Intent(activity, UserMainActivity::class.java)
-                    activity.startActivity(userMainIntent)
+                if(result != null){
                     if(view.getIsChecked()){
                         val sessionManager = SessionManager(activity)
-                        sessionManager.setCurrUser(result)
+                        sessionManager.setCurrUser(result.uid!!, result.role)
                     }
+                    val userMainIntent = Intent(activity, UserMainActivity::class.java)
+                    val adminMainIntent = Intent(activity, AdminMainActivity::class.java)
+                    if(result.role == "user"){
+                        userMainIntent.putExtra("CURR_UID",result.uid!! )
+                        activity.startActivity(userMainIntent)
+                    }else{
+                        adminMainIntent.putExtra("CURR_UID",result.uid!! )
+                        activity.startActivity(adminMainIntent)
+                    }
+
                 }else{
                     UIHelper.createToast(activity, "Invalid Credentials")
                 }

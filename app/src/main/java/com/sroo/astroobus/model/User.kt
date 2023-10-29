@@ -5,7 +5,8 @@ class User (
     var name: String,
     var email: String,
     var phoneNum: String,
-    var password:String
+    var password:String,
+    var role:String
     ){
 
 }

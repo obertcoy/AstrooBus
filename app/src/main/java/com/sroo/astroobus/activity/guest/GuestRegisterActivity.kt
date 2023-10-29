@@ -108,7 +108,7 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable, ICounterable {
             val password = passwordEt.text.toString()
             val name = nameEt.text.toString()
             val code = inputText.text.toString()
-            registerViewModel.verifyCode(this,code, User("",name,email,phoneNumber,password))
+            registerViewModel.verifyCode(this,code, User("",name,email,phoneNumber,password, "user"))
 
         }
 

@@ -1,4 +1,4 @@
-package com.sroo.astroobus.activity.user
+package com.sroo.astroobus.activity.admin
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +11,7 @@ import com.sroo.astroobus.R
 import com.sroo.astroobus.activity.universal.AccountActivity
 import com.sroo.astroobus.databinding.ActivityAdminMainBinding
 import com.sroo.astroobus.fragment.admin.AdminDashboardFragment
+import com.sroo.astroobus.fragment.admin.AdminManageBusFragment
 import com.sroo.astroobus.fragment.user.UserHistoryFragment
 import com.sroo.astroobus.fragment.user.UserHomeFragment
 import com.sroo.astroobus.interfaces.IFragmentable
@@ -35,11 +36,11 @@ class AdminMainActivity: AppCompatActivity(), IFragmentable {
     override fun navigate() {
 
         binding.adminNavDashboard.setOnClickListener {
-            changeFragment(UserHomeFragment(), binding.adminNavDashboardIndicator)
+            changeFragment(AdminDashboardFragment(), binding.adminNavDashboardIndicator)
         }
 
         binding.adminNavBus.setOnClickListener {
-            changeFragment(UserHistoryFragment(), binding.adminNavBusIndicator)
+            changeFragment(AdminManageBusFragment(), binding.adminNavBusIndicator)
         }
 
         binding.adminMainAccountIcon.setOnClickListener{

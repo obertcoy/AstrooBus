@@ -1,10 +1,11 @@
-package com.sroo.astroobus.Activity
+package com.sroo.astroobus.activity.guest
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.sroo.astroobus.R
+import com.sroo.astroobus.activity.admin.AdminMainActivity
 import com.sroo.astroobus.activity.guest.GuestLoginActivity
 import com.sroo.astroobus.activity.guest.GuestRegisterActivity
 import com.sroo.astroobus.activity.user.UserMainActivity
@@ -32,7 +33,16 @@ class GuestLandingActivity: AppCompatActivity()  {
         val sessionManager = SessionManager(this)
         if(sessionManager.getCurrUser() != ""){
             val userMainIntent = Intent(this, UserMainActivity::class.java)
-            startActivity(userMainIntent)
+            val adminMainIntent = Intent(this, AdminMainActivity::class.java)
+            if(sessionManager.getCurrRole() == "user"){
+                userMainIntent.putExtra("CURR_UID",sessionManager.getCurrUser() )
+                startActivity(userMainIntent)
+            }else{
+                adminMainIntent.putExtra("CURR_UID",sessionManager.getCurrUser())
+                startActivity(adminMainIntent)
+            }
+
+
         }
     }
 }

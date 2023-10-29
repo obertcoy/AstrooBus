@@ -66,8 +66,8 @@ class AdminManageBusFragment : Fragment(), INavigable{
     private fun initData() {
 
         recyclerView = binding.manageBusRv
-        recylerViewAdapter = ManageBusAdapter(allBuses)
-        recyclerView.adapter = recylerViewAdapter
+//        recylerViewAdapter = ManageBusAdapter(allBuses)
+//        recyclerView.adapter = recylerViewAdapter
 
         // masukin ke masing arraylist
 
@@ -88,34 +88,33 @@ class AdminManageBusFragment : Fragment(), INavigable{
 
         spinner.setSelection(adapter.getPosition("All"))
 
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parentView: AdapterView<*>,
-                selectedItemView: View,
-                position: Int,
-                id: Long
-            ) {
-                val selectedOption = parentView.getItemAtPosition(position).toString()
-
-                if(selectedOption == "All") {
-                    recylerViewAdapter.updateData(allBuses)
-                } else if (selectedOption == "Active") {
-                    recylerViewAdapter.updateData(activeBuses)
-                } else if (selectedOption == "Non-Active") {
-                    recylerViewAdapter.updateData(nonActiveBuses)
-
-                }
-            }
-
-            override fun onNothingSelected(parentView: AdapterView<*>?) {
-
-            }
-        }
+//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(
+//                parentView: AdapterView<*>,
+//                selectedItemView: View,
+//                position: Int,
+//                id: Long
+//            ) {
+//                val selectedOption = parentView.getItemAtPosition(position).toString()
+//
+//                if(selectedOption == "All") {
+//                    recylerViewAdapter.updateData(allBuses)
+//                } else if (selectedOption == "Active") {
+//                    recylerViewAdapter.updateData(activeBuses)
+//                } else if (selectedOption == "Non-Active") {
+//                    recylerViewAdapter.updateData(nonActiveBuses)
+//
+//                }
+//            }
+//
+//            override fun onNothingSelected(parentView: AdapterView<*>?) {
+//
+//            }
+//        }
 
     }
 
-    private fun displayAddDialog(btn: View){
-
+    private fun displayAddDialog(btn: View) {
         dialog.setContentView(R.layout.dialog_deploy_bus)
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -124,11 +123,21 @@ class AdminManageBusFragment : Fragment(), INavigable{
         dialog.window?.attributes?.windowAnimations = R.style.dialog_animation
         dialog.setCancelable(true)
 
-        next(dialog.findViewById(R.id.add_bus_btn))
-        back(dialog.findViewById(R.id.add_bus_back_arrow))
+        val backButton = dialog.findViewById<View>(R.id.add_bus_back_arrow)
 
+        if (backButton != null) {
+            backButton.setOnClickListener {
+                dialog.dismiss()
+            }
+        } else {
+
+        }
+
+        next(binding.manageBusAddBtn)
         dialog.show()
     }
+
+
 
     override fun next(nextBtn: View) {
 

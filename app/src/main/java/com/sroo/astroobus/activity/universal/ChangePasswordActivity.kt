@@ -16,9 +16,7 @@ class ChangePasswordActivity: AppCompatActivity(), INavigable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChangePasswordBinding.inflate(layoutInflater)
-
-
-
+        setContentView(binding.root)
     }
 
     private fun changePassword(){

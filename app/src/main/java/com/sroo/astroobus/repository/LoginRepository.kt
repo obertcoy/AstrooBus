@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sroo.astroobus.database.FirebaseInitializer
 import com.sroo.astroobus.helper.AdapterHelper
+import com.sroo.astroobus.model.User
 
 class LoginRepository (){
     private var auth: FirebaseAuth?
@@ -16,17 +17,43 @@ class LoginRepository (){
         auth = FirebaseInitializer.instance?.getAuth()
     }
 
-    fun login(password:String, email:String, activity: Activity, callback: (String)-> Unit){
+    fun login(password: String, email: String, activity: Activity, callback: (User?) -> Unit) {
         auth!!.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     val user = auth!!.currentUser?.uid.toString()
-                    callback(user)
+                    getUserInfo(user, callback)
                 } else {
-                    val exception = task.exception
-                    callback("")
+                    callback(null)
                 }
             }
     }
+
+    private fun getUserInfo(userId: String, callback: (User?) -> Unit) {
+        val userRef = db.collection("Users")
+            .whereEqualTo("uid", userId)
+
+        userRef.get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val documents = task.result?.documents
+                    if (documents != null && !documents.isEmpty()) {
+                        val userData = documents[0].data
+                        val userEmail = userData?.get("email") as String
+                        val userName = userData?.get("name") as String
+                        val userPhoneNum = userData?.get("phoneNum") as String
+                        val userRole = userData?.get("role") as String
+                        val userId = userData?.get("uid") as String
+                        val userPass = userData?.get("password") as String
+                        callback(User(userId,userName,userEmail, userPhoneNum, userPass, userRole))
+                    } else {
+                        callback(null)
+                    }
+                } else {
+                    callback(null)
+                }
+            }
+    }
+
 
 }

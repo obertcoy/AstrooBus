@@ -23,7 +23,7 @@
             android:resource="@color/default_secondary" />
 
         <activity
-            android:name=".Activity.GuestLandingActivity"
+            android:name=".activity.guest.GuestLandingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,6 +40,7 @@
         <activity android:name=".activity.user.UserBookActivity"/>
         <activity android:name=".activity.universal.AccountActivity"/>
         <activity android:name=".activity.universal.ChangePasswordActivity"/>
+        <activity android:name=".activity.admin.AdminMainActivity"/>
 
         <service
             android:name=".utils.MyFirebaseMessagingService"

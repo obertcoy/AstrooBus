@@ -11,8 +11,19 @@ class SessionManager(context: Context) {
         return sharedPreferences.getString("currUser", "")
     }
 
-    fun setCurrUser(currUID: String) {
+    fun getCurrRole(): String?{
+        return sharedPreferences.getString("currRole", "")
+    }
+
+    fun logout(){
+        editor.putString("currUser", "")
+        editor.putString("currRole", "")
+        editor.apply()
+    }
+
+    fun setCurrUser(currUID: String, currRole:String) {
         editor.putString("currUser", currUID)
+        editor.putString("currRole", currRole)
         editor.apply()
     }
 }

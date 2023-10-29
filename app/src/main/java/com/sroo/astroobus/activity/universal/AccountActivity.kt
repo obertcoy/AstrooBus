@@ -1,6 +1,7 @@
 package com.sroo.astroobus.activity.universal
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,10 +11,13 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.sroo.astroobus.activity.guest.GuestLandingActivity
 import com.sroo.astroobus.R
+import com.sroo.astroobus.activity.guest.GuestLoginActivity
 import com.sroo.astroobus.databinding.ActivityAccountBinding
 import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.interfaces.INavigable
+import com.sroo.astroobus.utils.SessionManager
 
 class AccountActivity : AppCompatActivity(), INavigable {
 
@@ -31,7 +35,7 @@ class AccountActivity : AppCompatActivity(), INavigable {
         checkDialog(binding.accountNameEdit)
         checkDialog(binding.accountEmailEdit)
         checkDialog(binding.accountPhoneEdit)
-
+        checkDialog(binding.logoutBtn)
     }
 
     private fun checkDialog(btn: View) {
@@ -39,9 +43,20 @@ class AccountActivity : AppCompatActivity(), INavigable {
             if (btn == binding.accountNameEdit) showDialog("Enter your name")
             if (btn == binding.accountEmailEdit) showDialog("Enter your email")
             if (btn == binding.accountPhoneEdit) showDialog("Enter your phone")
+            if(btn == binding.logoutBtn)logout()
         }
 
     }
+
+    private fun logout(){
+        val sessionManager = SessionManager(this)
+        sessionManager.logout()
+        val intent = Intent(this, GuestLandingActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
+
 
     private fun showDialog(infoText: String) {
 
@@ -99,7 +114,10 @@ class AccountActivity : AppCompatActivity(), INavigable {
 
 
     override fun next(nextBtn: View) {
-        Log.d("AccountActivity", "hihihaha")
+        nextBtn.setOnClickListener{
+            val intent = Intent(this, ChangePasswordActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun back(backBtn: View) {
