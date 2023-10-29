@@ -21,6 +21,8 @@ class ChangePasswordActivity: AppCompatActivity(), INavigable {
         super.onCreate(savedInstanceState)
         binding = ActivityChangePasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        next(binding.changePassBtn)
     }
 
 
