@@ -42,6 +42,7 @@ class UserTransactionRepository() {
 
                 if (documents != null && !documents.isEmpty()) {
                     val transactionRepository = BusTransactionRepository()
+                    var completedQueries = 0
 
                     for (document in documents) {
                         val data = document.data
@@ -62,13 +63,15 @@ class UserTransactionRepository() {
                                     result.timeString
                                 )
                                 userTransactionList.add(historyTransaction)
-                            } else {
+                            }
 
+                            completedQueries++
+
+                            if (completedQueries == documents.size) {
+                                callback(userTransactionList)
                             }
                         }
                     }
-
-                    callback(userTransactionList)
                 } else {
                     Log.d("BusRepository", "documents kosong")
                 }
@@ -76,5 +79,6 @@ class UserTransactionRepository() {
             }
         }
     }
+
 
 }

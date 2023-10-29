@@ -3,6 +3,7 @@ package com.sroo.astroobus.fragment.user
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +54,7 @@ class UserHistoryFragment : Fragment() {
         transactionRv = binding.transactionRV
         fragmentContext = requireContext()
         val session = SessionManager(fragmentContext)
+        Log.d("UserHistoryFragment", "FRAGMENT"+fragmentContext.toString())
 
         busHistoryAdapter = BusHistoryAdapter(historyTransactionList)
         transactionRv.layoutManager = LinearLayoutManager(fragmentContext)
@@ -60,6 +62,11 @@ class UserHistoryFragment : Fragment() {
 
         historyVM.getUserTransaction(session.getCurrUser()!!) { result ->
             if (result != null) {
+                Log.d("UserHistoryFragment", "ini datanya ga null")
+                Log.d("UserHistoryFragment", "${session.getCurrUser()!!}")
+                Log.d("UserHistoryFragment", "Data size: ${historyTransactionList.size}")
+                busHistoryAdapter.notifyDataSetChanged()
+
                 historyTransactionList.clear()
                 historyTransactionList.addAll(result)
                 busHistoryAdapter.notifyDataSetChanged()
@@ -68,6 +75,7 @@ class UserHistoryFragment : Fragment() {
 
         return binding.root
     }
+
 
     companion object {
         @JvmStatic
