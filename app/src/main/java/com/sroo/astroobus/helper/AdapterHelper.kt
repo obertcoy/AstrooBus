@@ -1,11 +1,15 @@
 package com.sroo.astroobus.helper
 
 import com.sroo.astroobus.model.User
+import java.io.Serializable
 import java.text.NumberFormat
 import java.util.Locale
 
 class AdapterHelper() {
 
+    fun arrayListToString(list: List<Int>): String {
+        return list.joinToString(",")
+    }
     fun UserToHashmap(user: User): HashMap<String, String?> {
         val userMap = hashMapOf(
             "name" to user.name,
@@ -29,7 +33,7 @@ class AdapterHelper() {
         return phoneMap
     }
 
-    fun userTransactionHashMap(transactionId:String, seatsNumber:ArrayList<String>,totalPrice:Number, userId:String): HashMap<String, String>{
+    fun userTransactionHashMap(transactionId:String, seatsNumber:String,totalPrice:Number, userId:String): HashMap<String, Serializable> {
         val userTransactionHashMap = hashMapOf(
             "transactionId" to transactionId,
             "seatsNumber" to seatsNumber,
