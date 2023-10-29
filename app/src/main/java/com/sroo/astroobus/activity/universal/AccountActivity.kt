@@ -17,18 +17,36 @@ import com.sroo.astroobus.activity.guest.GuestLoginActivity
 import com.sroo.astroobus.databinding.ActivityAccountBinding
 import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.interfaces.INavigable
+import com.sroo.astroobus.model.Bus
+import com.sroo.astroobus.model.User
 import com.sroo.astroobus.utils.SessionManager
+import com.sroo.astroobus.`view-model`.AccountViewModel
 
-class AccountActivity : AppCompatActivity(), INavigable {
+class AccountActivity : AppCompatActivity(), INavigable, User.UserUpdateListener {
 
     private lateinit var binding: ActivityAccountBinding
     private lateinit var dialog: Dialog;
+    private var viewmodel = AccountViewModel()
+    private lateinit var currentId:String
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAccountBinding.inflate(layoutInflater)
         setContentView(binding.root)
         dialog = Dialog(this)
+        val sessionManager = SessionManager(this)
+        currentId = sessionManager.getCurrUser().toString()
+        viewmodel.getUserById(currentId,this){
+            result->
+            if(result != null){
+                user = result
+                user.setUpdateListener(this)
+                binding.accountNameTv.text = result.name
+                binding.accountEmailTv.text = result.email
+                binding.accountPhoneTv.text = result.phoneNum
+            }
+        }
 
         next(binding.accountChangePasswordTv)
         back(binding.accountBackArrow)
@@ -99,12 +117,13 @@ class AccountActivity : AppCompatActivity(), INavigable {
 
         if (infoText == "Enter your name"){
             // change name
+            viewmodel.updateName(currentId,newValue, this)
         }
         if (infoText == "Enter your email"){
             // change password
         }
         if (infoText == "Enter your phone"){
-            // change password
+            viewmodel.updatePhoneNumber(currentId,newValue, this)
         }
 
         UIHelper.createToast(this, "Credential changed successfully!")
@@ -124,5 +143,11 @@ class AccountActivity : AppCompatActivity(), INavigable {
         backBtn.setOnClickListener {
             this.finish()
         }
+    }
+
+    override fun onUpdate(user: User) {
+        binding.accountNameTv.text = user.name
+        binding.accountEmailTv.text = user.email
+        binding.accountPhoneTv.text = user.phoneNum
     }
 }

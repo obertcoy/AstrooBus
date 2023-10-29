@@ -29,7 +29,7 @@ class LoginRepository (){
             }
     }
 
-    private fun getUserInfo(userId: String, callback: (User?) -> Unit) {
+    fun getUserInfo(userId: String, callback: (User?) -> Unit) {
         val userRef = db.collection("Users")
             .whereEqualTo("uid", userId)
 
