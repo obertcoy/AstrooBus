@@ -2,6 +2,7 @@ package com.sroo.astroobus.activity.universal
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -98,7 +99,7 @@ class AccountActivity : AppCompatActivity(), INavigable {
 
 
     override fun next(nextBtn: View) {
-        TODO("Not yet implemented")
+        Log.d("AccountActivity", "hihihaha")
     }
 
     override fun back(backBtn: View) {

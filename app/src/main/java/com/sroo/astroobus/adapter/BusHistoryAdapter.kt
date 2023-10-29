@@ -6,9 +6,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sroo.astroobus.databinding.CardHistoryBusBinding
 import com.sroo.astroobus.helper.AdapterHelper
+import com.sroo.astroobus.model.HistoryTransaction
 import com.sroo.astroobus.model.UserBusTicket
+import com.sroo.astroobus.model.UserTransaction
+import java.util.ArrayList
 
-class BusHistoryAdapter (private var historyList: ArrayList<UserBusTicket>):
+class BusHistoryAdapter(private var historyList: ArrayList<HistoryTransaction>):
     RecyclerView.Adapter<BusHistoryAdapter.ViewHolder>()
 {
     class ViewHolder(binding: CardHistoryBusBinding):
@@ -20,12 +23,12 @@ class BusHistoryAdapter (private var historyList: ArrayList<UserBusTicket>):
         private val seatTv: TextView = binding.historyBusCardSeatTv
         private val priceTv: TextView = binding.historyBusCardPriceTv
 
-        fun bind(ticket: UserBusTicket) {
-            dateTv.text = ticket.dateString
-            locationTv.text = "${ticket.startingPoint} - ${ticket.destinationPoint}"
-            timeTv.text = "${ticket.startTimeString} - ${ticket.endTimeString}"
-            seatTv.text = ticket.seat.toString()
-            priceTv.text = AdapterHelper.convertToRupiah(ticket.price)
+        fun bind(ticket: HistoryTransaction) {
+            dateTv.text = ticket.date
+            locationTv.text = "${ticket.startingPoint} - ${ticket.endingPoint}"
+            timeTv.text = "${ticket.timeString}"
+            seatTv.text = ticket.seatsNumber.toString()
+            priceTv.text = ticket.totalPrice
         }
 
     }
