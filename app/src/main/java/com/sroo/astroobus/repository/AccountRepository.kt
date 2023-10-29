@@ -17,24 +17,37 @@ class AccountRepository {
         db = FirebaseInitializer.instance?.getDatabase()!!
     }
 
-    fun updatePassword(userId:String, newPassword:String){
+    fun updatePassword(userId: String, newPassword: String, callback: (String) -> Unit) {
+        getUserById(userId) { result ->
+            if (result != null) {
+                if (newPassword == result.password) {
+                    callback("error")
+                } else {
+                    val newPasswordData = hashMapOf(
+                        "password" to newPassword
+                    )
 
+                    db.collection("Users")
+                        .document(userId)
+                        .update(newPasswordData as Map<String, Any>)
+                        .addOnSuccessListener {
+                            println("Document successfully updated!")
+                            callback("success")
+                        }
+                        .addOnFailureListener { e ->
+                            println("Error updating document: $e")
+                            callback("error")
+                        }
+                }
+            } else {
+                callback("user_not_found")
+            }
+        }
     }
 
-    fun updateName(userId: String, name:String){
-        val newName = hashMapOf(
-            "name" to name
-        )
 
-        db.collection("Users")
-            .document(userId)
-            .update(newName as Map<String, Any>)
-            .addOnSuccessListener {
-                println("Document successfully updated!")
-            }
-            .addOnFailureListener { e ->
-                println("Error updating document: $e")
-            }
+    fun updateName(userId: String, name:String){
+
     }
 
     fun updateEmail(userId: String, oldEmail:String, newEmail: String){

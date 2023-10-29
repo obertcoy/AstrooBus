@@ -24,6 +24,23 @@ class AccountViewModel {
         }
     }
 
+    fun updatePassword(newPassword:String, oldPassword:String, confirmPassword:String, userId: String, context: Context){
+        if(newPassword.equals("") || oldPassword.equals("") || confirmPassword.equals("")) {
+            UIHelper.createToast(context, "All fields must be filled")
+        }else if(!newPassword.equals(confirmPassword)){
+            UIHelper.createToast(context, "Password not the same")
+        }else{
+            val str = repository.updatePassword(userId, newPassword){
+                result->
+                if(result.equals("error")){
+                    UIHelper.createToast(context, "Invalid password")
+                }else if(result.equals("success")){
+                    UIHelper.createToast(context, "Password updated")
+                }
+            }
+        }
+    }
+
     fun getUserById(userId: String,  context: Context,callback: (User?) -> Unit){
         repository.getUserById(userId){
             result ->
