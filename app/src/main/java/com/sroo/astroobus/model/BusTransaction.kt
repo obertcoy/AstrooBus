@@ -5,7 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.sroo.astroobus.database.FirebaseInitializer
 import com.sroo.astroobus.interfaces.IListener
-import java.sql.Timestamp
+import com.google.firebase.Timestamp
 
 class BusTransaction(
     var transactionId:String,

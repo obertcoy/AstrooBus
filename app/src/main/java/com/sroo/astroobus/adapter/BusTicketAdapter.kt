@@ -14,7 +14,7 @@ import java.time.temporal.ChronoUnit
 
 class BusTicketAdapter (
     private var transactionList: ArrayList<BusTransaction>,
-    private val onItemClickListener: (BusTransaction) -> Unit
+    private val onItemClickListener: ((BusTransaction) -> Unit)?
 ):
     RecyclerView.Adapter<BusTicketAdapter.ViewHolder>()
 {
@@ -40,7 +40,7 @@ class BusTicketAdapter (
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val transaction = transactionList[position]
-                    onItemClickListener.invoke(transaction)
+                    onItemClickListener?.invoke(transaction)
                 }
             }
         }

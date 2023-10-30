@@ -40,7 +40,7 @@ class TicketRepository (){
                     val transactionId = data?.get("transactionId") as String
                     val timeString = data?.get("timeString") as String
                     val dateString = data?.get("dateString") as String
-                    val timestamp = data?.get("time") as java.sql.Timestamp
+                    val timestamp = data?.get("time") as Timestamp
                     BusTransaction(transactionId,busId,destinationPoint,startingPoint,dateString,timeString,price,availableSeats,timestamp)
                 }
                 val busTransactionList = ArrayList(busTransactions ?: emptyList())

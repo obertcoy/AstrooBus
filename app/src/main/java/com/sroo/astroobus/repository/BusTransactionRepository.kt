@@ -1,11 +1,12 @@
 package com.sroo.astroobus.repository
 
 import android.util.Log
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sroo.astroobus.database.FirebaseInitializer
 import com.sroo.astroobus.helper.AdapterHelper
 import com.sroo.astroobus.model.BusTransaction
-import java.sql.Timestamp
+import java.util.ArrayList
 
 class BusTransactionRepository {
     private lateinit var db: FirebaseFirestore
@@ -100,6 +101,36 @@ class BusTransactionRepository {
             } else {
 
             }
+        }
+    }
+
+    fun getAllBusTransaction(callback: (ArrayList<BusTransaction>) -> Unit) {
+        val ref = db.collection("BusTransaction")
+
+        ref.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val documents = task.result?.documents
+                val busTransactions = documents?.map { document ->
+                    val data = document.data
+                    val busId = data?.get("busId") as String
+                    val availableSeats = data?.get("availableSeats") as Number
+                    val destinationPoint = data?.get("destinationPoint") as String
+                    val startingPoint = data?.get("startingPoint") as String
+                    val price = data?.get("price") as Number
+                    val transactionId = data?.get("transactionId") as String
+                    val timeString = data?.get("timeString") as String
+                    val dateString = data?.get("dateString") as String
+                    val timestamp = data?.get("time") as Timestamp
+                    BusTransaction(transactionId,busId,destinationPoint,startingPoint,dateString,timeString,price,availableSeats,timestamp)
+                }
+                val busTransactionList = ArrayList(busTransactions ?: emptyList())
+                Log.d("TicketRepository", busTransactionList.size.toString())
+                callback(busTransactionList)
+            } else {
+                Log.e("TicketRepository", "Firestore query failed", task.exception)
+                callback(ArrayList())
+            }
+
         }
     }
 

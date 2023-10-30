@@ -1,17 +1,16 @@
 package com.sroo.astroobus.helper
 
-import java.sql.Timestamp
+import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.time.ZoneId
 import java.util.Date
 
 class TimeHelper() {
     companion object {
         fun getCurrentTimestamp(): Timestamp {
-            val currentDateTime = LocalDateTime.now()
-            val formattedString = currentDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))
-            return Timestamp.valueOf(formattedString)
+            val currentInstant = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()
+            return Timestamp(currentInstant.toEpochMilli() / 1000, (currentInstant.toEpochMilli() % 1000).toInt() * 1000)
         }
 
         fun timestampToDate(timestamp: Long): String {

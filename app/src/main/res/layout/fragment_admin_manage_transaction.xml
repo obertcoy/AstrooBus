@@ -41,7 +41,7 @@
                     />
 
                 <Spinner
-                    android:id="@+id/manage_bus_spinner"
+                    android:id="@+id/transaction_bus_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -62,15 +62,4 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/manage_bus_add_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="20dp"
-        android:scaleType="center"
-        android:src="@drawable/baseline_add_24"
-        app:backgroundTint="#1B1464"
-        tools:ignore="SpeakableTextPresentCheck" />
 </FrameLayout>
