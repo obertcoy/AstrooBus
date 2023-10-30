@@ -1,5 +1,7 @@
 package com.sroo.astroobus.`view-model`
 
+import android.content.Context
+import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.model.BusTransaction
 import com.sroo.astroobus.repository.BusRepository
 import com.sroo.astroobus.repository.BusTransactionRepository
@@ -12,8 +14,14 @@ class BusTransactionViewModel {
         repository.updateAvailableSeatNum(transactionId, decreaseSeat)
     }
 
-    fun deployBus(busTransaction: BusTransaction){
-        repository.deployBus(busTransaction)
+    fun deployBus(busTransaction: BusTransaction, context: Context){
+        if(busTransaction.startingPoint == "" || busTransaction.destinationPoint == ""){
+            UIHelper.createToast(context,"Destination must be filled")
+        }else if(busTransaction.dateString == "" || busTransaction.timeString == "" || busTransaction.time == null){
+            UIHelper.createToast(context,"Invalid time")
+        }else{
+            repository.deployBus(busTransaction)
+        }
     }
 
     fun getAllBusTransaction(callback: (ArrayList<BusTransaction>) -> Unit) {
