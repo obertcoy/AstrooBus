@@ -37,8 +37,6 @@ class AdminManageBusFragment : Fragment(), INavigable{
     private lateinit var dialog: Dialog
 
     private lateinit var allBuses: ArrayList<Bus>
-    private lateinit var activeBuses: ArrayList<Bus>
-    private lateinit var nonActiveBuses: ArrayList<Bus>
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var recylerViewAdapter: ManageBusAdapter
@@ -59,7 +57,6 @@ class AdminManageBusFragment : Fragment(), INavigable{
         dialog = Dialog(requireContext())
 
         initData()
-//        filter(binding.manageBusSpinner)
         displayAddDialog(binding.manageBusAddBtn)
 
         return binding.root
@@ -75,6 +72,7 @@ class AdminManageBusFragment : Fragment(), INavigable{
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerView.adapter = recylerViewAdapter
             }
+            filter(binding.manageBusSpinner)
         }
     }
 
@@ -103,12 +101,11 @@ class AdminManageBusFragment : Fragment(), INavigable{
                 val selectedOption = parentView.getItemAtPosition(position).toString()
 
                 if(selectedOption == "All") {
-                    recylerViewAdapter.updateData(allBuses)
+                     recylerViewAdapter.updateData(allBuses)
                 } else if (selectedOption == "Active") {
-                    recylerViewAdapter.updateData(activeBuses)
+                    filterBusesByStatus("Available")
                 } else if (selectedOption == "Non-Active") {
-                    recylerViewAdapter.updateData(nonActiveBuses)
-
+                    filterBusesByStatus("Unavailable")
                 }
             }
 
@@ -118,6 +115,11 @@ class AdminManageBusFragment : Fragment(), INavigable{
         }
 
     }
+    private fun filterBusesByStatus(status: String) {
+        val filteredBuses = allBuses.filter { it.busStatus == status }
+        recylerViewAdapter.updateData(filteredBuses as ArrayList<Bus>)
+    }
+
 
     private fun displayAddDialog(btn: View) {
         dialog.setContentView(R.layout.dialog_add_bus)
@@ -149,7 +151,7 @@ class AdminManageBusFragment : Fragment(), INavigable{
     override fun next(nextBtn: View) {
         nextBtn.setOnClickListener{
             val plateEt = dialog.findViewById<EditText>(R.id.add_bus_plate_et)
-            Log.d("AdminManageBusFragment", "wiwuuu")
+//            Log.d("AdminManageBusFragment", "wiwuuu")
             viewModel.addBus(Bus("1", plateEt.text.toString(), 20,"p", "a",""), requireContext()){
                 result->
                 if(result == "success"){

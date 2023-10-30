@@ -30,6 +30,7 @@ class ManageBusAdapter (private var busList: ArrayList<Bus>):
             plateTv.text = bus.busPlate
             seatTv.text = bus.busSeats.toString()
             statusTv.text = bus.busStatus
+            switch.isChecked = bus.busStatus == "Available"
         }
 
         init {
