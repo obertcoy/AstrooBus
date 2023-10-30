@@ -46,7 +46,7 @@ class BusRepository (){
         }
     }
 
-    fun addBus(bus:Bus) {
+    fun addBus(bus:Bus, callback: (String) -> Unit) {
         val transaction = adapter.busToHashMap(bus)
         val ref = db.collection("Bus")
 
@@ -61,6 +61,7 @@ class BusRepository (){
                     .update(addAttr as Map<String, Any>)
                     .addOnSuccessListener {
                         println("Document successfully updated!")
+                        callback("success")
                     }
                     .addOnFailureListener { e ->
                         println("Error updating document: $e")

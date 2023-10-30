@@ -44,12 +44,13 @@ class AdapterHelper() {
         return userTransactionHashMap
     }
 
-    fun busToHashMap(bus: Bus): HashMap<String, Serializable> {
-        val busHashMap = hashMapOf(
+    fun busToHashMap(bus: Bus): HashMap<String, Any> {
+        val busHashMap = hashMapOf<String, Any>(
             "busPlateNumber" to bus.busPlate,
-            "busStatus" to bus.busSeats,
+            "busStatus" to "Available",
             "seatString" to "/_____/AA_AA/AA_AA/AA_AA/AA_AA/AA_AA/AA_AA/AA_AA/AA_AA",
-            "seats" to 20
+            "seats" to 20,
+            "transactionId" to ""
         )
         return busHashMap
     }

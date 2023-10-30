@@ -29,7 +29,7 @@ class AdminMainActivity: AppCompatActivity(), IFragmentable {
         currIndicator = binding.adminNavDashboardIndicator
         currIndicator.visibility = View.VISIBLE
 
-        changeFragment(AdminDashboardFragment(), binding.adminNavBusIndicator)
+        changeFragment(AdminDashboardFragment(), binding.adminNavDashboardIndicator)
         navigate()
     }
 

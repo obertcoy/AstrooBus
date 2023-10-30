@@ -3,6 +3,7 @@ package com.sroo.astroobus.fragment.admin
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sroo.astroobus.R
 import com.sroo.astroobus.activity.user.UserTicketActivity
@@ -57,22 +59,25 @@ class AdminManageBusFragment : Fragment(), INavigable{
         dialog = Dialog(requireContext())
 
         initData()
-        filter(binding.manageBusSpinner)
+//        filter(binding.manageBusSpinner)
         displayAddDialog(binding.manageBusAddBtn)
 
         return binding.root
     }
 
     private fun initData() {
-
-        recyclerView = binding.manageBusRv
-        recylerViewAdapter = ManageBusAdapter(allBuses)
-        recyclerView.adapter = recylerViewAdapter
-
-        // masukin ke masing arraylist
-
-
+        viewModel.getAllBus { result ->
+            if (result != null) {
+                allBuses = result
+                Log.d("AdminManageBusFragment", "allBuses size: ${allBuses.size}")
+                recylerViewAdapter = ManageBusAdapter(allBuses)
+                recyclerView = binding.manageBusRv
+                recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                recyclerView.adapter = recylerViewAdapter
+            }
+        }
     }
+
 
     private fun filter(spinner: Spinner) {
 
@@ -115,7 +120,7 @@ class AdminManageBusFragment : Fragment(), INavigable{
     }
 
     private fun displayAddDialog(btn: View) {
-        dialog.setContentView(R.layout.dialog_deploy_bus)
+        dialog.setContentView(R.layout.dialog_add_bus)
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -133,19 +138,32 @@ class AdminManageBusFragment : Fragment(), INavigable{
 
         }
 
-        next(binding.manageBusAddBtn)
-        dialog.show()
+        next(dialog.findViewById<View>(R.id.add_bus_btn))
+        btn.setOnClickListener {
+            dialog.show()
+        }
     }
 
 
 
     override fun next(nextBtn: View) {
-
-        val plateEt = dialog.findViewById<EditText>(R.id.add_bus_plate_et)
         nextBtn.setOnClickListener{
-            viewModel.addBus(plateEt.text.toString(), requireContext())
+            val plateEt = dialog.findViewById<EditText>(R.id.add_bus_plate_et)
+            Log.d("AdminManageBusFragment", "wiwuuu")
+            viewModel.addBus(Bus("1", plateEt.text.toString(), 20,"p", "a",""), requireContext()){
+                result->
+                if(result == "success"){
+                    viewModel.getAllBus { result ->
+                        if (result != null) {
+                            allBuses.clear()
+                            allBuses.addAll(result)
+                            recylerViewAdapter.notifyDataSetChanged()
+                        }
+                    }
+                }
+            }
+            dialog.dismiss()
         }
-
     }
 
     override fun back(backBtn: View) {

@@ -57,14 +57,13 @@ class BusViewModel() {
 
     }
 
-    fun addBus(bus: Bus, ctx: Context){
-
-        if(bus.busPlate.isNotBlank()){
+    fun addBus(bus: Bus, ctx: Context, callback: (String) -> Unit){
+        Log.d("BusViewModel", bus.busPlate)
+        if(bus.busPlate == ""){
             UIHelper.createToast(ctx, "Fill in the bus plate")
             return
+        }else{
+            repository.addBus(bus, callback)
         }
-        repository.addBus(bus)
-        // add bus
-
     }
 }
