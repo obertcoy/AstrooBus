@@ -1,5 +1,6 @@
 package com.sroo.astroobus.helper
 
+import com.sroo.astroobus.model.Bus
 import com.sroo.astroobus.model.User
 import java.io.Serializable
 import java.text.NumberFormat
@@ -41,6 +42,16 @@ class AdapterHelper() {
             "userId" to userId
         )
         return userTransactionHashMap
+    }
+
+    fun busToHashMap(bus: Bus): HashMap<String, Serializable> {
+        val busHashMap = hashMapOf(
+            "busPlateNumber" to bus.busPlate,
+            "busStatus" to bus.busSeats,
+            "seatString" to "/_____/AA_AA/AA_AA/AA_AA/AA_AA/AA_AA/AA_AA/AA_AA/AA_AA",
+            "seats" to 20
+        )
+        return busHashMap
     }
 
     companion object {

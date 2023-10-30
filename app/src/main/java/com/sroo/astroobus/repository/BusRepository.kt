@@ -1,12 +1,15 @@
 package com.sroo.astroobus.repository
 
+import android.content.Context
 import android.util.Log
 import com.google.android.gms.tasks.Task
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sroo.astroobus.database.FirebaseInitializer
 import com.sroo.astroobus.helper.AdapterHelper
 import com.sroo.astroobus.model.Bus
 import com.sroo.astroobus.model.BusTransaction
+import com.sroo.astroobus.model.User
 
 class BusRepository (){
     private lateinit var db: FirebaseFirestore
@@ -14,6 +17,58 @@ class BusRepository (){
     init {
         FirebaseInitializer.initialize()
         db = FirebaseInitializer.instance?.getDatabase()!!
+    }
+
+    fun getAllBus( callback: (ArrayList<Bus>) -> Unit){
+        val ref = db.collection("Bus")
+
+        ref.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val documents = task.result?.documents
+                val bus = documents?.map { document ->
+                    val data = document.data
+                    val busId = data?.get("busId") as String
+                    val busPlateNumber = data?.get("busPlateNumber") as String
+                    val busStatus = data?.get("busStatus") as String
+                    val seatString = data?.get("seatString") as String
+                    val seats = data?.get("seats") as Number
+                    val transactionId = data?.get("transactionId") as String
+                    Bus(busId, busPlateNumber, seats, busStatus, seatString, transactionId)
+                }
+                val busList = ArrayList(bus ?: emptyList())
+                Log.d("TicketRepository", busList.size.toString())
+                callback(busList)
+            } else {
+                // Handle query error
+                Log.e("TicketRepository", "Firestore query failed", task.exception)
+                callback(ArrayList())
+            }
+        }
+    }
+
+    fun addBus(bus:Bus) {
+        val transaction = adapter.busToHashMap(bus)
+        val ref = db.collection("Bus")
+
+        ref.add(transaction)
+            .addOnSuccessListener { documentReference ->
+                Log.d("Bus Repository", "Success Adding Bus")
+                val addAttr = hashMapOf(
+                    "busId" to documentReference.id
+                )
+                db.collection("Bus")
+                    .document(documentReference.id)
+                    .update(addAttr as Map<String, Any>)
+                    .addOnSuccessListener {
+                        println("Document successfully updated!")
+                    }
+                    .addOnFailureListener { e ->
+                        println("Error updating document: $e")
+                    }
+            }
+            .addOnFailureListener { error ->
+                Log.e("Bus Repository", "Fail Adding Bus", error)
+            }
     }
 
     fun updateBusSeats(seatString: String, seatNumber: List<Int>, busId: String){

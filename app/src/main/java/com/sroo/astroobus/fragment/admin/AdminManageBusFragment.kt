@@ -66,8 +66,8 @@ class AdminManageBusFragment : Fragment(), INavigable{
     private fun initData() {
 
         recyclerView = binding.manageBusRv
-//        recylerViewAdapter = ManageBusAdapter(allBuses)
-//        recyclerView.adapter = recylerViewAdapter
+        recylerViewAdapter = ManageBusAdapter(allBuses)
+        recyclerView.adapter = recylerViewAdapter
 
         // masukin ke masing arraylist
 
@@ -88,29 +88,29 @@ class AdminManageBusFragment : Fragment(), INavigable{
 
         spinner.setSelection(adapter.getPosition("All"))
 
-//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(
-//                parentView: AdapterView<*>,
-//                selectedItemView: View,
-//                position: Int,
-//                id: Long
-//            ) {
-//                val selectedOption = parentView.getItemAtPosition(position).toString()
-//
-//                if(selectedOption == "All") {
-//                    recylerViewAdapter.updateData(allBuses)
-//                } else if (selectedOption == "Active") {
-//                    recylerViewAdapter.updateData(activeBuses)
-//                } else if (selectedOption == "Non-Active") {
-//                    recylerViewAdapter.updateData(nonActiveBuses)
-//
-//                }
-//            }
-//
-//            override fun onNothingSelected(parentView: AdapterView<*>?) {
-//
-//            }
-//        }
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>,
+                selectedItemView: View,
+                position: Int,
+                id: Long
+            ) {
+                val selectedOption = parentView.getItemAtPosition(position).toString()
+
+                if(selectedOption == "All") {
+                    recylerViewAdapter.updateData(allBuses)
+                } else if (selectedOption == "Active") {
+                    recylerViewAdapter.updateData(activeBuses)
+                } else if (selectedOption == "Non-Active") {
+                    recylerViewAdapter.updateData(nonActiveBuses)
+
+                }
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>?) {
+
+            }
+        }
 
     }
 

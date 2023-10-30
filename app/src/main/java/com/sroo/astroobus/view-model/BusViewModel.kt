@@ -21,6 +21,10 @@ class BusViewModel() {
         }
     }
 
+    fun getAllBus( callback: (ArrayList<Bus>) -> Unit) {
+        repository.getAllBus(callback)
+    }
+
     fun updateBusSeats(seatString: String, seatNumber: List<Int>, busId: String){
         repository.updateBusSeats(seatString, seatNumber, busId)
     }
@@ -53,13 +57,13 @@ class BusViewModel() {
 
     }
 
-    fun addBus(busPlate: String, ctx: Context){
+    fun addBus(bus: Bus, ctx: Context){
 
-        if(busPlate.isNotBlank()){
+        if(bus.busPlate.isNotBlank()){
             UIHelper.createToast(ctx, "Fill in the bus plate")
             return
         }
-
+        repository.addBus(bus)
         // add bus
 
     }
