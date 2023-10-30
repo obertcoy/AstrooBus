@@ -36,6 +36,7 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
 
     private lateinit var binding: FragmentAdminManageBusBinding
     private lateinit var dialog: Dialog
+    private lateinit var dialogDeploy: Dialog
 
     private lateinit var allBuses: ArrayList<Bus>
 
@@ -56,7 +57,7 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
         binding = FragmentAdminManageBusBinding.inflate(inflater, container, false)
         viewModel = BusViewModel()
         dialog = Dialog(requireContext())
-
+        dialogDeploy = Dialog(requireContext())
         initData()
         displayAddDialog(binding.manageBusAddBtn)
 
@@ -176,7 +177,25 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
     }
 
     override fun onDeployClick(bus:Bus) {
-        TODO("Not yet implemented")
+        Log.d("AdminManageBusFragment", "hihiha")
+        dialogDeploy.setContentView(R.layout.dialog_deploy_bus)
+        dialogDeploy.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialogDeploy.window?.attributes?.windowAnimations = R.style.dialog_animation
+        dialogDeploy.setCancelable(true)
+
+        val backButton = dialogDeploy.findViewById<View>(R.id.deploy_bus_back_arrow)
+        dialogDeploy.show()
+
+        if (backButton != null) {
+            backButton.setOnClickListener {
+                dialogDeploy.dismiss()
+            }
+        } else {
+
+        }
     }
 
 

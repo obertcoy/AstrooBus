@@ -36,6 +36,7 @@ class ManageBusAdapter (private var busList: ArrayList<Bus>, private var listene
             statusTv.text = bus.busStatus
             switch.isChecked = bus.busStatus == "Available"
             deployButton.setOnClickListener {
+                Log.d("ManageBusAdapter", "hihiha")
                 clickListener.onDeployClick(bus)
             }
         }

@@ -7,6 +7,7 @@ import com.sroo.astroobus.database.FirebaseInitializer
 import com.sroo.astroobus.helper.AdapterHelper
 import com.sroo.astroobus.model.Bus
 import com.sroo.astroobus.model.BusTransaction
+import com.sroo.astroobus.model.HistoryTransaction
 
 class BusTransactionRepository {
     private lateinit var db: FirebaseFirestore
@@ -38,6 +39,31 @@ class BusTransactionRepository {
            }
        }
 
+    }
+
+    fun deployBus(busTransaction: BusTransaction){
+        val transaction = adapter.busTransactionToHashmap(busTransaction)
+        val ref = db.collection("BusTransaction")
+
+        ref.add(transaction)
+            .addOnSuccessListener { documentReference ->
+                Log.d("Bus Repository", "Success Adding Bus")
+                val addAttr = hashMapOf(
+                    "transactionId" to documentReference.id
+                )
+                db.collection("BusTransaction")
+                    .document(documentReference.id)
+                    .update(addAttr as Map<String, Any>)
+                    .addOnSuccessListener {
+                        println("Document successfully updated!")
+                    }
+                    .addOnFailureListener { e ->
+                        println("Error updating document: $e")
+                    }
+            }
+            .addOnFailureListener { error ->
+                Log.e("Bus Repository", "Fail Adding Bus", error)
+            }
     }
 
     fun getTransactionById(transactionId: String,  callback: (BusTransaction) -> Unit){

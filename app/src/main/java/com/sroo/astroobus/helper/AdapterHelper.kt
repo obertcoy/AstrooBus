@@ -1,6 +1,7 @@
 package com.sroo.astroobus.helper
 
 import com.sroo.astroobus.model.Bus
+import com.sroo.astroobus.model.BusTransaction
 import com.sroo.astroobus.model.User
 import java.io.Serializable
 import java.text.NumberFormat
@@ -22,6 +23,21 @@ class AdapterHelper() {
         )
 
         return userMap
+    }
+
+    fun busTransactionToHashmap(busTransaction: BusTransaction): HashMap<String, Any>{
+        val busTransactionMap = hashMapOf<String, Any>(
+            "availableSeats" to 20,
+            "busId" to busTransaction.busId,
+            "dateString" to busTransaction.dateString,
+            "destinationPoint" to busTransaction.destinationPoint,
+            "price" to busTransaction.price,
+            "startingPoint" to busTransaction.startingPoint,
+            "time" to busTransaction.time,
+            "timeString" to busTransaction.timeString
+        )
+
+        return busTransactionMap
     }
 
     fun phoneHashMap(phoneNum: String, code: String): HashMap<String, String> {
