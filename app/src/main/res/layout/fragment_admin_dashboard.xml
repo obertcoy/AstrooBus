@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center_vertical"
+            android:layout_marginStart="35dp"
             >
 
             <androidx.cardview.widget.CardView
@@ -64,6 +65,8 @@
             app:cardBackgroundColor="@color/white"
             app:cardUseCompatPadding="true"
             app:cardCornerRadius="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             >
 
             <LinearLayout
@@ -182,6 +185,8 @@
             app:cardUseCompatPadding="true"
             app:cardCornerRadius="15dp"
             android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             >
 
             <LinearLayout

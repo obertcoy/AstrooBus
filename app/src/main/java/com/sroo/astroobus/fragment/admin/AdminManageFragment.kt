@@ -31,7 +31,7 @@ class AdminManageFragment: Fragment(), IFragmentable {
         currIndicator = binding.manageNavBus;
         currIndicator.visibility = View.VISIBLE
 
-        changeFragment(AdminManageBusFragment(), binding.manageNavBusTv)
+        changeFragment(AdminManageBusFragment(), binding.manageNavBus)
         navigate()
 
         return binding.root
@@ -40,11 +40,14 @@ class AdminManageFragment: Fragment(), IFragmentable {
     override fun navigate() {
 
         binding.manageNavBus.setOnClickListener{
+            binding.manageNavTransactionTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.default_primary))
             changeFragment(AdminManageBusFragment(), binding.manageNavBus)
             binding.manageNavBusTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         }
 
+
         binding.manageNavTransaction.setOnClickListener{
+            binding.manageNavBusTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.default_primary))
             changeFragment(AdminManageTransactionFragment(), binding.manageNavTransaction)
             binding.manageNavTransactionTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         }
@@ -59,7 +62,8 @@ class AdminManageFragment: Fragment(), IFragmentable {
 
         currIndicator?.setBackgroundResource(R.color.white);
         currIndicator = indicator
-        currIndicator?.setBackgroundResource(R.color.transparent);
+        currIndicator?.setBackgroundResource(R.color.default_primary);
+
     }
 
 
