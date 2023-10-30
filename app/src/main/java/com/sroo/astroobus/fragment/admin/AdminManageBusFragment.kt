@@ -1,5 +1,6 @@
 package com.sroo.astroobus.fragment.admin
 
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
@@ -17,12 +19,17 @@ import com.sroo.astroobus.R
 import com.sroo.astroobus.adapter.ManageBusAdapter
 import com.sroo.astroobus.databinding.FragmentAdminManageBusBinding
 import com.sroo.astroobus.helper.TimeHelper
+import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.interfaces.IClickable
 import com.sroo.astroobus.interfaces.INavigable
 import com.sroo.astroobus.model.Bus
 import com.sroo.astroobus.model.BusTransaction
+import com.sroo.astroobus.utils.LocationUtils
 import com.sroo.astroobus.`view-model`.BusTransactionViewModel
 import com.sroo.astroobus.`view-model`.BusViewModel
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 class AdminManageBusFragment : Fragment(), INavigable, IClickable{
@@ -35,6 +42,8 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
     private lateinit var dialogDeploy: Dialog
 
     private lateinit var allBuses: ArrayList<Bus>
+    private lateinit var startingPoint: AutoCompleteTextView
+    private lateinit var destinationPoint: AutoCompleteTextView
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var recylerViewAdapter: ManageBusAdapter
@@ -184,6 +193,10 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
 
         val backButton = dialogDeploy.findViewById<View>(R.id.deploy_bus_back_arrow)
         val submitButton = dialogDeploy.findViewById<View>(R.id.deploy_bus_btn)
+        startingPoint = dialogDeploy.findViewById<View>(R.id.deploy_bus_from_dropdown) as AutoCompleteTextView
+        destinationPoint = dialogDeploy.findViewById<View>(R.id.deploy_bus_to_dropdown) as AutoCompleteTextView
+        startingPoint.setAdapter(LocationUtils.getLocationsAdapter(requireContext()))
+        destinationPoint.setAdapter(LocationUtils.getLocationsAdapter(requireContext()))
         dialogDeploy.show()
 
         if (backButton != null) {
@@ -196,12 +209,41 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
                 val dateString = TimeHelper.timestampToDate(System.currentTimeMillis())
                 val timeString = TimeHelper.timestampToTime(System.currentTimeMillis())
                 val currTime =  TimeHelper.getCurrentTimestamp()
-                val busTransaction = BusTransaction("1", bus.busId,"Blok M", "Bina Nusantara",dateString ,timeString, 40000,20,currTime)
+                val dest = destinationPoint.text.toString()
+                val start = startingPoint.text.toString()
+                val busTransaction = BusTransaction("1", bus.busId,dest, start,dateString ,timeString, 40000,20,currTime)
                 viewTransactionModel.deployBus(busTransaction)
                 dialogDeploy.dismiss()
             }
         }
     }
 
+//    private fun selectDate() {
+//        val calendar = Calendar.getInstance()
+//
+//        val datePickerDialog = DatePickerDialog(
+//            requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+//                val selectedCalendar = Calendar.getInstance()
+//                selectedCalendar.set(year, month, dayOfMonth)
+//
+//                if (selectedCalendar.before(calendar)) {
+//                    UIHelper.createToast(requireContext(), "Please select a future date.")
+//                } else {
+//                    val dateFormat = SimpleDateFormat("EEE, dd MMM yyyy", Locale.US)
+//                    val formattedDate = dateFormat.format(selectedCalendar.time)
+//                    binding.homeMenuDateTv.text = formattedDate
+//                }
+//            },
+//            calendar.get(Calendar.YEAR),
+//            calendar.get(Calendar.MONTH),
+//            calendar.get(Calendar.DAY_OF_MONTH)
+//        )
+//
+//        datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
+//
+//        binding.homeMenuDate.setOnClickListener {
+//            datePickerDialog.show()
+//        }
+//    }
 
 }

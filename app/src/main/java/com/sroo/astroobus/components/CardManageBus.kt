@@ -102,7 +102,6 @@ class CardManageBus @JvmOverloads constructor(
         destinationSelect =
             dialog.findViewById(R.id.deploy_bus_to_dropdown)
         startTimeSelect = dialog.findViewById(R.id.deploy_start_time_dropdown)
-        endTimeSelect = dialog.findViewById(R.id.deploy_end_time_dropdown)
 
         fromSelect.setAdapter(LocationUtils.getLocationsAdapter(currActivity))
         destinationSelect.setAdapter(LocationUtils.getLocationsAdapter(currActivity))
