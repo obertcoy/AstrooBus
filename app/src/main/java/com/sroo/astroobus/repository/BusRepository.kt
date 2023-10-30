@@ -20,7 +20,7 @@ class BusRepository (){
     }
 
     fun getAllBus( callback: (ArrayList<Bus>) -> Unit){
-        val ref = db.collection("Bus")
+        val ref = db.collection("Bus").whereEqualTo("transactionId", "")
 
         ref.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
