@@ -22,6 +22,7 @@ import com.sroo.astroobus.activity.user.UserTicketActivity
 import com.sroo.astroobus.adapter.ManageBusAdapter
 import com.sroo.astroobus.databinding.FragmentAdminManageBusBinding
 import com.sroo.astroobus.helper.UIHelper
+import com.sroo.astroobus.interfaces.IClickable
 import com.sroo.astroobus.interfaces.IDropdownable
 import com.sroo.astroobus.interfaces.INavigable
 import com.sroo.astroobus.model.Bus
@@ -29,7 +30,7 @@ import com.sroo.astroobus.utils.LocationUtils
 import com.sroo.astroobus.`view-model`.BusViewModel
 
 
-class AdminManageBusFragment : Fragment(), INavigable{
+class AdminManageBusFragment : Fragment(), INavigable, IClickable{
 
     private lateinit var viewModel: BusViewModel
 
@@ -67,7 +68,7 @@ class AdminManageBusFragment : Fragment(), INavigable{
             if (result != null) {
                 allBuses = result
                 Log.d("AdminManageBusFragment", "allBuses size: ${allBuses.size}")
-                recylerViewAdapter = ManageBusAdapter(allBuses)
+                recylerViewAdapter = ManageBusAdapter(allBuses, this)
                 recyclerView = binding.manageBusRv
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerView.adapter = recylerViewAdapter
@@ -172,6 +173,10 @@ class AdminManageBusFragment : Fragment(), INavigable{
         backBtn.setOnClickListener{
             dialog.dismiss()
         }
+    }
+
+    override fun onDeployClick(bus:Bus) {
+        TODO("Not yet implemented")
     }
 
 

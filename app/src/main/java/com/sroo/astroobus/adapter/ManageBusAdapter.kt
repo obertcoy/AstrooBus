@@ -3,19 +3,22 @@ package com.sroo.astroobus.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.sroo.astroobus.databinding.CardManageBusBinding
+import com.sroo.astroobus.interfaces.IClickable
 import com.sroo.astroobus.model.Bus
 import com.sroo.astroobus.model.BusTransaction
 import com.sroo.astroobus.`view-model`.BusViewModel
 
-class ManageBusAdapter (private var busList: ArrayList<Bus>):
+class ManageBusAdapter (private var busList: ArrayList<Bus>, private var listener: IClickable):
     RecyclerView.Adapter<ManageBusAdapter.ViewHolder>()
 {
-    class ViewHolder(binding: CardManageBusBinding):
+    class ViewHolder(binding: CardManageBusBinding,private var clickListener: IClickable):
         RecyclerView.ViewHolder(binding.root){
 
         private val idTv: TextView = binding.manageBusIdTv
@@ -24,6 +27,7 @@ class ManageBusAdapter (private var busList: ArrayList<Bus>):
         private val statusTv: TextView = binding.manageBusStatusTv
         private val switch: SwitchMaterial = binding.manageBusSwitch
         private val viewModel = BusViewModel()
+        private val deployButton: CardView = binding.manageBusBtn
 
         fun bind(bus: Bus) {
             idTv.text = bus.busId
@@ -31,6 +35,9 @@ class ManageBusAdapter (private var busList: ArrayList<Bus>):
             seatTv.text = bus.busSeats.toString()
             statusTv.text = bus.busStatus
             switch.isChecked = bus.busStatus == "Available"
+            deployButton.setOnClickListener {
+                clickListener.onDeployClick(bus)
+            }
         }
 
         init {
@@ -43,6 +50,7 @@ class ManageBusAdapter (private var busList: ArrayList<Bus>):
                     viewModel.updateBusStatus(idTv.text as String, "Available")
                 }
             }
+
         }
 
     }
@@ -50,8 +58,9 @@ class ManageBusAdapter (private var busList: ArrayList<Bus>):
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = CardManageBusBinding.inflate(inflater, parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(binding, listener)
     }
+
 
     override fun getItemCount(): Int {
         return busList.size
