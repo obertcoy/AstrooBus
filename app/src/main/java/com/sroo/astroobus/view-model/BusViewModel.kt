@@ -57,6 +57,10 @@ class BusViewModel() {
 
     }
 
+    fun updateBusStatus(busId: String, status:String){
+        repository.updateBusStatus(busId, status)
+    }
+
     fun addBus(bus: Bus, ctx: Context, callback: (String) -> Unit){
         Log.d("BusViewModel", bus.busPlate)
         if(bus.busPlate == ""){

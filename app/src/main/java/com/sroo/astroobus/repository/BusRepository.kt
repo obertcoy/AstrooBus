@@ -114,6 +114,22 @@ class BusRepository (){
 
     }
 
+    fun updateBusStatus(busId: String, status:String){
+        val newStatus = hashMapOf(
+            "busStatus" to status
+        )
+
+        db.collection("Bus")
+            .document(busId)
+            .update(newStatus as Map<String, Any>)
+            .addOnSuccessListener {
+                println("Document successfully updated!")
+            }
+            .addOnFailureListener { e ->
+                println("Error updating document: $e")
+            }
+    }
+
     fun getBus(busId: String, transactionId: String, callback: (Bus?) -> Unit) {
         val ref = db.collection("Bus")
 

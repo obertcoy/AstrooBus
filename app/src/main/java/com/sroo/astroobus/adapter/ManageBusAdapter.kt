@@ -1,12 +1,16 @@
 package com.sroo.astroobus.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Switch
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.sroo.astroobus.databinding.CardManageBusBinding
 import com.sroo.astroobus.model.Bus
 import com.sroo.astroobus.model.BusTransaction
+import com.sroo.astroobus.`view-model`.BusViewModel
 
 class ManageBusAdapter (private var busList: ArrayList<Bus>):
     RecyclerView.Adapter<ManageBusAdapter.ViewHolder>()
@@ -18,12 +22,26 @@ class ManageBusAdapter (private var busList: ArrayList<Bus>):
         private val plateTv: TextView = binding.manageBusPlateTv
         private val seatTv: TextView = binding.manageBusSeatTv
         private val statusTv: TextView = binding.manageBusStatusTv
+        private val switch: SwitchMaterial = binding.manageBusSwitch
+        private val viewModel = BusViewModel()
 
         fun bind(bus: Bus) {
             idTv.text = bus.busId
             plateTv.text = bus.busPlate
             seatTv.text = bus.busSeats.toString()
             statusTv.text = bus.busStatus
+        }
+
+        init {
+            switch.setOnClickListener {
+                if(switch.isChecked == false){
+                    statusTv.text = "Unavailable"
+                    viewModel.updateBusStatus(idTv.text as String, "Unavailable")
+                }else{
+                    statusTv.text = "Available"
+                    viewModel.updateBusStatus(idTv.text as String, "Available")
+                }
+            }
         }
 
     }

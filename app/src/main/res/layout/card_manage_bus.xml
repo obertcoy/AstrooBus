@@ -120,7 +120,7 @@
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/manage_bus_switch"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="24dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="2.5dp"
                     android:checked="true"
