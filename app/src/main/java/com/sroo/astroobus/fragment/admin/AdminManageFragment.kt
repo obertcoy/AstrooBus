@@ -28,6 +28,9 @@ class AdminManageFragment: Fragment(), IFragmentable {
     ): View? {
         binding = FragmentAdminManageBinding.inflate(inflater, container, false)
 
+        currIndicator = binding.manageNavBus;
+        currIndicator.visibility = View.VISIBLE
+
         changeFragment(AdminManageBusFragment(), binding.manageNavBusTv)
         navigate()
 

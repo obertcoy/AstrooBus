@@ -41,7 +41,7 @@ class AdminMainActivity: AppCompatActivity(), IFragmentable {
         }
 
         binding.adminNavBus.setOnClickListener {
-            changeFragment(AdminManageBusFragment(), binding.adminNavBusIndicator)
+            changeFragment(AdminManageFragment(), binding.adminNavBusIndicator)
         }
 
         binding.adminMainAccountIcon.setOnClickListener{
