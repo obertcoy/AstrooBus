@@ -34,7 +34,8 @@ class AdapterHelper() {
             "price" to busTransaction.price,
             "startingPoint" to busTransaction.startingPoint,
             "time" to busTransaction.time,
-            "timeString" to busTransaction.timeString
+            "timeString" to busTransaction.timeString,
+            "status" to "Active"
         )
 
         return busTransactionMap

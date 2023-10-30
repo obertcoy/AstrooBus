@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -218,7 +219,7 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
         }
     }
 
-//    private fun selectDate() {
+//    private fun selectDate(datePicker: ImageView) {
 //        val calendar = Calendar.getInstance()
 //
 //        val datePickerDialog = DatePickerDialog(

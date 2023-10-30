@@ -105,7 +105,7 @@ class BusTransactionRepository {
     }
 
     fun getAllBusTransaction(callback: (ArrayList<BusTransaction>) -> Unit) {
-        val ref = db.collection("BusTransaction")
+        val ref = db.collection("BusTransaction").whereEqualTo("status", "Active")
 
         ref.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -124,14 +124,40 @@ class BusTransactionRepository {
                     BusTransaction(transactionId,busId,destinationPoint,startingPoint,dateString,timeString,price,availableSeats,timestamp)
                 }
                 val busTransactionList = ArrayList(busTransactions ?: emptyList())
-                Log.d("TicketRepository", busTransactionList.size.toString())
+                Log.d("BusTransactionRepository", busTransactionList.size.toString())
                 callback(busTransactionList)
             } else {
-                Log.e("TicketRepository", "Firestore query failed", task.exception)
+                Log.e("BusTransactionRepository", "Firestore query failed", task.exception)
                 callback(ArrayList())
             }
 
         }
     }
+
+    fun deactivatePastBusTransactions() {
+        val busTransactionCollection = db.collection("BusTransaction")
+        val busCollection = db.collection("Bus")
+
+        busTransactionCollection.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                for (document in task.result!!) {
+                    val timestamp = document.get("time") as? Timestamp
+                    val currentTime = Timestamp.now()
+
+                    if (timestamp != null && timestamp.seconds < currentTime.seconds) {
+                        busTransactionCollection.document(document.id).update("status", "Unactive").addOnSuccessListener {
+                            val busId = document.getString("busId")
+                            if (busId != null) {
+                                busCollection.document(busId).update("transactionId", "")
+                            }
+                        }
+                    }
+                }
+            } else {
+                println("Error getting documents: ${task.exception}")
+            }
+        }
+    }
+
 
 }

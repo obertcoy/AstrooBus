@@ -20,4 +20,8 @@ class BusTransactionViewModel {
         repository.getAllBusTransaction(callback)
     }
 
+    fun deactivatePastBusTransactions() {
+        repository.deactivatePastBusTransactions()
+    }
+
 }

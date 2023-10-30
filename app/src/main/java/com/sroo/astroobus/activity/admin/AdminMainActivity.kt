@@ -16,6 +16,7 @@ import com.sroo.astroobus.fragment.admin.AdminManageFragment
 import com.sroo.astroobus.fragment.user.UserHistoryFragment
 import com.sroo.astroobus.fragment.user.UserHomeFragment
 import com.sroo.astroobus.interfaces.IFragmentable
+import com.sroo.astroobus.`view-model`.BusTransactionViewModel
 
 class AdminMainActivity: AppCompatActivity(), IFragmentable {
 
@@ -32,6 +33,7 @@ class AdminMainActivity: AppCompatActivity(), IFragmentable {
 
         changeFragment(AdminDashboardFragment(), binding.adminNavDashboardIndicator)
         navigate()
+        BusTransactionViewModel().deactivatePastBusTransactions()
     }
 
     override fun navigate() {
