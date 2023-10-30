@@ -3,6 +3,7 @@ package com.sroo.astroobus.repository
 import android.provider.ContactsContract.CommonDataKinds.Email
 import android.util.Log
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sroo.astroobus.database.FirebaseInitializer
 import com.sroo.astroobus.helper.AdapterHelper
@@ -12,9 +13,11 @@ import com.sroo.astroobus.model.User
 class AccountRepository {
     private lateinit var db: FirebaseFirestore
     private val adapter = AdapterHelper()
+    private var auth: FirebaseAuth?
     init {
         FirebaseInitializer.initialize()
         db = FirebaseInitializer.instance?.getDatabase()!!
+        auth = FirebaseInitializer.instance?.getAuth()
     }
 
     fun updatePassword(userId: String, newPassword: String, callback: (String) -> Unit) {
@@ -50,8 +53,20 @@ class AccountRepository {
 
     }
 
-    fun updateEmail(userId: String, oldEmail:String, newEmail: String){
+    fun updateEmail(userId: String, newEmail: String){
+        val newEmail = hashMapOf(
+            "email" to newEmail
+        )
 
+        db.collection("Users")
+            .document(userId)
+            .update(newEmail as Map<String, Any>)
+            .addOnSuccessListener {
+                println("Document successfully updated!")
+            }
+            .addOnFailureListener { e ->
+                println("Error updating document: $e")
+            }
     }
 
     fun updatePhoneNumber(userId: String, phoneNum:String){

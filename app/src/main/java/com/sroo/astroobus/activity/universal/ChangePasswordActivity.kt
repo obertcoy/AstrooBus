@@ -23,6 +23,7 @@ class ChangePasswordActivity: AppCompatActivity(), INavigable {
         setContentView(binding.root)
 
         next(binding.changePassBtn)
+        back(binding.changePasswordBackArrow)
     }
 
 

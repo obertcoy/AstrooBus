@@ -41,6 +41,10 @@ class AccountViewModel {
         }
     }
 
+    fun updateEmail(userId: String, newEmail: String) {
+        repository.updateEmail(userId, newEmail)
+    }
+
     fun getUserById(userId: String,  context: Context,callback: (User?) -> Unit){
         repository.getUserById(userId){
             result ->

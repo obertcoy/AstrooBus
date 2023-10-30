@@ -18,11 +18,29 @@ class LoginRepository (){
     }
 
     fun login(password: String, email: String, activity: Activity, callback: (User?) -> Unit) {
-        auth!!.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(activity) { task ->
+        val userRef = db.collection("Users")
+            .whereEqualTo("email", email)
+
+        userRef.get()
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val user = auth!!.currentUser?.uid.toString()
-                    getUserInfo(user, callback)
+                    val documents = task.result?.documents
+                    if (documents != null && !documents.isEmpty()) {
+                        val userData = documents[0].data
+                        val userEmail = userData?.get("email") as String
+                        val userName = userData?.get("name") as String
+                        val userPhoneNum = userData?.get("phoneNum") as String
+                        val userRole = userData?.get("role") as String
+                        val userId = userData?.get("uid") as String
+                        val userPass = userData?.get("password") as String
+                        if(password.equals(userPass)){
+                            callback(User(userId,userName,userEmail, userPhoneNum, userPass, userRole))
+                        }else{
+                            callback(null)
+                        }
+                    } else {
+                        callback(null)
+                    }
                 } else {
                     callback(null)
                 }
