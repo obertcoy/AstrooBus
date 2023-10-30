@@ -13,6 +13,7 @@ import com.sroo.astroobus.databinding.ActivityUserMainBinding
 import com.sroo.astroobus.fragment.user.UserHistoryFragment
 import com.sroo.astroobus.fragment.user.UserHomeFragment
 import com.sroo.astroobus.interfaces.IFragmentable
+import com.sroo.astroobus.`view-model`.BusTransactionViewModel
 
 class UserMainActivity: AppCompatActivity(), IFragmentable {
 
@@ -29,6 +30,7 @@ class UserMainActivity: AppCompatActivity(), IFragmentable {
 
         changeFragment(UserHomeFragment(), binding.userNavHomeIndicator)
         navigate()
+        BusTransactionViewModel().deactivatePastBusTransactions()
     }
 
     override fun navigate() {

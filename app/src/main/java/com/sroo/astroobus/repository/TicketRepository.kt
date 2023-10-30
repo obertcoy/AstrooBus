@@ -20,7 +20,7 @@ class TicketRepository (){
         val ref = db.collection("BusTransaction")
         val query = ref.whereEqualTo("startingPoint", startingPoint)
             .whereEqualTo("destinationPoint", destination)
-            .whereEqualTo("dateString", date)
+            .whereEqualTo("dateString", date).whereEqualTo("status", "Active")
 
         query.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {

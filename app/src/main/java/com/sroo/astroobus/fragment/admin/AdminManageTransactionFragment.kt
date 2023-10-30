@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.sroo.astroobus.R
 import com.sroo.astroobus.adapter.BusTicketAdapter
 import com.sroo.astroobus.adapter.ManageBusAdapter
 import com.sroo.astroobus.databinding.FragmentAdminManageBusBinding
@@ -47,7 +51,56 @@ class AdminManageTransactionFragment: Fragment() {
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerView.adapter = recylerViewAdapter
             }
+            filter(binding.transactionBusSpinner)
+            filterBusesByStatus("Available")
         }
+    }
+
+    private fun filterBusesByStatus(status: String) {
+        val filteredBuses = when (status) {
+            "Available" -> allTransaction.filter { it.availableSeats.toInt() > 0  }
+            "Sold Out" -> allTransaction.filter { it.availableSeats.toInt() <= 0 }
+            else -> allTransaction
+        }
+        recylerViewAdapter.updateData(ArrayList(filteredBuses))
+    }
+
+
+    private fun filter(spinner: Spinner) {
+
+        val adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.transaction_bus_filter,
+            android.R.layout.simple_spinner_item
+        )
+
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+
+        spinner.adapter = adapter
+
+        spinner.setSelection(adapter.getPosition("Available"))
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>,
+                selectedItemView: View,
+                position: Int,
+                id: Long
+            ) {
+                val selectedOption = parentView.getItemAtPosition(position).toString()
+
+                if(selectedOption == "Available") {
+                    filterBusesByStatus("Available")
+                } else if (selectedOption == "Sold Out") {
+                    filterBusesByStatus("Sold Out")
+                }
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>?) {
+
+            }
+        }
+
     }
 
 }

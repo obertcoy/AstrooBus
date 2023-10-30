@@ -213,7 +213,7 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
                 val dest = destinationPoint.text.toString()
                 val start = startingPoint.text.toString()
                 val busTransaction = BusTransaction("1", bus.busId,dest, start,dateString ,timeString, 40000,20,currTime)
-                viewTransactionModel.deployBus(busTransaction)
+                viewTransactionModel.deployBus(busTransaction, requireContext())
                 dialogDeploy.dismiss()
             }
         }

@@ -26,4 +26,9 @@
         <item>Active</item>
         <item>Non-Active</item>
     </string-array>
+
+    <string-array name="transaction_bus_filter">
+        <item>Available</item>
+        <item>Sold Out</item>
+    </string-array>
 </resources>
