@@ -1,7 +1,6 @@
 package com.sroo.astroobus.fragment.admin
 
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,30 +8,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sroo.astroobus.R
-import com.sroo.astroobus.activity.user.UserTicketActivity
 import com.sroo.astroobus.adapter.ManageBusAdapter
 import com.sroo.astroobus.databinding.FragmentAdminManageBusBinding
-import com.sroo.astroobus.helper.UIHelper
+import com.sroo.astroobus.helper.TimeHelper
 import com.sroo.astroobus.interfaces.IClickable
-import com.sroo.astroobus.interfaces.IDropdownable
 import com.sroo.astroobus.interfaces.INavigable
 import com.sroo.astroobus.model.Bus
-import com.sroo.astroobus.utils.LocationUtils
+import com.sroo.astroobus.model.BusTransaction
+import com.sroo.astroobus.`view-model`.BusTransactionViewModel
 import com.sroo.astroobus.`view-model`.BusViewModel
 
 
 class AdminManageBusFragment : Fragment(), INavigable, IClickable{
 
     private lateinit var viewModel: BusViewModel
+    private var viewTransactionModel = BusTransactionViewModel()
 
     private lateinit var binding: FragmentAdminManageBusBinding
     private lateinit var dialog: Dialog
@@ -187,14 +183,23 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
         dialogDeploy.setCancelable(true)
 
         val backButton = dialogDeploy.findViewById<View>(R.id.deploy_bus_back_arrow)
+        val submitButton = dialogDeploy.findViewById<View>(R.id.deploy_bus_btn)
         dialogDeploy.show()
 
         if (backButton != null) {
             backButton.setOnClickListener {
                 dialogDeploy.dismiss()
             }
-        } else {
-
+        }
+        if(submitButton != null){
+            submitButton.setOnClickListener {
+                val dateString = TimeHelper.timestampToDate(System.currentTimeMillis())
+                val timeString = TimeHelper.timestampToTime(System.currentTimeMillis())
+                val currTime =  TimeHelper.getCurrentTimestamp()
+                val busTransaction = BusTransaction("1", bus.busId,"Blok M", "Bina Nusantara",dateString ,timeString, 40000,20,currTime)
+                viewTransactionModel.deployBus(busTransaction)
+                dialogDeploy.dismiss()
+            }
         }
     }
 

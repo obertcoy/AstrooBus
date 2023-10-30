@@ -1,10 +1,7 @@
 package com.sroo.astroobus.repository
 
 import android.util.Log
-import com.google.android.gms.tasks.Task
-import com.google.api.Billing.BillingDestination
 import com.google.firebase.Timestamp
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sroo.astroobus.database.FirebaseInitializer
 import com.sroo.astroobus.helper.AdapterHelper
@@ -43,7 +40,7 @@ class TicketRepository (){
                     val transactionId = data?.get("transactionId") as String
                     val timeString = data?.get("timeString") as String
                     val dateString = data?.get("dateString") as String
-                    val timestamp = data?.get("time") as Timestamp
+                    val timestamp = data?.get("time") as java.sql.Timestamp
                     BusTransaction(transactionId,busId,destinationPoint,startingPoint,dateString,timeString,price,availableSeats,timestamp)
                 }
                 val busTransactionList = ArrayList(busTransactions ?: emptyList())

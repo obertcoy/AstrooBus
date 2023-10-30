@@ -1,12 +1,11 @@
 package com.sroo.astroobus.model
 
 import android.util.Log
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.sroo.astroobus.database.FirebaseInitializer
-import com.sroo.astroobus.helper.AdapterHelper
 import com.sroo.astroobus.interfaces.IListener
+import java.sql.Timestamp
 
 class BusTransaction(
     var transactionId:String,

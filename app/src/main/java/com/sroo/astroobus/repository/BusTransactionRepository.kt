@@ -1,13 +1,11 @@
 package com.sroo.astroobus.repository
 
 import android.util.Log
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sroo.astroobus.database.FirebaseInitializer
 import com.sroo.astroobus.helper.AdapterHelper
-import com.sroo.astroobus.model.Bus
 import com.sroo.astroobus.model.BusTransaction
-import com.sroo.astroobus.model.HistoryTransaction
+import java.sql.Timestamp
 
 class BusTransactionRepository {
     private lateinit var db: FirebaseFirestore
@@ -53,6 +51,15 @@ class BusTransactionRepository {
                 )
                 db.collection("BusTransaction")
                     .document(documentReference.id)
+                    .update(addAttr as Map<String, Any>)
+                    .addOnSuccessListener {
+                        println("Document successfully updated!")
+                    }
+                    .addOnFailureListener { e ->
+                        println("Error updating document: $e")
+                    }
+                db.collection("Bus")
+                    .document(busTransaction.busId)
                     .update(addAttr as Map<String, Any>)
                     .addOnSuccessListener {
                         println("Document successfully updated!")
