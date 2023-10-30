@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sroo.astroobus.databinding.CardTicketBusBinding
 import com.sroo.astroobus.helper.AdapterHelper
+import com.sroo.astroobus.model.Bus
 import com.sroo.astroobus.model.BusTransaction
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
@@ -58,6 +59,10 @@ class BusTicketAdapter (
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(transactionList[position])
+    }
+    public fun updateData(newBusList: ArrayList<BusTransaction>) {
+        transactionList = newBusList
+        notifyDataSetChanged()
     }
 
 }

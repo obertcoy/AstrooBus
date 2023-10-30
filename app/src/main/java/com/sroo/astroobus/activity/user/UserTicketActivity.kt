@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,8 @@ class UserTicketActivity: AppCompatActivity(), INavigable {
     private var ticketVM = TicketViewModel()
     private lateinit var ticketRv: RecyclerView
     private lateinit var ticketAdapter: BusTicketAdapter
+    private lateinit var ticketList: ArrayList<BusTransaction>
+    private var sort = "DESC"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +34,7 @@ class UserTicketActivity: AppCompatActivity(), INavigable {
         binding = ActivityUserTicketBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ticketRv = binding.ticketRV
-
         initData()
-
         back(binding.ticketBackArrow)
     }
 
@@ -50,11 +51,27 @@ class UserTicketActivity: AppCompatActivity(), INavigable {
             result->
             if(result != null){
                 Log.d("UserTicketActivity", result.toString())
-                setUpRecycler(result)
+                ticketList = result
+                ticketList.sortByDescending { it.price.toDouble() }
+                setUpRecycler(ticketList)
             }
+            filtering(binding.sortPriceBtn)
         }
     }
 
+    fun filtering(imageView: ImageView){
+        imageView.setOnClickListener {
+            if(sort.equals("DESC")){
+                sort = "ASC"
+                ticketList.sortBy { it.price.toDouble() }
+                setUpRecycler(ticketList)
+            }else{
+                sort = "DESC"
+                ticketList.sortByDescending { it.price.toDouble() }
+                setUpRecycler(ticketList)
+            }
+        }
+    }
     fun setUpRecycler(busList: ArrayList<BusTransaction>){
         ticketAdapter = BusTicketAdapter(busList) { busTransaction ->
             val intent = Intent(this, UserBusActivity::class.java)

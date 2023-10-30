@@ -12,6 +12,7 @@ import com.sroo.astroobus.activity.universal.AccountActivity
 import com.sroo.astroobus.databinding.ActivityAdminMainBinding
 import com.sroo.astroobus.fragment.admin.AdminDashboardFragment
 import com.sroo.astroobus.fragment.admin.AdminManageBusFragment
+import com.sroo.astroobus.fragment.admin.AdminManageFragment
 import com.sroo.astroobus.fragment.user.UserHistoryFragment
 import com.sroo.astroobus.fragment.user.UserHomeFragment
 import com.sroo.astroobus.interfaces.IFragmentable
