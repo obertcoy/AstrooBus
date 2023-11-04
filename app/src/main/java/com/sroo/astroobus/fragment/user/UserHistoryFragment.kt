@@ -52,6 +52,7 @@ class UserHistoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = FragmentUserHistoryBinding.inflate(inflater, container, false)
         transactionRv = binding.transactionRV
         fragmentContext = requireContext()

@@ -7,8 +7,10 @@ import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.sroo.astroobus.R
 import com.sroo.astroobus.databinding.CardManageBusBinding
 import com.sroo.astroobus.interfaces.IClickable
 import com.sroo.astroobus.model.Bus
@@ -36,6 +38,13 @@ class ManageBusAdapter (private var busList: ArrayList<Bus>, private var listene
             seatTv.text = bus.busSeats.toString()
             statusTv.text = bus.busStatus
             switch.isChecked = bus.busStatus == "Available"
+
+            if(switch.isChecked){
+                statusTv.setTextColor(ContextCompat.getColor(itemView.context, R.color.default_green))
+            } else {
+                statusTv.setTextColor(ContextCompat.getColor(itemView.context, R.color.red))
+            }
+
             deployButton.setOnClickListener {
                 Log.d("ManageBusAdapter", "hihiha")
                 clickListener.onDeployClick(bus)
@@ -44,15 +53,18 @@ class ManageBusAdapter (private var busList: ArrayList<Bus>, private var listene
 
         init {
             switch.setOnClickListener {
-                if(switch.isChecked == false){
+                if(!switch.isChecked){
                     status = "Unavailable"
                     statusTv.text = status
                     viewModel.updateBusStatus(idTv.text as String, "Unavailable")
+                    statusTv.setTextColor(ContextCompat.getColor(itemView.context, R.color.red))
                     clickListener.onUpdateStatus()
+
                 }else{
                     status = "Available"
                     statusTv.text = status
                     viewModel.updateBusStatus(idTv.text as String, "Available")
+                    statusTv.setTextColor(ContextCompat.getColor(itemView.context, R.color.default_green))
                     clickListener.onUpdateStatus()
                 }
             }

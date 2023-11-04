@@ -2,7 +2,11 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="160dp">
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="5dp"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
 
             <androidx.cardview.widget.CardView
@@ -66,10 +71,11 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp">
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            >
 
             <TextView
                 android:id="@+id/history_bus_card_plate_tv"
@@ -79,8 +85,8 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true" />
 
             <TextView
                 android:id="@+id/history_bus_card_time_tv"
@@ -90,8 +96,8 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true" />
 
             <TextView
                 android:id="@+id/history_bus_card_seat_tv"
@@ -101,8 +107,8 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true" />
 
             <TextView
                 android:id="@+id/history_bus_card_price_tv"
@@ -112,9 +118,10 @@
                 android:textColor="@color/default_green"
                 android:textSize="17sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+
 
     </LinearLayout>
 

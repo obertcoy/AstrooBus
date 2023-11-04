@@ -26,9 +26,9 @@ class BusHistoryAdapter(private var historyList: ArrayList<HistoryTransaction>):
         fun bind(ticket: HistoryTransaction) {
             dateTv.text = ticket.date
             locationTv.text = "${ticket.startingPoint} - ${ticket.endingPoint}"
-            timeTv.text = "${ticket.timeString}"
-            seatTv.text = ticket.seatsNumber
-            priceTv.text = ticket.totalPrice
+            timeTv.text = "Departure: ${ticket.timeString}"
+            seatTv.text = "Seat: ${ticket.seatsNumber}"
+            priceTv.text = "Rp ${ticket.totalPrice}"
         }
 
     }

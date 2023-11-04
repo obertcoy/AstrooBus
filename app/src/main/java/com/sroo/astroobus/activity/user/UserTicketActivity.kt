@@ -72,20 +72,25 @@ class UserTicketActivity: AppCompatActivity(), INavigable {
                 ticketList.sortByDescending { it.price.toDouble() }
                 setUpRecycler(ticketList)
             }
-            filtering(binding.sortPriceBtn)
+            filtering(binding.sortPrice)
         }
     }
 
-    fun filtering(imageView: ImageView){
-        imageView.setOnClickListener {
+    fun filtering(view: View){
+
+        val sortIcon = binding.sortPriceBtn
+
+        view.setOnClickListener {
             if(sort.equals("DESC")){
                 sort = "ASC"
                 ticketList.sortBy { it.price.toDouble() }
                 setUpRecycler(ticketList)
+                sortIcon.rotation += 180f
             }else{
                 sort = "DESC"
                 ticketList.sortByDescending { it.price.toDouble() }
                 setUpRecycler(ticketList)
+                sortIcon.rotation -= 180f
             }
         }
     }

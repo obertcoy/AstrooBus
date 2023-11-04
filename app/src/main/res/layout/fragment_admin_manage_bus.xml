@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/default_primary_background">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/user_main_background_shape"
@@ -55,13 +55,14 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/manage_bus_rv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                />
 
 
 
         </LinearLayout>
 
-    </ScrollView>
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/manage_bus_add_btn"
