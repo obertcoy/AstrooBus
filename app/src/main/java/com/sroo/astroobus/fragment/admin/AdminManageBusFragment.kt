@@ -13,9 +13,11 @@ import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Timestamp
 import com.sroo.astroobus.R
 import com.sroo.astroobus.adapter.ManageBusAdapter
 import com.sroo.astroobus.databinding.FragmentAdminManageBusBinding
@@ -30,6 +32,7 @@ import com.sroo.astroobus.`view-model`.BusTransactionViewModel
 import com.sroo.astroobus.`view-model`.BusViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 
@@ -49,6 +52,7 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
     private lateinit var recyclerView: RecyclerView
     private lateinit var recylerViewAdapter: ManageBusAdapter
     private lateinit var currentFilter:String
+    private lateinit var currentTime:String
 
 
 
@@ -186,6 +190,38 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
         }
     }
 
+    private fun initSpinner(spinner: Spinner) {
+
+        val adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.deploy_bus_time,
+            android.R.layout.simple_spinner_item
+        )
+
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+
+        spinner.adapter = adapter
+
+        spinner.setSelection(adapter.getPosition("7:00"))
+        currentTime = "7:00"
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>,
+                selectedItemView: View,
+                position: Int,
+                id: Long
+            ) {
+                val selectedOption = parentView.getItemAtPosition(position).toString()
+                currentTime = selectedOption
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>?) {
+
+            }
+        }
+
+    }
+
     override fun onDeployClick(bus:Bus) {
         Log.d("AdminManageBusFragment", "hihiha")
         dialogDeploy.setContentView(R.layout.dialog_deploy_bus)
@@ -196,8 +232,37 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
         dialogDeploy.window?.attributes?.windowAnimations = R.style.dialog_animation
         dialogDeploy.setCancelable(true)
 
+        val calendar = Calendar.getInstance()
+        val dateView = dialogDeploy.findViewById<View>(R.id.deploy_bus_date_icon)
+        val dateTv = dialogDeploy.findViewById<TextView>(R.id.deploy_bus_date)
+        val priceTv = dialogDeploy.findViewById<TextView>(R.id.deploy_bus_price)
+
+        val datePickerDialog = DatePickerDialog(
+            requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                val selectedCalendar = Calendar.getInstance()
+                selectedCalendar.set(year, month, dayOfMonth)
+
+                if (selectedCalendar.before(calendar)) {
+                    UIHelper.createToast(requireContext(), "Please select a future date.")
+                } else {
+                    val dateFormat = SimpleDateFormat("EEE, dd MMM yyyy", Locale.US)
+                    val formattedDate = dateFormat.format(selectedCalendar.time)
+                    dateTv.text  = formattedDate
+                }
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+
+        datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
+
+        dateView.setOnClickListener {
+            datePickerDialog.show()
+        }
         val backButton = dialogDeploy.findViewById<View>(R.id.deploy_bus_back_arrow)
         val submitButton = dialogDeploy.findViewById<View>(R.id.deploy_bus_btn)
+        initSpinner(dialogDeploy.findViewById<Spinner>(R.id.deploy_bus_time_dropdown))
         startingPoint = dialogDeploy.findViewById<View>(R.id.deploy_bus_from_dropdown) as AutoCompleteTextView
         destinationPoint = dialogDeploy.findViewById<View>(R.id.deploy_bus_to_dropdown) as AutoCompleteTextView
         startingPoint.setAdapter(LocationUtils.getLocationsAdapter(requireContext()))
@@ -211,13 +276,26 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
         }
         if(submitButton != null){
             submitButton.setOnClickListener {
-                val dateString = TimeHelper.timestampToDate(System.currentTimeMillis())
-                val timeString = TimeHelper.timestampToTime(System.currentTimeMillis())
-                val currTime =  TimeHelper.getCurrentTimestamp()
+                val dateString = dateTv.text.toString()
+                val timeString = currentTime
+                val currTime =  TimeHelper.convertDateTimeToTimestamp(dateString,timeString)
+                val timestamp = if (currTime != null) {
+                    Timestamp(Date(currTime))
+                } else {
+                    null
+                }
+
                 val dest = destinationPoint.text.toString()
                 val start = startingPoint.text.toString()
-                val busTransaction = BusTransaction("1", bus.busId,dest, start,dateString ,timeString, 40000,20,currTime)
-                viewTransactionModel.deployBus(busTransaction, requireContext())
+                val pricing = priceTv.text.toString().toInt()
+                val busTransaction = timestamp?.let { it1 ->
+                    BusTransaction("1", bus.busId,dest, start,dateString ,timeString, pricing,20,
+                        it1
+                    )
+                }
+                if (busTransaction != null) {
+                    viewTransactionModel.deployBus(busTransaction, requireContext())
+                }
                 dialogDeploy.dismiss()
             }
         }
