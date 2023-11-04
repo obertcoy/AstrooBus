@@ -172,12 +172,16 @@ class BusTransactionRepository {
             if (task.isSuccessful) {
                 for (document in task.result!!) {
                     val timestamp = document.get("time") as? Timestamp
+                    val status = document.get("status") as String
                     val currentTime = Timestamp.now()
 
-                    if (timestamp != null && timestamp.seconds < currentTime.seconds) {
+                    if (timestamp != null && timestamp.seconds < currentTime.seconds && status.equals("Active")) {
+                        Log.d("BusTransactionRepository","Timestamp" + timestamp.seconds.toString())
+                        Log.d("BusTransactionRepository", "Curr time" + currentTime.seconds.toString())
                         busTransactionCollection.document(document.id).update("status", "Unactive").addOnSuccessListener {
                             val busId = document.getString("busId")
                             if (busId != null) {
+                                Log.d("BusTransactionRepository", "delete Transaction Id")
                                 busCollection.document(busId).update("transactionId", "")
                             }
                         }

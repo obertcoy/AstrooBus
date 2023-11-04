@@ -39,12 +39,13 @@ class UserTicketActivity: AppCompatActivity(), INavigable {
         ticketRv = binding.ticketRV
         getCurrUser()
         initData()
+        BusTransactionViewModel().deactivatePastBusTransactions()
         back(binding.ticketBackArrow)
     }
 
     override fun onResume() {
         super.onResume()
-        BusTransactionViewModel().deactivatePastBusTransactions()
+
     }
 
     private fun getCurrUser(){

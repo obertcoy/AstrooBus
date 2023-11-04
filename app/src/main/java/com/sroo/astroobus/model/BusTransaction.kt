@@ -35,7 +35,7 @@ class BusTransaction(
         FirebaseInitializer.initialize()
         db = FirebaseInitializer.instance?.getDatabase()!!
         val collectionRef = db.collection("BusTransaction")
-        val query = collectionRef.whereEqualTo("busId", busId)
+        val query = collectionRef.whereEqualTo("busId", busId).whereEqualTo("transactionId", transactionId)
 
         listener = query.addSnapshotListener { snapshot, e ->
             if (e != null) {
@@ -46,7 +46,7 @@ class BusTransaction(
                 for (document in snapshot.documents) {
                     val newAvailableSeats = document.getLong("availableSeats") ?: 0 as Number
                     availableSeats = newAvailableSeats
-                    Log.d("BusTransaction", availableSeats.toString())
+                    Log.d("BusTransaction", "AVAIL SEATS" +availableSeats.toString())
 
                     busTransactionUpdateListener?.onUpdate()
                 }

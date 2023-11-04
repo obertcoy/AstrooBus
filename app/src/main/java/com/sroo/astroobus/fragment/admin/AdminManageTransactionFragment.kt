@@ -39,12 +39,12 @@ class AdminManageTransactionFragment: Fragment(), BusTransaction.BusTransactionU
     ): View? {
         binding = FragmentAdminManageTransactionBinding.inflate(inflater, container, false)
         initData()
+        BusTransactionViewModel().deactivatePastBusTransactions()
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        BusTransactionViewModel().deactivatePastBusTransactions()
     }
 
     private fun initData() {
@@ -72,7 +72,7 @@ class AdminManageTransactionFragment: Fragment(), BusTransaction.BusTransactionU
             "Sold Out" -> allTransaction.filter { it.availableSeats.toInt() <= 0 }
             else -> allTransaction
         }
-        recylerViewAdapter.updateData(ArrayList(filteredBuses))
+        recylerViewAdapter.updateData(filteredBuses as ArrayList<BusTransaction>)
     }
 
 
