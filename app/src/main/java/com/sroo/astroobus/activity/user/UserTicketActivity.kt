@@ -42,6 +42,11 @@ class UserTicketActivity: AppCompatActivity(), INavigable {
         back(binding.ticketBackArrow)
     }
 
+    override fun onResume() {
+        super.onResume()
+        BusTransactionViewModel().deactivatePastBusTransactions()
+    }
+
     private fun getCurrUser(){
         intent = getIntent()
         if(SessionManager(this).getCurrUser().equals("")){
@@ -52,7 +57,6 @@ class UserTicketActivity: AppCompatActivity(), INavigable {
     }
 
     private fun initData(){
-        BusTransactionViewModel().deactivatePastBusTransactions()
         binding.ticketFromTv.text = intent.getStringExtra("STARTING_POINT")
         binding.ticketDestinationTv.text = intent.getStringExtra("DESTINATION_POINT")
         binding.ticketDateTv.text = intent.getStringExtra("DATE")

@@ -41,8 +41,12 @@ class AdminManageTransactionFragment: Fragment() {
         return binding.root
     }
 
-    private fun initData() {
+    override fun onResume() {
+        super.onResume()
         BusTransactionViewModel().deactivatePastBusTransactions()
+    }
+
+    private fun initData() {
         viewTransactionModel.getAllBusTransaction {
             result->
             if(result != null){
