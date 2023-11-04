@@ -19,13 +19,14 @@ import com.sroo.astroobus.model.Bus
 import com.sroo.astroobus.model.BusTransaction
 import com.sroo.astroobus.`view-model`.BusTransactionViewModel
 
-class AdminManageTransactionFragment: Fragment() {
+class AdminManageTransactionFragment: Fragment(), BusTransaction.BusTransactionUpdateListener{
 
     private lateinit var binding: FragmentAdminManageTransactionBinding
     private lateinit var allTransaction: ArrayList<BusTransaction>
     private var viewTransactionModel = BusTransactionViewModel()
     private lateinit var recyclerView: RecyclerView
     private lateinit var recylerViewAdapter: BusTicketAdapter
+    private lateinit var filterStatus: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +56,10 @@ class AdminManageTransactionFragment: Fragment() {
                 recyclerView = binding.transactionBusRv
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerView.adapter = recylerViewAdapter
+
+                allTransaction.forEach {
+                    transition -> transition.setUpdateListener(this)
+                }
             }
             filter(binding.transactionBusSpinner)
             filterBusesByStatus("Available")
@@ -84,7 +89,7 @@ class AdminManageTransactionFragment: Fragment() {
         spinner.adapter = adapter
 
         spinner.setSelection(adapter.getPosition("Available"))
-
+        filterStatus = "Available"
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parentView: AdapterView<*>,
@@ -95,8 +100,10 @@ class AdminManageTransactionFragment: Fragment() {
                 val selectedOption = parentView.getItemAtPosition(position).toString()
 
                 if(selectedOption == "Available") {
+                    filterStatus = "Available"
                     filterBusesByStatus("Available")
                 } else if (selectedOption == "Sold Out") {
+                    filterStatus = "Sold Out"
                     filterBusesByStatus("Sold Out")
                 }
             }
@@ -106,6 +113,23 @@ class AdminManageTransactionFragment: Fragment() {
             }
         }
 
+    }
+
+    override fun onUpdate() {
+        viewTransactionModel.getAllBusTransaction {
+                result->
+                if(result != null){
+                    allTransaction.clear()
+                    allTransaction.addAll(result)
+                    recylerViewAdapter.notifyDataSetChanged()
+
+                    if(filterStatus == "Available") {
+                        filterBusesByStatus("Available")
+                    } else if (filterStatus == "Sold Out") {
+                        filterBusesByStatus("Sold Out")
+                    }
+                }
+        }
     }
 
 }

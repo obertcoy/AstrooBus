@@ -23,7 +23,7 @@ class BusTransaction(
     private var busTransactionUpdateListener: BusTransactionUpdateListener? = null
 
     interface BusTransactionUpdateListener {
-        fun onUpdate(availableSeats: Number)
+        fun onUpdate()
     }
     init {
         startListening()
@@ -48,7 +48,7 @@ class BusTransaction(
                     availableSeats = newAvailableSeats
                     Log.d("BusTransaction", availableSeats.toString())
 
-                    busTransactionUpdateListener?.onUpdate(availableSeats)
+                    busTransactionUpdateListener?.onUpdate()
                 }
             }
         }
