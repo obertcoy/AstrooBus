@@ -48,6 +48,7 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var recylerViewAdapter: ManageBusAdapter
+    private lateinit var currentFilter:String
 
 
 
@@ -98,7 +99,7 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
         spinner.adapter = adapter
 
         spinner.setSelection(adapter.getPosition("All"))
-
+        currentFilter = "All"
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parentView: AdapterView<*>,
@@ -109,10 +110,13 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
                 val selectedOption = parentView.getItemAtPosition(position).toString()
 
                 if(selectedOption == "All") {
+                     currentFilter = "All"
                      recylerViewAdapter.updateData(allBuses)
-                } else if (selectedOption == "Active") {
+                } else if (selectedOption == "Available") {
+                    currentFilter = "Available"
                     filterBusesByStatus("Available")
-                } else if (selectedOption == "Non-Active") {
+                } else if (selectedOption == "Unavailable") {
+                    currentFilter = "Unavailable"
                     filterBusesByStatus("Unavailable")
                 }
             }
@@ -215,6 +219,22 @@ class AdminManageBusFragment : Fragment(), INavigable, IClickable{
                 val busTransaction = BusTransaction("1", bus.busId,dest, start,dateString ,timeString, 40000,20,currTime)
                 viewTransactionModel.deployBus(busTransaction, requireContext())
                 dialogDeploy.dismiss()
+            }
+        }
+    }
+
+    override fun onUpdateStatus() {
+        Log.d("AdminManageBusFragment", "onUpdate")
+        viewModel.getAllBus { result ->
+            if (result != null) {
+                allBuses.clear()
+                allBuses.addAll(result)
+                recylerViewAdapter.notifyDataSetChanged()
+            }
+            if(currentFilter.equals("Unavailable") || currentFilter.equals("Available")){
+                Log.d("AdminManageBusFragment", "update bus")
+                Log.d("AdminManageBusFragment", currentFilter)
+                filterBusesByStatus(currentFilter)
             }
         }
     }

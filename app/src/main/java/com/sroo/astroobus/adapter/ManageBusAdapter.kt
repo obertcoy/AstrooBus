@@ -27,6 +27,7 @@ class ManageBusAdapter (private var busList: ArrayList<Bus>, private var listene
         private val statusTv: TextView = binding.manageBusStatusTv
         private val switch: SwitchMaterial = binding.manageBusSwitch
         private val viewModel = BusViewModel()
+        private lateinit var status:String
         private val deployButton: CardView = binding.manageBusBtn
 
         fun bind(bus: Bus) {
@@ -44,11 +45,15 @@ class ManageBusAdapter (private var busList: ArrayList<Bus>, private var listene
         init {
             switch.setOnClickListener {
                 if(switch.isChecked == false){
-                    statusTv.text = "Unavailable"
+                    status = "Unavailable"
+                    statusTv.text = status
                     viewModel.updateBusStatus(idTv.text as String, "Unavailable")
+                    clickListener.onUpdateStatus()
                 }else{
-                    statusTv.text = "Available"
+                    status = "Available"
+                    statusTv.text = status
                     viewModel.updateBusStatus(idTv.text as String, "Available")
+                    clickListener.onUpdateStatus()
                 }
             }
 
