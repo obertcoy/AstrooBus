@@ -33,7 +33,7 @@ class UserHomeFragment : Fragment(), IDropdownable {
     private lateinit var binding: FragmentUserHomeBinding
     private lateinit var fromSelect: AutoCompleteTextView
     private lateinit var destinationSelect: AutoCompleteTextView
-    private lateinit var searchBtn: ImageView
+    private lateinit var searchBtn: View
     private lateinit var currActivity: Activity
     private lateinit var curr_uid:String
 
@@ -77,6 +77,7 @@ class UserHomeFragment : Fragment(), IDropdownable {
                     val dateFormat = SimpleDateFormat("EEE, dd MMM yyyy", Locale.US)
                     val formattedDate = dateFormat.format(selectedCalendar.time)
                     binding.homeMenuDateTv.text = formattedDate
+                    binding.homeMenuDateIcon.visibility = View.GONE
                 }
             },
             calendar.get(Calendar.YEAR),
