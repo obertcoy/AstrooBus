@@ -28,6 +28,7 @@ class UserBusActivity: AppCompatActivity(), INavigable, SeatClickListener, Bus.B
     private lateinit var seatsText: TextView
     private lateinit var seatBookView: SeatBookView
     private lateinit var seatString: String
+    private lateinit var curr_uid:String
     private var adapter = AdapterHelper()
     private var busViewModel =  BusViewModel()
     private var busTransactionViewModel = BusTransactionViewModel()
@@ -40,10 +41,19 @@ class UserBusActivity: AppCompatActivity(), INavigable, SeatClickListener, Bus.B
         intent = getIntent()
         binding = ActivityUserBusBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        getCurrUser()
         initData()
         back(binding.busBackArrow)
         next(binding.busSubmitBtn)
+    }
+
+    private fun getCurrUser(){
+        intent = getIntent()
+        if(SessionManager(this).getCurrUser().equals("")){
+            curr_uid = intent.getStringExtra("CURR_UID").toString()
+        }else{
+            curr_uid = SessionManager(this).getCurrUser().toString()
+        }
     }
 
     private fun initData(){
@@ -95,10 +105,9 @@ class UserBusActivity: AppCompatActivity(), INavigable, SeatClickListener, Bus.B
                 bookIntent.putExtra("PRICE", total.toString())
                 bookIntent.putExtra("SEAT_TOTAL", binding.busSeatSelectedTv.text)
                 bookIntent.putExtra("SEAT",seats)
-                val sessionManager = SessionManager(this)
-                val currUser = sessionManager.getCurrUser()
-                if(currUser != null){
-                    viewModel.addUserTransaction(transactionId,seats,total, currUser)
+                bookIntent.putExtra("CURR_UID",curr_uid)
+                if(curr_uid != null){
+                    viewModel.addUserTransaction(transactionId,seats,total, curr_uid)
                     busViewModel.updateBusSeats(seatString,seatArr,busId)
                     busTransactionViewModel.updateAvailableSeatNum(transactionId, seatArr.size)
 

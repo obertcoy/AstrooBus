@@ -13,24 +13,35 @@ import com.sroo.astroobus.databinding.ActivityUserMainBinding
 import com.sroo.astroobus.fragment.user.UserHistoryFragment
 import com.sroo.astroobus.fragment.user.UserHomeFragment
 import com.sroo.astroobus.interfaces.IFragmentable
+import com.sroo.astroobus.utils.SessionManager
 import com.sroo.astroobus.`view-model`.BusTransactionViewModel
 
 class UserMainActivity: AppCompatActivity(), IFragmentable {
 
     private lateinit var binding: ActivityUserMainBinding
     private lateinit var currIndicator: View
+    private lateinit var curr_uid:String
+    private lateinit var intent: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        getCurrUser()
         currIndicator = binding.userNavHomeIndicator
         currIndicator.visibility = View.VISIBLE
 
         changeFragment(UserHomeFragment(), binding.userNavHomeIndicator)
         navigate()
-        BusTransactionViewModel().deactivatePastBusTransactions()
+    }
+
+    private fun getCurrUser(){
+        intent = getIntent()
+        if(SessionManager(this).getCurrUser().equals("")){
+            curr_uid = intent.getStringExtra("CURR_UID").toString()
+        }else{
+            curr_uid = SessionManager(this).getCurrUser().toString()
+        }
     }
 
     override fun navigate() {
@@ -45,12 +56,16 @@ class UserMainActivity: AppCompatActivity(), IFragmentable {
 
         binding.userMainAccountIcon.setOnClickListener{
             val accountIntent = Intent(this, AccountActivity::class.java)
+            accountIntent.putExtra("CURR_UID",curr_uid)
             startActivity(accountIntent)
         }
     }
 
 
     override fun changeFragment(fragment: Fragment, indicator: View) {
+        val args = Bundle()
+        args.putString("CURR_UID", curr_uid)
+        fragment.arguments = args
 
         val fragmentManager: FragmentManager = supportFragmentManager
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()

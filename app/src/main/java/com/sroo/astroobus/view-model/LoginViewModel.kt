@@ -29,10 +29,12 @@ class LoginViewModel(private val view: GuestLoginActivity) {
                     val userMainIntent = Intent(activity, UserMainActivity::class.java)
                     val adminMainIntent = Intent(activity, AdminMainActivity::class.java)
                     if(result.role == "user"){
-                        userMainIntent.putExtra("CURR_UID",result.uid!! )
+                        userMainIntent.putExtra("CURR_UID",result.uid!!)
+                        userMainIntent.putExtra("CURR_ROLE","user")
                         activity.startActivity(userMainIntent)
                     }else{
-                        adminMainIntent.putExtra("CURR_UID",result.uid!! )
+                        adminMainIntent.putExtra("CURR_UID",result.uid!!)
+                        adminMainIntent.putExtra("CURR_ROLE","admin")
                         activity.startActivity(adminMainIntent)
                     }
 

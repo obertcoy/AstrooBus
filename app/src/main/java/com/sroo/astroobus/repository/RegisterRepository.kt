@@ -32,7 +32,7 @@ class RegisterRepository (){
     }
 
 
-      fun registerUser(user: User, context: Context, callback: (Int) -> Unit){
+      fun registerUser(user: User, context: Context, callback: (Any) -> Unit){
         auth?.createUserWithEmailAndPassword(user.email, user.password)
             ?.addOnCompleteListener(context as Activity) { task ->
                 if (task.isSuccessful) {
@@ -47,7 +47,7 @@ class RegisterRepository (){
                         addUserToDatabase(user, context){
                             result->
                             if(result == 1){
-                                callback(1)
+                                callback(id!!)
                             }else{
                                 callback(0)
                             }

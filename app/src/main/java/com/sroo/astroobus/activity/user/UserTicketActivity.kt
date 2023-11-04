@@ -13,6 +13,8 @@ import com.sroo.astroobus.adapter.BusTicketAdapter
 import com.sroo.astroobus.databinding.ActivityUserTicketBinding
 import com.sroo.astroobus.interfaces.INavigable
 import com.sroo.astroobus.model.BusTransaction
+import com.sroo.astroobus.utils.SessionManager
+import com.sroo.astroobus.`view-model`.BusTransactionViewModel
 import com.sroo.astroobus.`view-model`.TicketViewModel
 import java.util.ArrayList
 
@@ -24,6 +26,7 @@ class UserTicketActivity: AppCompatActivity(), INavigable {
     private lateinit var ticketRv: RecyclerView
     private lateinit var ticketAdapter: BusTicketAdapter
     private lateinit var ticketList: ArrayList<BusTransaction>
+    private lateinit var curr_uid:String
     private var sort = "DESC"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,12 +37,22 @@ class UserTicketActivity: AppCompatActivity(), INavigable {
         binding = ActivityUserTicketBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ticketRv = binding.ticketRV
+        getCurrUser()
         initData()
         back(binding.ticketBackArrow)
     }
 
-    private fun initData(){
+    private fun getCurrUser(){
+        intent = getIntent()
+        if(SessionManager(this).getCurrUser().equals("")){
+            curr_uid = intent.getStringExtra("CURR_UID").toString()
+        }else{
+            curr_uid = SessionManager(this).getCurrUser().toString()
+        }
+    }
 
+    private fun initData(){
+        BusTransactionViewModel().deactivatePastBusTransactions()
         binding.ticketFromTv.text = intent.getStringExtra("STARTING_POINT")
         binding.ticketDestinationTv.text = intent.getStringExtra("DESTINATION_POINT")
         binding.ticketDateTv.text = intent.getStringExtra("DATE")
@@ -82,6 +95,7 @@ class UserTicketActivity: AppCompatActivity(), INavigable {
             intent.putExtra("PRICE", busTransaction.price.toString())
             intent.putExtra("BUS_ID", busTransaction.busId)
             intent.putExtra("TRANSACTION_ID", busTransaction.transactionId)
+            intent.putExtra("CURR_UID",curr_uid)
             startActivity(intent)
         }
         ticketRv.layoutManager = LinearLayoutManager(this)

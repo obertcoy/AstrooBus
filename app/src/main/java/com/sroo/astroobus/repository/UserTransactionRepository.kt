@@ -47,7 +47,7 @@ class UserTransactionRepository() {
                     for (document in documents) {
                         val data = document.data
                         val seatsNumber = data?.get("seatsNumber") as String
-                        val totalPrice = data?.get("totalPrice") as String
+                        val totalPrice = data?.get("totalPrice").toString()
                         val transactionId = data?.get("transactionId") as String
 
                         transactionRepository.getTransactionById(transactionId) { result ->

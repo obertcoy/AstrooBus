@@ -8,7 +8,7 @@ class LocationUtils {
 
     companion object{
          fun getLocations() : ArrayList<String>{
-            val locations = arrayListOf<String>("Bina Nusantara", "Citywalk Lippo", "Blok M")
+            val locations = arrayListOf<String>("Bina Nusantara", "Citywalk Lippo", "Blok M", "Taman Anggrek", "Grand Indonesia", "Bekasi Barat", "Bandung")
              locations.sort()
             return locations
         }

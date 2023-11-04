@@ -50,22 +50,33 @@ class AccountRepository {
 
 
     fun updateName(userId: String, name:String){
-
+        val newName = hashMapOf(
+            "name" to name
+        )
+        db.collection("Users")
+            .document(userId)
+            .update(newName as Map<String, Any>)
+            .addOnSuccessListener {
+                Log.d("AccountRepository","Document successfully updated!")
+            }
+            .addOnFailureListener { e ->
+                Log.d("AccountRepository","Error updating document: $e")
+            }
     }
 
     fun updateEmail(userId: String, newEmail: String){
+
         val newEmail = hashMapOf(
             "email" to newEmail
         )
-
         db.collection("Users")
             .document(userId)
             .update(newEmail as Map<String, Any>)
             .addOnSuccessListener {
-                println("Document successfully updated!")
+                Log.d("AccountRepository","Document successfully updated!")
             }
             .addOnFailureListener { e ->
-                println("Error updating document: $e")
+                Log.d("AccountRepository","Error updating document: $e")
             }
     }
 
@@ -78,10 +89,10 @@ class AccountRepository {
             .document(userId)
             .update(newName as Map<String, Any>)
             .addOnSuccessListener {
-                println("Document successfully updated!")
+                Log.d("AccountRepository","Document successfully updated!")
             }
             .addOnFailureListener { e ->
-                println("Error updating document: $e")
+                Log.d("AccountRepository","Error updating document: $e")
             }
     }
 

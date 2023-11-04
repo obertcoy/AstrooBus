@@ -66,6 +66,9 @@ class BusViewModel() {
         if(bus.busPlate == ""){
             UIHelper.createToast(ctx, "Fill in the bus plate")
             return
+        }else if(bus.busPlate.length < 3){
+            UIHelper.createToast(ctx, "Invalid plate number")
+            return
         }else{
             repository.addBus(bus, callback)
         }

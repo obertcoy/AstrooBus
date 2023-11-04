@@ -33,10 +33,12 @@ class UserHistoryFragment : Fragment() {
     private lateinit var transactionRv: RecyclerView
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var curr_uid:String
     private var historyVM = UserTransactionViewModel()
     private lateinit var fragmentContext: Context
     private val historyTransactionList = ArrayList<HistoryTransaction>()
     private lateinit var busHistoryAdapter: BusHistoryAdapter
+    private lateinit var intent: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +61,8 @@ class UserHistoryFragment : Fragment() {
         busHistoryAdapter = BusHistoryAdapter(historyTransactionList)
         transactionRv.layoutManager = LinearLayoutManager(fragmentContext)
         transactionRv.adapter = busHistoryAdapter
-
-        historyVM.getUserTransaction(session.getCurrUser()!!) { result ->
+        getCurrUser()
+        historyVM.getUserTransaction(curr_uid) { result ->
             if (result != null) {
                 Log.d("UserHistoryFragment", "ini datanya ga null")
                 Log.d("UserHistoryFragment", "${session.getCurrUser()!!}")
@@ -74,6 +76,13 @@ class UserHistoryFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun getCurrUser(){
+        val receivedValue = arguments?.getString("CURR_UID")
+        if (receivedValue != null) {
+            curr_uid = receivedValue
+        }
     }
 
 

@@ -7,6 +7,7 @@ import com.sroo.astroobus.repository.AccountRepository
 
 class AccountViewModel {
     private var repository = AccountRepository()
+    private val emailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$"
 
     fun updatePhoneNumber(userId: String, phoneNum:String, context: Context){
         if(userId == ""||phoneNum == ""){
@@ -41,8 +42,14 @@ class AccountViewModel {
         }
     }
 
-    fun updateEmail(userId: String, newEmail: String) {
-        repository.updateEmail(userId, newEmail)
+    fun updateEmail(userId: String, newEmail: String, context: Context) {
+        if(userId == ""||newEmail.equals("")){
+            UIHelper.createToast(context, "All field must be filled")
+        }else if(!newEmail.matches(emailRegex.toRegex())){
+            UIHelper.createToast(context, "Invalid email")
+        }else{
+            repository.updateEmail(userId, newEmail)
+        }
     }
 
     fun getUserById(userId: String,  context: Context,callback: (User?) -> Unit){

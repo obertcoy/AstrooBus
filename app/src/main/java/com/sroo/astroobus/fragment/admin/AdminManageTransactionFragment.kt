@@ -42,6 +42,7 @@ class AdminManageTransactionFragment: Fragment() {
     }
 
     private fun initData() {
+        BusTransactionViewModel().deactivatePastBusTransactions()
         viewTransactionModel.getAllBusTransaction {
             result->
             if(result != null){

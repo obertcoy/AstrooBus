@@ -14,7 +14,7 @@ import com.sroo.astroobus.repository.RegisterRepository
 
 class RegisterViewModel(private val view: GuestRegisterActivity) {
     private val repository = RegisterRepository()
-    val emailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$"
+    private val emailRegex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$"
 
      fun registerTempUser(name:String, email:String, password:String, confPass:String, phoneNum:String, activity: Activity){
         if(name == ""|| email == "" || password == ""|| confPass == ""|| phoneNum == ""){
@@ -71,9 +71,11 @@ class RegisterViewModel(private val view: GuestRegisterActivity) {
                     repository.updateAccountStatus(user.phoneNum, activity)
                     repository.registerUser(user, activity){
                         result ->
-                        if(result == 1){
+                        if(result != 0){
                             val homeIntent = Intent(view, UserMainActivity::class.java)
                             homeIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            homeIntent.putExtra("CURR_UID",result.toString())
+                            homeIntent.putExtra("CURR_ROLE","user")
                             view.startActivity(homeIntent)
                         }else{
                             UIHelper.createToast(activity,"Failed to register")

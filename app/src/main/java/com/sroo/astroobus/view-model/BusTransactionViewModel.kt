@@ -31,5 +31,8 @@ class BusTransactionViewModel {
     fun deactivatePastBusTransactions() {
         repository.deactivatePastBusTransactions()
     }
+    fun getAllTodayTransaction(date:String, callback: (ArrayList<BusTransaction>) -> Unit){
+        repository.getAllTodayTransaction(date, callback)
+    }
 
 }

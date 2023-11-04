@@ -35,6 +35,7 @@ class UserHomeFragment : Fragment(), IDropdownable {
     private lateinit var destinationSelect: AutoCompleteTextView
     private lateinit var searchBtn: ImageView
     private lateinit var currActivity: Activity
+    private lateinit var curr_uid:String
 
     private lateinit var locations: ArrayList<String>
 
@@ -55,6 +56,7 @@ class UserHomeFragment : Fragment(), IDropdownable {
         }
 
         selectDate()
+        getCurrUser()
         currActivity = requireActivity()
 
         return binding.root
@@ -134,8 +136,16 @@ class UserHomeFragment : Fragment(), IDropdownable {
         ticketIntent.putExtra("STARTING_POINT", startingPoint)
         ticketIntent.putExtra("DESTINATION_POINT", destinationPoint)
         ticketIntent.putExtra("DATE", selectedDate)
-
+        ticketIntent.putExtra("CURR_UID",curr_uid)
         startActivity(ticketIntent)
+
+    }
+
+    private fun getCurrUser(){
+        val receivedValue = arguments?.getString("CURR_UID")
+        if (receivedValue != null) {
+            curr_uid = receivedValue
+        }
 
     }
 

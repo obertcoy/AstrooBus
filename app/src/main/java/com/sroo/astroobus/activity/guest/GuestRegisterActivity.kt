@@ -168,6 +168,5 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable, ICounterable {
 
         var str = String.format(Locale.getDefault(),"Resend code in %d", seconds)
         counterText.setText(str)
-
     }
 }

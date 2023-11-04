@@ -29,15 +29,15 @@ class AccountActivity : AppCompatActivity(), INavigable, User.UserUpdateListener
     private var viewmodel = AccountViewModel()
     private lateinit var currentId:String
     private lateinit var user: User
+    private lateinit var curr_uid:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAccountBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        getCurrUser()
         dialog = Dialog(this)
-        val sessionManager = SessionManager(this)
-        currentId = sessionManager.getCurrUser().toString()
-        viewmodel.getUserById(currentId,this){
+        viewmodel.getUserById(curr_uid,this){
             result->
             if(result != null){
                 user = result
@@ -52,7 +52,7 @@ class AccountActivity : AppCompatActivity(), INavigable, User.UserUpdateListener
         back(binding.accountBackArrow)
         checkDialog(binding.accountNameEdit)
         checkDialog(binding.accountEmailEdit)
-        checkDialog(binding.accountPhoneEdit)
+//        checkDialog(binding.accountPhoneEdit)
         checkDialog(binding.logoutBtn)
     }
 
@@ -60,10 +60,19 @@ class AccountActivity : AppCompatActivity(), INavigable, User.UserUpdateListener
         btn.setOnClickListener {
             if (btn == binding.accountNameEdit) showDialog("Enter your name")
             if (btn == binding.accountEmailEdit) showDialog("Enter your email")
-            if (btn == binding.accountPhoneEdit) showDialog("Enter your phone")
+//            if (btn == binding.accountPhoneEdit) showDialog("Enter your phone")
             if(btn == binding.logoutBtn)logout()
         }
 
+    }
+
+    private fun getCurrUser(){
+        intent = getIntent()
+        if(SessionManager(this).getCurrUser().equals("")){
+            curr_uid = intent.getStringExtra("CURR_UID").toString()
+        }else{
+            curr_uid = SessionManager(this).getCurrUser().toString()
+        }
     }
 
     private fun logout(){
@@ -121,6 +130,7 @@ class AccountActivity : AppCompatActivity(), INavigable, User.UserUpdateListener
         }
         if (infoText == "Enter your email"){
             // change password
+            viewmodel.updateEmail(currentId,newValue, this)
         }
         if (infoText == "Enter your phone"){
             viewmodel.updatePhoneNumber(currentId,newValue, this)
@@ -135,6 +145,7 @@ class AccountActivity : AppCompatActivity(), INavigable, User.UserUpdateListener
     override fun next(nextBtn: View) {
         nextBtn.setOnClickListener{
             val intent = Intent(this, ChangePasswordActivity::class.java)
+            intent.putExtra("CURR_UID",curr_uid)
             startActivity(intent)
         }
     }
