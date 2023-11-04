@@ -11,13 +11,17 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
+import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.Orientation
 import com.google.android.material.snackbar.Snackbar
 import com.sroo.astroobus.activity.user.UserBusActivity
 import com.sroo.astroobus.activity.user.UserMainActivity
 import com.sroo.astroobus.activity.user.UserTicketActivity
+import com.sroo.astroobus.adapter.OngoingReservationAdapter
 import com.sroo.astroobus.databinding.FragmentUserHomeBinding
 import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.interfaces.IDropdownable
+import com.sroo.astroobus.model.BusTransaction
 import com.sroo.astroobus.utils.LocationUtils
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -37,7 +41,8 @@ class UserHomeFragment : Fragment(), IDropdownable {
     private lateinit var currActivity: Activity
     private lateinit var curr_uid:String
 
-    private lateinit var locations: ArrayList<String>
+    private lateinit var reservationPager: ViewPager2
+    private lateinit var emptyReservation: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,9 +62,29 @@ class UserHomeFragment : Fragment(), IDropdownable {
 
         selectDate()
         getCurrUser()
+        ongoingReservation()
         currActivity = requireActivity()
 
         return binding.root
+    }
+
+    private fun ongoingReservation(){
+
+        reservationPager = binding.homeReservationPager
+        emptyReservation = binding.homeEmptyReservation
+
+        reservationPager.visibility = View.GONE
+        emptyReservation.visibility = View.GONE
+
+
+        // if ga ada transaksi jalan idupin si empty kalo ngga idupin reservation
+        // View.VISIBLE
+
+        // tinggal masukin aja datanya
+        val ongoingReservation : ArrayList<BusTransaction> = ArrayList()
+        reservationPager.adapter = OngoingReservationAdapter(ongoingReservation)
+
+
     }
 
 
