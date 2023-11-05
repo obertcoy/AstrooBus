@@ -5,6 +5,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -41,6 +44,7 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable, ICounterable {
     private lateinit var countDownTimer: CountDownTimer
     private var timeLeft: Long = 60000
     private lateinit var counterText: TextView
+    private val handler = Handler(Looper.getMainLooper())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guest_register)
@@ -81,7 +85,7 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable, ICounterable {
          val infoTv = dialog.findViewById<TextView>(R.id.verification_tv_info)
          val submitBtn = dialog.findViewById<Button>(R.id.verification_submit)
          val inputText = dialog.findViewById<EditText>(R.id.verification_et)
-         counterText = dialog.findViewById<TextView>(R.id.verification_counter)
+         counterText = dialog.findViewById(R.id.verification_counter)
 
         infoTv.text = infoText
         backBtn.setOnClickListener{
@@ -93,6 +97,7 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable, ICounterable {
          counterText.setOnClickListener{
              if(timerRunning == false){
                  resetTimer()
+                 startTimer()
                  val num = phoneNumberEt.text.toString()
                  registerViewModel.resendCode(num, this)
              }else{
@@ -147,17 +152,24 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable, ICounterable {
          this.countDownTimer = object : CountDownTimer(timeLeft, 1000){
             override fun onTick(millisUntilFinished: Long) {
                 timeLeft = millisUntilFinished
+                Log.d("GuestRegisterActivity", "Timeleft" + timeLeft.toString())
                 updateTimer()
             }
 
             override fun onFinish() {
                 timerRunning = false
-//                updateTimer()
+                updateTimer()
             }
         }
         countDownTimer.start()
     }
 
+
+    private fun updateUIRunnable(text: String): Runnable {
+        return Runnable {
+            counterText.text = text
+        }
+    }
     override fun resetTimer() {
         timeLeft = 60000
         updateTimer()
@@ -165,8 +177,7 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable, ICounterable {
 
     override fun updateTimer() {
         var seconds:Int = (timeLeft / 1000).toInt()
-
-        var str = String.format(Locale.getDefault(),"Resend code in %d", seconds)
-        counterText.setText(str)
+        var str = String.format("Resend code in %d", seconds)
+        handler.post(updateUIRunnable(str))
     }
 }
