@@ -177,6 +177,7 @@ class GuestRegisterActivity : AppCompatActivity(), INavigable, ICounterable {
 
     override fun updateTimer() {
         var seconds:Int = (timeLeft / 1000).toInt()
+        Log.d("GuestRegisterActivity", "seconds " + seconds.toString())
         var str = String.format("Resend code in %d", seconds)
         handler.post(updateUIRunnable(str))
     }

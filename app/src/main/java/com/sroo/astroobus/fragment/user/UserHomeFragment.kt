@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,8 @@ import com.sroo.astroobus.helper.UIHelper
 import com.sroo.astroobus.interfaces.IDropdownable
 import com.sroo.astroobus.model.BusTransaction
 import com.sroo.astroobus.utils.LocationUtils
+import com.sroo.astroobus.`view-model`.BusTransactionViewModel
+import com.sroo.astroobus.`view-model`.RegisterViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -43,6 +46,7 @@ class UserHomeFragment : Fragment(), IDropdownable {
 
     private lateinit var reservationPager: ViewPager2
     private lateinit var emptyReservation: View
+    private lateinit var ongoingReservation: ArrayList<BusTransaction>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,10 +66,25 @@ class UserHomeFragment : Fragment(), IDropdownable {
 
         selectDate()
         getCurrUser()
-        ongoingReservation()
         currActivity = requireActivity()
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val viewModel = BusTransactionViewModel()
+        viewModel.getUserOnGoingReservation(curr_uid){
+            result->
+            if(result != null){
+                Log.d("UserHomeFragment",result.size.toString())
+                ongoingReservation = result
+                Log.d("UserHomeFragment",ongoingReservation.size.toString())
+            }else{
+                ongoingReservation = ArrayList<BusTransaction>()
+            }
+            ongoingReservation()
+        }
     }
 
     private fun ongoingReservation(){
@@ -73,18 +92,17 @@ class UserHomeFragment : Fragment(), IDropdownable {
         reservationPager = binding.homeReservationPager
         emptyReservation = binding.homeEmptyReservation
 
-        reservationPager.visibility = View.GONE
-        emptyReservation.visibility = View.GONE
+        if (ongoingReservation.isNotEmpty()) {
+            reservationPager.visibility = View.VISIBLE
+            emptyReservation.visibility = View.GONE
+        } else {
+            reservationPager.visibility = View.GONE
+            emptyReservation.visibility = View.VISIBLE
+        }
 
-
-        // if ga ada transaksi jalan idupin si empty kalo ngga idupin reservation
-        // View.VISIBLE
-
-        // tinggal masukin aja datanya
-        val ongoingReservation : ArrayList<BusTransaction> = ArrayList()
-        reservationPager.adapter = OngoingReservationAdapter(ongoingReservation)
-
-
+        val adapter = OngoingReservationAdapter(ongoingReservation)
+        reservationPager.adapter = adapter
+        adapter.notifyDataSetChanged()
     }
 
 

@@ -35,4 +35,11 @@ class BusTransactionViewModel {
         repository.getAllTodayTransaction(date, callback)
     }
 
+    fun getUserOnGoingReservation(userId: String, callback: (ArrayList<BusTransaction>?) -> Unit){
+        if(userId.equals("")){
+            return
+        }
+        repository.getUserOnGoingReservation(userId, callback)
+    }
+
 }

@@ -7,6 +7,7 @@ import com.sroo.astroobus.database.FirebaseInitializer
 import com.sroo.astroobus.helper.AdapterHelper
 import com.sroo.astroobus.model.BusTransaction
 import java.util.ArrayList
+import java.util.Date
 
 class BusTransactionRepository {
     private lateinit var db: FirebaseFirestore
@@ -15,6 +16,61 @@ class BusTransactionRepository {
         FirebaseInitializer.initialize()
         db = FirebaseInitializer.instance?.getDatabase()!!
     }
+
+    fun getUserOnGoingReservation(userId: String, callback: (ArrayList<BusTransaction>?) -> Unit) {
+        val userTransactionQuery = db.collection("UserTransaction").whereEqualTo("userId", userId)
+        userTransactionQuery.get().addOnSuccessListener { userTransactions ->
+            val ongoingBusTransactions = ArrayList<BusTransaction>()
+
+            if (userTransactions.isEmpty) {
+                callback(null)
+            }
+
+            var awaitingTransactions = userTransactions.size()
+
+            for (userTransaction in userTransactions) {
+                val transactionId = userTransaction.getString("transactionId")
+                if (transactionId != null) {
+                    val busTransactionQuery = db.collection("BusTransaction").whereEqualTo("transactionId", transactionId)
+                    busTransactionQuery.get().addOnSuccessListener { busTransactions ->
+                        for (busTransaction in busTransactions) {
+                            val timestamp = busTransaction.getTimestamp("time")
+                            if (timestamp != null && timestamp.toDate().after(Date())) {
+                                val busId = busTransaction?.get("busId") as String
+                                val availableSeats = busTransaction?.get("availableSeats") as Number
+                                val destinationPoint = busTransaction?.get("destinationPoint") as String
+                                val startingPoint = busTransaction?.get("startingPoint") as String
+                                val price = busTransaction?.get("price") as Number
+                                val transactionId = busTransaction?.get("transactionId") as String
+                                val timeString = busTransaction?.get("timeString") as String
+                                val dateString = busTransaction?.get("dateString") as String
+                                val timestamp = busTransaction?.get("time") as Timestamp
+                                val busTransactionObj = BusTransaction(transactionId, busId, destinationPoint, startingPoint, dateString, timeString, price.toInt(), availableSeats.toInt(), timestamp)
+                                ongoingBusTransactions.add(busTransactionObj)
+                            }
+                        }
+
+                        awaitingTransactions--
+
+                        if (awaitingTransactions <= 0) {
+                            callback(ongoingBusTransactions)
+                        }
+
+                    }.addOnFailureListener { e ->
+                        callback(null)
+                    }
+                } else {
+                    awaitingTransactions--
+                }
+                if (awaitingTransactions <= 0) {
+                    callback(null)
+                }
+            }
+        }.addOnFailureListener { e ->
+            callback(null)
+        }
+    }
+
 
     fun getAllTodayTransaction(date:String, callback: (ArrayList<BusTransaction>) -> Unit){
         val ref = db.collection("BusTransaction").whereEqualTo("dateString", date)

@@ -35,8 +35,14 @@ class OngoingReservationAdapter(private val transactionList: ArrayList<BusTransa
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OngoingReservationAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = CardOngoingReservationBinding.inflate(inflater, parent, false)
+        val layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        binding.root.layoutParams = layoutParams
         return ViewHolder(binding)
     }
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(transactionList[position])
