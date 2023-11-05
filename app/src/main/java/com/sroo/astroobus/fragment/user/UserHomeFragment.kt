@@ -18,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.sroo.astroobus.activity.user.UserBusActivity
 import com.sroo.astroobus.activity.user.UserMainActivity
 import com.sroo.astroobus.activity.user.UserTicketActivity
+import com.sroo.astroobus.adapter.InformationAdapter
 import com.sroo.astroobus.adapter.OngoingReservationAdapter
 import com.sroo.astroobus.databinding.FragmentUserHomeBinding
 import com.sroo.astroobus.helper.UIHelper
@@ -45,8 +46,10 @@ class UserHomeFragment : Fragment(), IDropdownable {
     private lateinit var curr_uid:String
 
     private lateinit var reservationPager: ViewPager2
+    private lateinit var informationPager: ViewPager2
     private lateinit var emptyReservation: View
     private lateinit var ongoingReservation: ArrayList<BusTransaction>
+    private val informationList: ArrayList<String> = arrayListOf("Easy & Fast", "Comfy & Clean")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +69,7 @@ class UserHomeFragment : Fragment(), IDropdownable {
 
         selectDate()
         getCurrUser()
+        information()
         currActivity = requireActivity()
 
         return binding.root
@@ -92,7 +96,7 @@ class UserHomeFragment : Fragment(), IDropdownable {
         reservationPager = binding.homeReservationPager
         emptyReservation = binding.homeEmptyReservation
 
-        if (ongoingReservation.isNotEmpty()) {
+        if (ongoingReservation.size > 0) {
             reservationPager.visibility = View.VISIBLE
             emptyReservation.visibility = View.GONE
         } else {
@@ -102,6 +106,17 @@ class UserHomeFragment : Fragment(), IDropdownable {
 
         val adapter = OngoingReservationAdapter(ongoingReservation)
         reservationPager.adapter = adapter
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun information(){
+
+        informationPager = binding.serviceCaraousel
+        informationPager.visibility = View.VISIBLE
+
+
+        val adapter = InformationAdapter(informationList)
+        informationPager.adapter = adapter
         adapter.notifyDataSetChanged()
     }
 

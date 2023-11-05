@@ -250,52 +250,15 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <androidx.cardview.widget.CardView
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/service_caraousel"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:layout_gravity="center"
-                    app:cardBackgroundColor="@color/default_primary_background"
-                    app:cardCornerRadius="15dp"
-                    app:cardElevation="4dp"
-                    app:cardUseCompatPadding="true">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="15dp"
-                        android:gravity="center"
-                        android:text="Bus Seat Reservation"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        android:textStyle="bold|italic" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Easy &amp; Fast"
-                            android:textColor="@color/white"
-                            android:textSize="24sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="TO ANYWHERE"
-                            android:textColor="@color/white"
-                            android:textStyle="italic" />
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
 
             </LinearLayout>
 
