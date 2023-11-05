@@ -62,12 +62,17 @@ class AdminDashboardFragment: Fragment() {
         BusTransactionViewModel().getAllTodayTransaction(dateTv.text.toString()){
             result ->
             if(result != null){
+                var size = result.size
+                var curr = 0
                 var transactions = 0
                 for(trans in result){
                     transactions += 20 - trans.availableSeats.toInt()
+                    curr++;
                 }
-                todayTransaction = transactions
-                todayTransTv.text = todayTransaction.toString()
+                if(curr == size){
+                    todayTransaction = transactions
+                    todayTransTv.text = todayTransaction.toString()
+                }
             }
         }
 

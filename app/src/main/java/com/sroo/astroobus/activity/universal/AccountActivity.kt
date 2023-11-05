@@ -126,14 +126,14 @@ class AccountActivity : AppCompatActivity(), INavigable, User.UserUpdateListener
 
         if (infoText == "Enter your name"){
             // change name
-            viewmodel.updateName(currentId,newValue, this)
+            viewmodel.updateName(curr_uid,newValue, this)
         }
         if (infoText == "Enter your email"){
             // change password
-            viewmodel.updateEmail(currentId,newValue, this)
+            viewmodel.updateEmail(curr_uid,newValue, this)
         }
         if (infoText == "Enter your phone"){
-            viewmodel.updatePhoneNumber(currentId,newValue, this)
+            viewmodel.updatePhoneNumber(curr_uid,newValue, this)
         }
 
         UIHelper.createToast(this, "Credential changed successfully!")
