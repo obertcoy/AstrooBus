@@ -44,8 +44,8 @@ class RegisterViewModel(private val view: GuestRegisterActivity) {
                             repository.addTempUserToDatabase(phoneNum, code)
                             val smsHelper = SMSHelper()
                             smsHelper.sendSMSWithPermission(activity, code, phoneNum)
-                            view.showVerificationDialog("Check your messages")
-                            view.startTimer()
+//                            view.showVerificationDialog("Check your messages")
+//                            view.startTimer()
                         }
                     }
                 }
@@ -61,32 +61,45 @@ class RegisterViewModel(private val view: GuestRegisterActivity) {
         smsHelper.sendSMSWithPermission(activity, code, phoneNum)
     }
 
-    fun verifyCode(activity: Activity, code:String, user: User){
-        if(code == ""){
+    fun registerUser(activity: Activity, user: User, confPass: String){
+        if(user.name == ""|| user.email == "" || user.password == ""|| confPass == ""|| user.phoneNum == ""){
             UIHelper.createToast(activity, "All fields must be filled")
+        }else if(user.password.length < 8){
+            UIHelper.createToast(activity, "Password must be atleast 8 characters")
+        }else if (!user.password.matches(Regex(".*[a-zA-Z].*")) || !user.password.matches(Regex(".*\\d.*"))){
+            UIHelper.createToast(activity, "Password must be alphanumeric")
+        }else if (user.password != confPass){
+            UIHelper.createToast(activity, "Password doesn't match")
+        }else if(!user.email.matches(emailRegex.toRegex())){
+            UIHelper.createToast(activity, "Invalid email")
         }else{
-            repository.findTempUserCode(user.phoneNum, activity){
+            repository.findUsedPhone(user.phoneNum, activity){
                     result->
-                if(code == result){
-                    repository.updateAccountStatus(user.phoneNum, activity)
-                    repository.registerUser(user, activity){
-                        result ->
-                        if(result != 0){
-                            val homeIntent = Intent(view, UserMainActivity::class.java)
-                            homeIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            homeIntent.putExtra("CURR_UID",result.toString())
-                            homeIntent.putExtra("CURR_ROLE","user")
-                            view.startActivity(homeIntent)
+                if(result == 1){
+                    UIHelper.createToast(activity, "Phone is already used")
+                }else{
+                    repository.findUsedEmail(user.email, activity){
+                            result->
+                        if(result == 1){
+                            UIHelper.createToast(activity, "Email is already used")
                         }else{
-                            UIHelper.createToast(activity,"Failed to register")
+                            repository.registerUser(user, activity){
+                                    result ->
+                                if(result != 0){
+                                    val homeIntent = Intent(view, UserMainActivity::class.java)
+                                    homeIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    homeIntent.putExtra("CURR_UID",result.toString())
+                                    homeIntent.putExtra("CURR_ROLE","user")
+                                    view.startActivity(homeIntent)
+                                }else{
+                                    UIHelper.createToast(activity,"Failed to register")
+                                }
+                            }
                         }
                     }
-                }else{
-                    UIHelper.createToast(activity,"Invalid code")
-
                 }
             }
         }
     }
-
 }
+
