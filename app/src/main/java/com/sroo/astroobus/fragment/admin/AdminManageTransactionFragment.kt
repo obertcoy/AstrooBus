@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sroo.astroobus.R
 import com.sroo.astroobus.adapter.BusTicketAdapter
+import com.sroo.astroobus.adapter.BusTransactionAdapter
 import com.sroo.astroobus.adapter.ManageBusAdapter
 import com.sroo.astroobus.databinding.FragmentAdminManageBusBinding
 import com.sroo.astroobus.databinding.FragmentAdminManageTransactionBinding
@@ -25,7 +26,7 @@ class AdminManageTransactionFragment: Fragment(), BusTransaction.BusTransactionU
     private lateinit var allTransaction: ArrayList<BusTransaction>
     private var viewTransactionModel = BusTransactionViewModel()
     private lateinit var recyclerView: RecyclerView
-    private lateinit var recylerViewAdapter: BusTicketAdapter
+    private lateinit var recylerViewAdapter: BusTransactionAdapter
     private lateinit var filterStatus: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +53,7 @@ class AdminManageTransactionFragment: Fragment(), BusTransaction.BusTransactionU
             result->
             if(result != null){
                 allTransaction = result
-                recylerViewAdapter = BusTicketAdapter(allTransaction, null)
+                recylerViewAdapter = BusTransactionAdapter(allTransaction)
                 recyclerView = binding.transactionBusRv
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerView.adapter = recylerViewAdapter
