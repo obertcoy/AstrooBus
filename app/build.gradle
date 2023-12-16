@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.sroo.astroobus'
+    namespace 'edu.bluejack23_1.AstrooBus'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.sroo.astroobus"
+        applicationId "edu.bluejack23_1.AstrooBus"
         minSdk 33
         targetSdk 33
         versionCode 1
